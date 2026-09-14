@@ -16,6 +16,21 @@ CLIENT="/d/Games/turtlewow/client"
 TURTLE="/d/Games/turtlewow"
 
 say() { printf '  %-46s %s\n' "$1" "$2"; }
+# Copy, but SHOUT if it overwrites a repo file whose content differs.
+#
+# This script makes the LIVE install authoritative, which silently destroyed a hand-edit
+# once: tuning-starting-bags.sql was reverted in the repo, the next sync copied the old
+# version back over it, and the revert vanished without a word. Edit the LIVE copy, not the
+# repo copy - and if you forget, this now says so instead of losing the work.
+CLOBBERED=0
+cpw() {   # cpw <src> <dest-file>
+    if [ -f "$2" ] && ! cmp -s "$1" "$2"; then
+        printf '  !! OVERWRITING modified repo file: %s
+' "$(basename "$2")"
+        CLOBBERED=$((CLOBBERED+1))
+    fi
+    cp -p "$1" "$2"
+}
 
 mkdir -p "$REPO"/{docs,core,db/{1-tuning,2-setup,3-content},server/{bin,conf,lua_scripts,dbc-patches,launch},client/AddOns,content,scripts}
 
@@ -47,9 +62,9 @@ for f in "$SRV"/patch-*.py; do [ -e "$f" ] && cp -p "$f" "$REPO/server/dbc-patch
 say "server/dbc-patches" "$(ls -1 "$REPO/server/dbc-patches" 2>/dev/null | wc -l) files"
 
 echo "== database migrations =="
-for f in "$LIVE"/tuning-*.sql;  do [ -e "$f" ] && cp -p "$f" "$REPO/db/1-tuning/"; done
-for f in "$LIVE"/setup-*.sql;   do [ -e "$f" ] && cp -p "$f" "$REPO/db/2-setup/"; done
-cp -p "$MOD"/sql/*.sql "$REPO/db/3-content/"
+for f in "$LIVE"/tuning-*.sql;  do [ -e "$f" ] && cpw "$f" "$REPO/db/1-tuning/$(basename "$f")"; done
+for f in "$LIVE"/setup-*.sql;   do [ -e "$f" ] && cpw "$f" "$REPO/db/2-setup/$(basename "$f")"; done
+for f in "$MOD"/sql/*.sql;      do [ -e "$f" ] && cpw "$f" "$REPO/db/3-content/$(basename "$f")"; done
 say "db/1-tuning"  "$(ls -1 "$REPO/db/1-tuning"  | wc -l) files"
 say "db/2-setup"   "$(ls -1 "$REPO/db/2-setup"   | wc -l) files"
 say "db/3-content" "$(ls -1 "$REPO/db/3-content" | wc -l) files"
@@ -86,3 +101,9 @@ echo "  transfer-dumps/            old character and logon dumps - same reason."
 echo "  out/patch-6.mpq            27 MB, and derived from the client's own Spell.dbc."
 echo "                             Rebuild it with: python content/build.py --install"
 echo "  logs/ *.pdb mangosd.exe.*  noise and build artifacts."
+
+if [ "$CLOBBERED" -gt 0 ]; then
+    echo
+    echo "WARNING: $CLOBBERED repo file(s) were overwritten from the live install."
+    echo "         If you edited them here, that edit is gone - check 'git diff'."
+fi

@@ -17,20 +17,22 @@ local DESPAWN_MS = 300000    -- 5 minutes
 local SPAWN_DIST = 2.0       -- yards in front of the caster
 local TEMPSUMMON_TIMED_DESPAWN = 3
 
-local SUMMONS = {
-    [38700] = 2600200,   -- Warrior Master
-    [38701] = 2600201,   -- Paladin Master
-    [38702] = 2600202,   -- Hunter Master
-    [38703] = 2600203,   -- Rogue Master
-    [38704] = 2600204,   -- Priest Master
-    [38705] = 2600205,   -- Shaman Master
-    [38706] = 2600206,   -- Mage Master
-    [38707] = 2600207,   -- Warlock Master
-    [38708] = 2600208,   -- Druid Master
-    [38710] = 2600400,   -- Banker (custom, faction 35 - usable by both sides)
-}
+-- TERAPIN_SUMMONS comes from summon_targets.lua, generated from TurtleMod/summons.py by
+-- gen_summons.py - the same file that writes sql/23, so the spell-to-NPC mapping cannot
+-- drift between the client DBC, the server SQL and this script.
+--
+-- READ LAZILY, NOT AT LOAD TIME. ElunaLoader.cpp:338 sorts scripts by filepath, and
+-- "summon_services" sorts BEFORE "summon_targets" - so the data file loads second and the
+-- global does not exist yet while this file is being run. (dungeon_scaling.lua can read its
+-- table at load time only because "dungeon_levels" happens to sort before it.)
+local SUMMONS = nil
 
 local function OnSpellCast(event, player, spell, skipCheck)
+    SUMMONS = SUMMONS or TERAPIN_SUMMONS
+    if not SUMMONS then
+        return              -- summon_targets.lua did not load; nothing we can do
+    end
+
     local entry = SUMMONS[spell:GetEntry()]
     if not entry then
         return
@@ -45,4 +47,4 @@ end
 
 RegisterPlayerEvent(5, OnSpellCast)   -- 5 = PLAYER_EVENT_ON_SPELL_CAST
 
-print("[Terapin] summon_services.lua loaded - " .. "10 service summons")
+print("[Terapin] summon_services.lua loaded")

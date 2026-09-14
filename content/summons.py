@@ -35,6 +35,16 @@ BANKER_SPELL    = 38710
 BANKER_CREATURE = 2600400
 BANKER_NAME     = "Call Banker"
 
+# Services that are not class-gated. Same shape as the banker: one spell, one NPC, everyone
+# gets it. Keep this list as the single source of truth - gen_summons.py writes both the SQL
+# and the Lua lookup table from it, so the two cannot drift apart.
+SERVICES = [
+    (BANKER_SPELL, BANKER_CREATURE, BANKER_NAME,
+     "Summons a banker for 5 minutes. Anyone nearby can use it.", 1657),
+    (38711, 2600401, "Call Challenge Master",
+     "Summons the Challenge Master for 5 minutes. She teaches the optional challenges.", 1662),
+]
+
 CLONE_FROM   = 13262    # Disenchant - the same base Salvage and Strongbox use
 ICON_TRAINER = 319      # INV_Scroll_02
 ICON_BANKER  = 1657     # INV_Misc_Note_02
@@ -52,7 +62,6 @@ def all_spells():
         out.append((sid, spell_name(cname),
                     "Summons your %s Master for 5 minutes." % cname,
                     ICON_TRAINER, npc, cid))
-    out.append((BANKER_SPELL, BANKER_NAME,
-                "Summons a banker for 5 minutes. Anyone nearby can use it.",
-                ICON_BANKER, BANKER_CREATURE, None))
+    for sid, npc, nm, desc, icon in SERVICES:
+        out.append((sid, nm, desc, icon, npc, None))
     return out

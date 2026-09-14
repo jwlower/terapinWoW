@@ -27,6 +27,10 @@ F = {
     # spell_template.Targets for 9 probe spells with distinctive values (16384/1026/16/0);
     # field 13 was the only one that agreed on all of them.
     "Targets": 13,
+    # Required TOOL items. Not in any layout doc for this DBC - found by taking every record
+    # with a non-zero field 40 and correlating against spell_template.totem1: 362 of 362
+    # agreed. Field 41 is totem2.
+    "totem1": 40, "totem2": 41,
     "RequiresSpellFocus": 15,
     # Reagents live in the client DBC too - the 1.12 crafting window reads the mats out of
     # Spell.dbc, so if these disagree with spell_template the tooltip lists one set of
@@ -603,6 +607,7 @@ SPELLS.append({
         "reagent2": 0, "reagentCount2": 0,
         "EquippedItemClass": 0xFFFFFFFF,   # -1: no equipped-item requirement
         "RequiresSpellFocus": 0,
+        "icon": 335,             # Trade_BlackSmithing - the hammer-and-anvil icon
     },
 })
 
@@ -795,4 +800,347 @@ for _sid, _name, _desc, _icon, _npc, _cid in _sm.all_spells():
             "RequiresSpellFocus": 0,
             "icon": _icon,
         },
+    })
+
+
+# ---------------------------------------------------------------------------------------
+# Hide the 14 "Artisan <profession>" teaching spells from the spellbook.
+#
+# CLIENT-SIDE ONLY - this is a display flag and the server has no opinion on it.
+#
+# THE PROBLEM
+#   Every new character starts with all 14 professions at Artisan. The grant that does that
+#   (tuning-profession-ranks.sql) teaches the ARTISAN TEACHER - 9786 "Artisan Blacksmith" -
+#   and the teacher then sits in the General tab as a castable spell that appears to let you
+#   teach Artisan professions to yourself and other people.
+#
+# WHY NOT JUST GRANT THE TAUGHT SPELL INSTEAD
+#   Because the skill ceiling comes from the teacher, not the taught spell:
+#
+#     9786 Artisan Blacksmith  effect1=36 LEARN_SPELL  effect2=44 SKILL_STEP  base=3
+#     9785 Blacksmithing       effect1=47 TRADE_SKILL  effect2=118 SKILL      base=3
+#
+#   Player::addSpell CASTS a spell carrying SKILL_STEP, and Spell::EffectLearnSkill then
+#   computes max = step * 75 = 300. The taught spell has SKILL (118), not SKILL_STEP (44),
+#   so it is filed rather than cast, and Player.cpp:7505 falls back to
+#   GetSkillMaxForLevel() - which at level 1 is 5. Granting 9785 alone would give every new
+#   character Blacksmithing 1/5.
+#
+#   So the teacher must stay granted. It just does not have to be VISIBLE.
+#
+# SPELL_ATTR_HIDDEN_CLIENTSIDE (0x80, bit 7) is described in SpellDefines.h as "Spells with
+# this attribute are not visible in spellbook or aura bar". The spell stays known, the skill
+# stays at 300, and the clutter goes.
+# ---------------------------------------------------------------------------------------
+ARTISAN_TEACHERS = [
+    9786,  10249, 10663, 10769,  # Blacksmithing, Mining, Leatherworking, Skinning
+    10847,                        # First Aid
+    11612, 11994, 12181, 12657,  # Alchemy, Herbalism, Tailoring, Engineering
+    13921, 18249, 18261, 30227,  # Enchanting, Fishing, Cooking, Jewelcrafting
+    46057,                        # Survivalist (Turtle custom)
+]
+
+SPELL_ATTR_HIDDEN_CLIENTSIDE = 0x00000080
+
+MODIFY.append({
+    "label": "hide artisan teachers",
+    "match_ids": set(ARTISAN_TEACHERS),
+    "or_set": {"Attributes": SPELL_ATTR_HIDDEN_CLIENTSIDE},
+})
+
+
+# ---------------------------------------------------------------------------------------
+# Death challenges (38720, 38721) and truth-in-advertising for the two dead ones.
+#
+# The spells are PASSIVE + HIDDEN_CLIENTSIDE markers - never cast, only checked with
+# Player:HasSpell by lua_scripts/death_challenges.lua. Opt in with `.learn 38720`.
+#
+# 57738 and 57746 are EXISTING Turtle challenges that do nothing on this build. Their
+# descriptions are rewritten here as well as in sql/25, because the client builds tooltips
+# from its OWN Spell.dbc - a server-side description change alone is invisible in game,
+# the same trap that made Battle Shout keep reading "2 min".
+# ---------------------------------------------------------------------------------------
+_DEAD = "|cffff2020[NOT IMPLEMENTED ON THIS SERVER - this challenge has no effect]|r "
+
+SPELLS.append({
+    "id": 38720,
+    "clone_from": 13262,
+    "name": "Fragile",
+    "rank": "",
+    "desc": "On death, one random piece of equipped gear falls to your corpse. "
+            "Retrieve it before it rots away.",
+    "overrides": {
+        "effect1": 0, "effect2": 0, "effect3": 0,
+        "itemType1": 0, "trigger1": 0,
+        "Targets": 0, "target1": 1, "target2": 0,
+        "baseLevel": 1, "spellLevel": 1, "manaCost": 0, "powerType": 0,
+        "RecoveryTime": 0,
+        "reagent1": 0, "reagentCount1": 0, "reagent2": 0, "reagentCount2": 0,
+        "EquippedItemClass": 0xFFFFFFFF, "RequiresSpellFocus": 0,
+        # PASSIVE but NOT hidden. These are taught by the Challenge Master (2600401), and a
+        # trainer-taught challenge should be visible in your spellbook so you can see which
+        # ones you are carrying. 38722 "Unrestrained" stays hidden - it is an opt-out toggled
+        # by chat, not something you buy.
+        "Attributes": 64,
+        "icon": 1662,               # INV_Misc_Bone_HumanSkull_01
+    },
+})
+SPELLS.append({
+    "id": 38721,
+    "clone_from": 13262,
+    "name": "Butterfingers",
+    "rank": "",
+    "desc": "On death, a share of the items in your bags falls to your corpse. "
+            "Bags themselves are spared.",
+    "overrides": {
+        "effect1": 0, "effect2": 0, "effect3": 0,
+        "itemType1": 0, "trigger1": 0,
+        "Targets": 0, "target1": 1, "target2": 0,
+        "baseLevel": 1, "spellLevel": 1, "manaCost": 0, "powerType": 0,
+        "RecoveryTime": 0,
+        "reagent1": 0, "reagentCount1": 0, "reagent2": 0, "reagentCount2": 0,
+        "EquippedItemClass": 0xFFFFFFFF, "RequiresSpellFocus": 0,
+        "Attributes": 64,
+        "icon": 1662,
+    },
+})
+
+# These two already exist in the DBC - build.py updates a present id in place, so
+# clone_from is ignored and only the fields below are rewritten.
+SPELLS.append({
+    "id": 57738, "clone_from": 13262, "name": "Traveling Craftmaster", "rank": "",
+    "desc": _DEAD + "Equip only what you craft. True power comes from your own hands.",
+    "overrides": {},
+})
+SPELLS.append({
+    "id": 57746, "clone_from": 13262, "name": "Path of the Brewmaster", "rank": "",
+    "desc": _DEAD + "You gain no experience unless you are completely smashed.",
+    "overrides": {},
+})
+
+
+# ---------------------------------------------------------------------------------------
+# Dungeon mentor scaling (38722 marker + 38730..38747 ladder).
+#
+# Defined in scaling.py and shared with gen_scaling.py, so the client DBC and the server SQL
+# cannot disagree. The ladder entries carry the aura effects only so the client can build a
+# sensible tooltip - the server is what actually applies them.
+# ---------------------------------------------------------------------------------------
+import scaling as _sc   # noqa: E402
+
+SPELLS.append({
+    "id": _sc.MARKER_SPELL,
+    "clone_from": _sc.CLONE_FROM,
+    "name": _sc.MARKER_NAME,
+    "rank": "",
+    "desc": "Dungeon scaling will not be applied to you.",
+    "overrides": {
+        "effect1": 0, "effect2": 0, "effect3": 0,
+        "itemType1": 0, "trigger1": 0,
+        "Targets": 0, "target1": 1, "target2": 0,
+        "baseLevel": 1, "spellLevel": 1, "manaCost": 0, "powerType": 0,
+        "RecoveryTime": 0,
+        "reagent1": 0, "reagentCount1": 0, "reagent2": 0, "reagentCount2": 0,
+        "EquippedItemClass": 0xFFFFFFFF, "RequiresSpellFocus": 0,
+        "Attributes": 64 | 128,          # PASSIVE | HIDDEN_CLIENTSIDE
+    },
+})
+
+for _sid, _pct in _sc.steps():
+    SPELLS.append({
+        "id": _sid,
+        "clone_from": _sc.CLONE_FROM,
+        "name": "Mentor's Restraint",
+        "rank": "%d%%" % _pct,
+        "desc": "Your power is held back to suit this dungeon. Damage, healing and health "
+                "reduced by %d%%." % _pct,
+        "overrides": {
+            "effect1": 6, "effect2": 6, "effect3": 6,      # APPLY_AURA x3
+            "aura1": _sc.AURA_DAMAGE_DONE,
+            "aura2": _sc.AURA_HEALING_DONE,
+            "aura3": _sc.AURA_HEALTH_PCT,
+            "basePoints1": (-(_pct + 1)) & 0xFFFFFFFF,
+            "itemType1": 0, "trigger1": 0,
+            "Targets": 0, "target1": 1, "target2": 0,
+            "baseLevel": 1, "spellLevel": 1, "manaCost": 0, "powerType": 0,
+            "RecoveryTime": 0,
+            "reagent1": 0, "reagentCount1": 0, "reagent2": 0, "reagentCount2": 0,
+            "EquippedItemClass": 0xFFFFFFFF, "RequiresSpellFocus": 0,
+            "Attributes": 64,            # PASSIVE, but VISIBLE: you should see why you hit softer
+            "DurationIndex": 21,         # infinite
+            "icon": 2458,
+        },
+    })
+
+
+# ---------------------------------------------------------------------------------------
+# White Blacksmithing weapons - 132 craft spells + 132 trainer wrappers (39000-39331).
+#
+# Defined in white_weapons.py and shared with gen_white_weapons.py, so the client DBC and the
+# server SQL cannot disagree about ids or names.
+#
+# Only the SPELLS need DBC entries. Item data is server-side in 1.12 - the client asks for it
+# with SMSG_ITEM_QUERY_SINGLE_RESPONSE - which is why 132 new items need no client work at
+# all, while their recipes do.
+# ---------------------------------------------------------------------------------------
+import white_weapons as _ww   # noqa: E402
+
+_WW_CRAFT = 2660   # Rough Sharpening Stone - a real Blacksmithing craft spell
+_WW_TEACH = 2754   # a real trainer wrapper; NOT a "Plans:" spell, which targets the caster
+
+for _r in _ww.grid():
+    SPELLS.append({
+        "id": _r["craft"],
+        "clone_from": _WW_CRAFT,
+        "name": _r["name"],
+        "rank": "",
+        "desc": "Forges %s." % _r["name"],
+        "overrides": {
+            "effect1": 24,                       # SPELL_EFFECT_CREATE_ITEM
+            "itemType1": _r["item"],
+            "effect2": 0, "effect3": 0,
+            "trigger1": 0,
+            "reagent1": _r["bar"], "reagentCount1": _r["bars"],
+            "reagent2": 0, "reagentCount2": 0,
+        },
+    })
+    SPELLS.append({
+        "id": _r["teach"],
+        "clone_from": _WW_TEACH,
+        "name": _r["name"],
+        "rank": "",
+        "desc": "Teaches you how to make %s." % _r["name"],
+        "overrides": {
+            "effect1": 36,                       # SPELL_EFFECT_LEARN_SPELL
+            "trigger1": _r["craft"],
+            "effect2": 0, "effect3": 0,
+            "itemType1": 0,
+        },
+    })
+
+# The CLIENT needs its own skill-line row for every craft spell. Without one the client
+# silently drops the trainer entry while the server looks perfectly healthy - the exact trap
+# documented in docs/SPELL-IDS.md. 132 rows, matching sql/27 exactly.
+for _r in _ww.grid():
+    SKILL_LINE_ABILITY.append({
+        "id": _r["sla"], "skill": _ww.SKILL_BS, "spell": _r["craft"],
+        "req_skill_value": _r["skill"],
+        "min_value": min(_r["skill"] + 15, 300),
+        "max_value": min(_r["skill"] + 40, 300),
+        "class_mask": 0, "race_mask": 0,
+    })
+
+
+# ---------------------------------------------------------------------------------------
+# (Removed) Challenge Master teaching wrappers 38723/38724.
+#
+# The trainer window came up EMPTY. The reason was already written in sql/17: a spell with no
+# skill_line_ability row lives in the GENERAL tab, and "the client drops trainer entries filed
+# under no skill line". Fragile and Butterfingers are General-tab spells by design, so a
+# trainer can never sell them - the two are mutually exclusive on this client.
+#
+# Turtle solves this for its own Hardcore challenge with a QUEST: the Mysterious Stranger is
+# a questgiver, and quest 80388 carries RewSpell = 50006. A quest reward has no skill-line
+# requirement. sql/29 does the same with quests 80500/80501, so no client-side spells are
+# needed here at all.
+# ---------------------------------------------------------------------------------------
+
+
+# ---------------------------------------------------------------------------------------
+# No tools, no workbenches - the CLIENT half.
+#
+# The client enforces both requirements from its own Spell.dbc, exactly as it does the
+# mounted-cast restriction, so sql/30 alone would leave it refusing to start the cast.
+#
+# The two sides disagree about scope, which is why neither can be skipped: 912 server-side
+# trade spells carried a tool, but only 362 records in the client DBC do. The id list is
+# generated from the SERVER (gen_crafting_tools.py) and applied to both.
+#
+# expect_at_least is low on purpose: most of these 1041 ids have nothing to clear on the
+# client side, and MODIFY by id would otherwise refuse the whole edit.
+# ---------------------------------------------------------------------------------------
+import crafting_tools as _ct   # noqa: E402
+
+# match_where, not match_ids: the id list comes from the SERVER, and at least one of those
+# spells does not exist in the client's Spell.dbc at all. match_ids asserts an exact count and
+# correctly refuses a half-applied edit - which is the right behaviour for a hand-written list,
+# but wrong here, where the two sides are legitimately not the same set.
+_CT_SET = set(_ct.SPELLS_WITH_TOOLS)
+
+
+def _is_trade_tool_spell(rec, F):
+    return rec[0] in _CT_SET
+
+
+MODIFY.append({
+    "label": "no crafting tools/focus",
+    "match_where": _is_trade_tool_spell,
+    "expect_at_least": 1800,
+    "set": {"totem1": 0, "totem2": 0, "RequiresSpellFocus": 0},
+})
+
+
+# ---------------------------------------------------------------------------------------
+# Craftable armour - 272 craft spells + 272 trainer wrappers (43000-43591).
+#
+# Defined in gear.py and shared with gen_gear.py, so the client DBC and the server SQL cannot
+# disagree about ids, names or reagents. Same division of labour as the white weapons above:
+# only the SPELLS need DBC rows, because item data is answered by the server over
+# SMSG_ITEM_QUERY_SINGLE_RESPONSE, so 272 new items need no client work and their 272 recipes
+# need all of it.
+#
+# TOOLS ARE CLEARED HERE, NOT BY THE "no crafting tools/focus" BLOCK ABOVE. That block matches
+# an id list generated from the server by gen_crafting_tools.py, and it was generated before
+# these spells existed - so a new craft spell cloned from 2660 would inherit 2660's Blacksmith
+# Hammer and be uncraftable away from a forge, which is precisely what sql/30 set out to end.
+# ---------------------------------------------------------------------------------------
+import gear as _gr   # noqa: E402
+
+_GR_CRAFT = 2660   # Rough Sharpening Stone - a real Blacksmithing craft spell
+_GR_TEACH = 2754   # a real trainer wrapper; NOT a "Plans:" spell, which targets the caster
+
+for _r in _gr.grid():
+    _rare, _rare_n = _r["rare"] if _r["rare"] else (0, 0)
+    SPELLS.append({
+        "id": _r["craft"],
+        "clone_from": _GR_CRAFT,
+        "name": _r["name"],
+        "rank": "",
+        "desc": "Creates %s." % _r["name"],
+        "overrides": {
+            "effect1": 24,                       # SPELL_EFFECT_CREATE_ITEM
+            "itemType1": _r["item"],
+            "effect2": 0, "effect3": 0,
+            "trigger1": 0,
+            "reagent1": _r["reagent"], "reagentCount1": _r["count"],
+            "reagent2": _rare, "reagentCount2": _rare_n,
+            "reagent3": 0, "reagentCount3": 0,
+            "totem1": 0, "totem2": 0, "RequiresSpellFocus": 0,
+        },
+    })
+    SPELLS.append({
+        "id": _r["teach"],
+        "clone_from": _GR_TEACH,
+        "name": _r["name"],
+        "rank": "",
+        "desc": "Teaches you how to make %s." % _r["name"],
+        "overrides": {
+            "effect1": 36,                       # SPELL_EFFECT_LEARN_SPELL
+            "trigger1": _r["craft"],
+            "effect2": 0, "effect3": 0,
+            "itemType1": 0,
+            "totem1": 0, "totem2": 0, "RequiresSpellFocus": 0,
+        },
+    })
+
+# One client-side skill-line row per craft spell, matching sql/33 exactly. Without it the
+# client files the spell under no skill line and silently drops the trainer entry, while the
+# server looks perfectly healthy - see docs/SPELL-IDS.md.
+for _r in _gr.grid():
+    SKILL_LINE_ABILITY.append({
+        "id": _r["sla"], "skill": _r["skill"], "spell": _r["craft"],
+        "req_skill_value": _r["gate"],
+        "min_value": min(_r["gate"] + 20, 300),
+        "max_value": min(_r["gate"] + 50, 300),
+        "class_mask": 0, "race_mask": 0,
     })

@@ -51,7 +51,7 @@ UPDATE tmp_sal SET
   reagent1 = 0, reagentCount1 = 0,
   reagent2 = 0, reagentCount2 = 0,
   EquippedItemClass      = -1,         -- no equipped-item requirement
-  spellIconId            = 1,
+  spellIconId            = 335,      -- Trade_BlackSmithing (hammer and anvil)
   RequiresSpellFocus     = 0;
 
 INSERT INTO spell_template SELECT * FROM tmp_sal;

@@ -114,6 +114,8 @@ bash scripts/sync-from-live.sh
 | **Drop rates** | Tuned down. Vanilla's green rate on a modern loot table meant two or three greens per kill. |
 | **Smelting** | Rebanded so Mithril carries you to skill 230 before it greys. |
 | **Riding** | Trainable at level 20 instead of 40. Bank bag slots are free. |
+| **All weapon skills** | Every character starts trained in every weapon its class can learn — derived from `class_mask`, so it grants exactly what a weapon master would have. |
+| **No tools, no workbenches** | 2,127 trade recipes need no hammer, rod, spanner, anvil, forge or alchemy lab. Craft anywhere. |
 
 ### Mounts
 
@@ -144,11 +146,36 @@ The eight mage teleports, granted to **every class**, General tab, level 1, no r
 | | count | notes |
 |---|---|---|
 | **Shields** | 18 | Six tiers (Copper → Thorium) in three shapes, each with its **own** appearance, gated on `item_level - 5`: 5 / 20 / 33 / 41 / 47 / 58. |
-| **Weapons** | 15 | Closing measured gaps in Blacksmithing's coverage by type and tier. |
+| **White weapons** | 132 | One per weapon type per 5 levels, required level 5→60. Damage from a DPS curve pooled per weapon family, so every two-hander of a tier matches and only speed differs. |
+| **Green weapons** | 15 | Closing measured gaps in Blacksmithing's coverage by type and tier. |
 | **Class abilities** | 27 | One per class specialization, on the correct spellbook tab. |
 | **Thrown abilities** | 2 | Warrior Fury and rogue Combat *spellbook tabs*, not talents. |
 | **Recipe icons** | 635 | Trainers showed a generic face for every custom recipe. |
-| **Custom NPCs** | — | Class and profession trainers, dungeon questgivers, a supplier. |
+| **Custom NPCs** | — | Class and profession trainers, dungeon questgivers, a supplier, a banker, a Challenge Master. |
+| **Summons** | 11 | Call your class trainer, a banker, or the Challenge Master — General tab, free, level 1. |
+
+### Dungeon mentor scaling
+
+Walk into a dungeon well above its level and your damage, healing and maximum health are
+scaled down toward it. Leave and it is gone. A level 60 can run Ragefire Chasm with a level 15
+friend without trivialising it — **−70%** there, **−5%** in Stratholme, nothing at all if you
+are at level.
+
+**Gear, talents and abilities are untouched.** Only the numbers coming out the other end
+change, so good gear still feels good. Type `!scale` to toggle it.
+
+### Optional challenges
+
+Beyond Turtle's ten built-in ones (three of which do nothing on this build — see the
+[wiki](wiki/Challenges)), the **Challenge Master** offers two of our own as quests:
+
+| | |
+|---|---|
+| **Fragile** | on death, one random piece of equipped gear falls to your corpse |
+| **Butterfingers** | on death, ~20% of your carried stacks fall to your corpse |
+
+Nothing is destroyed — it lands in a chest where you died that only you can open. Bags and
+quest items are never taken. Drop either with `!fragile` / `!butterfingers`.
 
 ### Client addon — `TerapinTips`
 
@@ -161,6 +188,10 @@ both the Attack key and right-clicking a mob (with drag detection, so turning th
 a mob doesn't throw you off). Mount buffs are matched by **name**, since only 41 of this
 client's 484 mount spells use an `Ability_Mount_*` icon; `content/gen_mount_names.py`
 regenerates that list from the client's own `Spell.dbc`.
+
+Note the attack-key hook only covers the Attack **keybind**. Right-clicking a mob cannot
+be intercepted — `TurnOrActionStart/Stop` are protected functions, and wrapping them breaks
+every right-click including camera panning.
 
 ---
 

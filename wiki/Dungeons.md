@@ -56,6 +56,40 @@ Bosses drop **two guaranteed rare-or-better items** on top of their normal loot 
 hand something to each of two or three people per kill. The mechanism is explained in
 [Small Group Play](Small-Group-Play#loot-that-works-for-two-people).
 
+## Mentor scaling ✅
+
+Walk into a dungeon well above its level and your power is held back toward that dungeon's
+level. Leave, and it is gone. A level 60 can run Ragefire Chasm with a level 15 friend
+without trivialising it.
+
+**Gear, talents and abilities are untouched.** What is reduced is damage done, healing done
+and maximum health — by percentage. That distinction is the whole design: the obvious
+implementation, `SPELL_AURA_MOD_TOTAL_STAT_PERCENTAGE`, reduces *total* stats, which includes
+everything your gear gives you and makes good gear feel worthless. Your gear should still
+feel great; only the numbers coming out the other end should be level-appropriate.
+
+The target level is the dungeon's `areatrigger_teleport.required_level` **+ 10** — all 29
+dungeons carry a usable value. The reduction is proportional to how far above it you are, so
+it eases in rather than switching on hard, and is capped at 85% so a mentor is always clearly
+stronger than the people they are helping:
+
+| dungeon | target | L20 | L30 | L45 | L60 |
+|---|---|---|---|---|---|
+| Ragefire Chasm | 18 | −10% | −40% | −60% | **−70%** |
+| Deadmines | 20 | — | −30% | −55% | −65% |
+| Scarlet Monastery | 30 | — | — | −25% | −50% |
+| Stratholme | 55 | — | — | — | −5% |
+
+**Toggling it:** type `!scale` in say. Default is on. It works by learning or unlearning a
+hidden marker spell, and the message is swallowed rather than broadcast.
+
+*Two implementation notes.* Eluna's `AddAura` applies a **fixed** spell and there is no
+binding to set an aura's magnitude at runtime, so the reduction is a ladder of 18 spells in
+5% steps and the script picks the nearest one down. And `PLAYER_EVENT_ON_MAP_CHANGE` is **not
+bridged** on this build — `ON_UPDATE_ZONE` is, and dungeons are their own zones, so that is
+what triggers it. It is re-checked on login and on release too, so the scaling survives a
+death, a disconnect, or a summon into the middle of an instance.
+
 ## What is not changed ⛔
 
 **Mobs do not scale to party size.** One creature is one level — there is no per-observer

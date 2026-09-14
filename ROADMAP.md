@@ -236,7 +236,7 @@ script. The biggest single item in this document, and the most distinctive.
 
 ---
 
-## Auto-scaling — ⛔ Blocked as specified, 🟨 achievable in a narrower form
+## Auto-scaling — ⛔ Blocked as specified, ✅ **built in a narrower form**
 
 > On entry to a dungeon with a level 18, 33 and 45, mobs scale so each player gains XP.
 
@@ -261,18 +261,122 @@ earns from anything above level 35.
 
 ---
 
+### What was built instead — ✅ Live
+
+Mobs still cannot scale to a party, but the **player** can scale to the dungeon, which solves
+the same problem from the other side. Dungeon mentor scaling reduces a too-high character's
+damage, healing and maximum health toward the dungeon's own level — −70% for a level 60 in
+Ragefire Chasm, −5% in Stratholme, nothing at all at level.
+
+Gear, talents and abilities are untouched; only output changes. Toggle with `!scale`.
+Full details in the [Dungeons wiki page](wiki/Dungeons).
+
+
+## Racial abilities — 🟩 Data
+
+**Planned, not built.** Vanilla racials are mostly flat, forgettable passives. The intent is
+to make each race's identity felt while moving around and playing, not just on a stat sheet.
+
+Three worked examples, with what each would actually take:
+
+| race | idea | how |
+|---|---|---|
+| **Gnome** | +5% to your maximum rage, mana or energy | `SPELL_AURA_MOD_INCREASE_ENERGY_PERCENT` (132). One passive; the aura applies to whichever resource the class uses, so a single spell covers all three. |
+| **Night Elf** | +5% run speed | `SPELL_AURA_MOD_INCREASE_SPEED` (31), the same aura every speed effect uses. |
+| **Tauren** | **Plainsrunning** — speed ramps 1%/sec while running outdoors, up to 20%, and drops when you stop | **Already implemented.** See below. |
+
+### Plainsrunning already exists on this build ✅
+
+Worth knowing before anyone writes it from scratch. Turtle has built the whole mechanic:
+
+| | |
+|---|---|
+| spells | **12566** (the ramp, aura 23 periodic-trigger), **12567**, **12568** (aura 31, the speed itself) |
+| cancelled by damage | `Unit.cpp:1157` — steps down through `PLAINSRUNNING_SECOND_TICK`, `FIRST_TICK`, then the base aura |
+| cancelled by casting | `SpellHandler.cpp:392`, unless the spell is castable while mounted |
+
+So the Tauren item is not "build a ramping speed system" — it is "decide the numbers and make
+sure Tauren actually get it". The stock ramp goes considerably higher than 20%.
+
+### Where racials come from
+
+They are ordinary spells granted through `playercreateinfo_spell` per race, and filed in
+`skill_line_ability` with a **`race_mask`** rather than a class mask — Stoneform is race_mask
+4 (Dwarf), Shadowmeld 8 (Night Elf), Will of the Forsaken 16 (Undead), War Stomp 32 (Tauren),
+Blood Fury 2 (Orc).
+
+That means changing a racial is the same shape of job as
+[the weapon-skill grant](../blob/main/db/3-content/31-start-with-weapon-skills.sql): derive
+from the mask, grant at creation, and back-fill existing characters. No core work.
+
+**The one thing to watch:** a racial that changes a tooltip needs the client `Spell.dbc`
+changed too, not just `spell_template` — the same trap that made Battle Shout keep reading
+"2 min". Any numeric change here is a two-sided edit.
+
+---
+
+## Shaman totems as relics — 🟩 Data
+
+**Planned, not built.** Shaman totem spells currently require a totem *item* — Earth, Fire,
+Water and Air Totem (5175–5178) — carried in your bags and consumed as a reagent-style
+requirement via `totem1`. The removal of crafting tools in `db/1-tuning` deliberately left
+these alone, because `totem1` is a generic "required item" field and stripping it there would
+have hit shamans as collateral.
+
+The intent instead: **drop the item requirement entirely, and make totems equippable relics**
+that drop as rewards, filling the slot shamans otherwise waste on a ranged weapon.
+
+### It is achievable on this build
+
+Checked rather than assumed — relics are already a working concept here:
+
+| | |
+|---|---|
+| `INVTYPE_RELIC = 28` | defined at `ItemPrototype.h:139` |
+| equip handling | `Player.cpp:10494` has a case for it |
+| items already using it | **65**, e.g. *Idol of Acidity* |
+
+So this needs no core work. Three data steps:
+
+1. **Clear `totem1`/`totem2`** on the shaman totem spells, exactly as `sql/30` did for trade
+   recipes — the same two-sided treatment, since the client enforces it from its own
+   `Spell.dbc`.
+2. **Create relic items** with `inventory_type = 28`, class-restricted to shaman, carrying
+   totem-flavoured bonuses.
+3. **Place them as rewards** rather than vendor stock, so the slot is something you fill over
+   time.
+
+Worth deciding before building: whether relics should be *required* to cast totems (a
+straight swap of one requirement for another) or purely a **bonus** slot. The latter is more
+in keeping with everything else here — the tool removal was about deleting friction, and
+re-adding a mandatory item would undo that.
+
+---
+
 ## Crafting
 
 ### Non-exclusive specializations — 🟩 Data
 All weaponsmith masteries, both goblin and gnomish engineering, learnable together. The
 exclusivity is enforced by spell and quest gating that can be removed.
 
-### Batch crafting — 🟨 Eluna (🟥 for true instancing)
-Select a quantity, the possible skill-ups are pre-rolled, and the whole batch completes at
-the end of one animation.
+### Batch crafting — ✅ Live
+`!batch 5` and every recipe you cast makes five. One cast, one animation, the whole batch at
+the end of it — which is the part vanilla's "Create All" does not do: Create All queues N
+separate casts and you sit through N animations. `!batch 1` turns it off, `!batch` reports.
 
-Vanilla already has a "create all" that repeats the cast. The *pre-calculated, single
-animation* version needs scripting; making it genuinely instant may need core work.
+`lua_scripts/batch_crafting.lua` on `PLAYER_EVENT_ON_SPELL_CAST`. The first craft runs
+normally and the remaining N-1 resolve on a later tick — deferred for the same reason
+salvage is, since the hook fires *part way through* `Spell::prepare`.
+
+**Skill-ups are rolled, never granted.** Each item in the batch rolls on exactly the odds
+`Player::SkillGainChance` uses, so batching is convenience and not a shortcut.
+
+**The item is created before the reagents are taken**, deliberately: if the bags are full the
+batch stops without having destroyed anything, so a full bag costs you items and never
+materials.
+
+No client code — the quantity box belongs to `Blizzard_TradeSkillUI`, and the last addon here
+that hooked a protected control disabled camera panning for the whole game.
 
 ### Salvaging — ✅ Live
 Break gear back down into bars, leather or cloth. **Universal and free** — every class,
@@ -352,22 +456,36 @@ this in bulk.
 - Weapon oils using enchanting residuals: chance to cast fireball, leech health, extra
   attack, refund a spell; fire damage at the cost of frost (mage only)
 
-### Blacksmithing — 🟩 Data
+### Blacksmithing — ✅ Mostly live, 🟩 for the rest
 
-Measured coverage today, by item level band:
+**166 custom recipes shipped:** 132 white weapons (11 types × 12 level bands), 15 green
+weapons, 18 shields (six tiers × three shapes, each with its own appearance), plus the
+original Runed Copper Shield. Tools and workbenches are gone profession-wide.
+
+Remaining 🟩: quest rewards as learnable recipes, masterwork upgrades, reforging kits.
+
+#### The measurement that motivated all of it
+
+Taken **before** any of the above was built, and kept because it is the evidence, not a
+current state:
 
 | type | white | green | blue+ | total |
 |---|---|---|---|---|
 | plate | 0 | 38 | 55 | 93 |
 | mail | 5 | 54 | 33 | 92 |
-| **shields** | 0 | **20** | 2 | **22** ✅ |
+| shields | 0 | 20 | 2 | 22 |
 | 1H sword | 2 | 4 | 7 | 13 |
 | fist | 1 | 3 | 2 | 6 |
 | polearm | 0 | 3 | 3 | 6 |
-| thrown / crossbow | 0 | 5 / 5 | 0 | 10 ✅ |
+| thrown / crossbow | 0 | 5 / 5 | 0 | 10 |
 
-*(No white plate is correct, not a gap — plate is not wearable until 40, by which point
-green is the floor.)*
+The white column is the story: **13 white weapons in the entire profession, all below level
+25**, and none at all for polearms, thrown or crossbows. Greens and blues were well covered;
+the plain make-it-yourself tier stopped existing almost immediately. That is the gap the 132
+white weapons fill.
+
+*(No white plate is correct, not a gap — plate is not wearable until 40, by which point green
+is the floor.)*
 
 **Shields — ✅ Live.** Blacksmithing made **four** shields in total, two of them item level
 70, so nothing was craftable between roughly level 18 and 60 for a profession built around
@@ -498,7 +616,7 @@ Health thresholds are borderline expressible in spell data; mana, rage and energ
 1. ~~**Bisect the chase regression and build with Eluna**~~ — ✅ **done.** Newest core, Eluna
    enabled, movement working. Every 🟨 item is unblocked
 2. ~~**Shields**~~ — ✅ **done.** 18 added, three per tier on three axes, each with its own look
-3. **Blacksmithing weapon tiers** — the largest remaining 🟩 win
+3. ~~**Blacksmithing weapon tiers**~~ — ✅ **done.** 132 white weapons, 11 types × 12 bands
 4. **Alchemy transmutes and the potion/oil matrix** — high value, low cost
 5. **Class-aware boss loot** — the most distinctive feature, first real Eluna project
 6. **Salvaging and batch crafting** — the quality-of-life pair that makes crafting the spine

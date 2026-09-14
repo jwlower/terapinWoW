@@ -9,10 +9,32 @@
 | **Supplier NPC** | One summonable vendor stocking **every** vendor-sold crafting reagent and profession tool. |
 | **Recipe icons** | 635 recipes now show the icon of the **item they make**. Every custom recipe previously showed the same generic face. |
 | **Gather while mounted** | Mining, Herbalism, Skinning — all ranks. |
-| **Batch crafting** | 🟨 Planned. Vanilla's "create all" repeats the cast; a pre-rolled single-animation version needs scripting. |
+| **No tools** | Blacksmith Hammer, Jewelers Kits, Runed Rods, Arclight Spanner, Whittle — **1041 recipes** no longer need any tool at all. |
+| **No workbenches** | Anvils, forges, the Alchemy Lab, Moon Wells. Craft anything, anywhere. |
+| **Batch crafting** | ✅ Live. `!batch 5` and every recipe makes five — one cast, one animation, the whole batch at the end of it. `!batch 1` turns it off, `!batch` reports the setting. Each item still rolls for its own skill-up on the core's own odds. |
+| **Craftable gear** | ✅ Live. **272 new pieces** — plate and mail from Blacksmithing, leather from Leatherworking, cloth from Tailoring — in four bands from skill 20 to 245. Fills a real hole: before this there was **no craftable epic below skill 226** in any profession. |
 
 Sources: `tuning-profession-ranks.sql`, `13-masters-teach-professions.sql`,
-`setup-supplier-npc.sql`, `12-recipe-icons.sql`, `18-mount-management.sql`.
+`setup-supplier-npc.sql`, `12-recipe-icons.sql`, `18-mount-management.sql`,
+`33-craftable-gear.sql`, `34-trainer-requires.sql`, `35-batch-crafting.sql`.
+
+### Tools and workbenches — how it was removed
+
+Worth recording because a server-only change would have done nothing visible. **The client
+enforces both requirements from its own `Spell.dbc`**, exactly as it enforces the
+mounted-cast restriction, so it would have kept refusing to start the cast.
+
+The two sides did not even agree on scope: **912** server-side trade spells carried a tool,
+but only **362** records in the client's DBC did. Each had to be cleared independently.
+
+`totem1`/`totem2` were not in the pipeline's field map. They are at DBC fields **40 and 41**,
+found by taking every record with a non-zero field 40 and correlating it against
+`spell_template.totem1` — 362 of 362 agreed.
+
+**Shaman totems are deliberately untouched.** `totem1` is a generic "required item" field and
+shaman totem spells use it for their totem item, so the change is scoped to spells filed
+under a trade skill only. Verified: Stoneskin, Searing and Healing Stream all still require
+theirs.
 
 ### The recipe-icon fix
 
@@ -27,7 +49,38 @@ blacksmiths had icons; the custom NPCs did not.
 <details>
 <summary><b>Blacksmithing</b> — the only profession with new content ✅</summary>
 
-**34 custom recipes**: 15 weapons + 18 shields (+1 earlier shield).
+**166 custom recipes**: 132 white weapons, 15 green weapons, 18 shields (+1 earlier shield).
+
+### White weapons — the plain tier ✅
+
+**11 weapon types × 12 level bands = 132 items**, required level 5 through 60. This was the
+biggest gap in the profession and it was measured before it was filled: Blacksmithing could
+make 186 green, 88 blue and 45 epic items, but only **13 white weapons — all below level 25**,
+with nothing at all for polearms, thrown or crossbows. The cheap, make-it-yourself tier
+stopped existing almost immediately.
+
+| | |
+|---|---|
+| types | 1H/2H axe, 1H/2H mace, 1H/2H sword, dagger, fist, polearm, thrown, crossbow |
+| bands | required level 5, 10, 15 … 60 — two per metal tier, the upper one prefixed *Heavy* |
+| stats | **none** — that is what makes them white. Pure damage and speed. |
+
+*Damage is cloned, not invented.* Each item takes its speed from a real weapon of the same
+type and item level, and its **DPS from a curve pooled per weapon family** (one-hand,
+two-hand, ranged). That means every two-hander of a tier does matching DPS and differs only
+in swing speed — which is how vanilla actually works.
+
+Pooling by family rather than by individual weapon type was a correction worth recording: the
+per-type version left polearms at 3.5 DPS where every other two-hander of that tier was
+5.9–6.4, because this database has **no polearm at all below item level 21** and the lookup
+had to reach a long way to find anything. An earlier attempt that ratio-scaled off the
+nearest weapon was worse still — it produced a Copper Halberd doing 35 DPS for a level 5
+character, scaled ×10 off a *Farmer's Pitchfork*.
+
+The ladder is verified **monotonic across all 11 lines**: no tier ever hits softer than the
+one below it. Thin families (8 thrown, 1 low-level crossbow) made the raw curve noisy enough
+to produce a crossbow that got weaker from level 20 to 25, so it is clamped.
+
 
 **Shields — 18, six tiers × three shapes.** Each of the eighteen has its **own appearance**,
 taken from a real shield of that item-level band so the art matches the armour sets of its

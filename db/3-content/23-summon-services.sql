@@ -51,9 +51,9 @@ DROP TEMPORARY TABLE tmp_npc;
 -- 2. The spells. Cloned from Disenchant like Salvage and Strongbox, then retargeted at
 --    the caster and stripped of cost, reagents and cooldown.
 -- ---------------------------------------------------------------------------------------
-DELETE FROM spell_template        WHERE entry   IN (38700,38701,38702,38703,38704,38705,38706,38707,38708,38710);
-DELETE FROM skill_line_ability    WHERE spell_id IN (38700,38701,38702,38703,38704,38705,38706,38707,38708,38710);   -- GENERAL tab on purpose
-DELETE FROM playercreateinfo_spell WHERE spell  IN (38700,38701,38702,38703,38704,38705,38706,38707,38708,38710);
+DELETE FROM spell_template        WHERE entry   IN (38700,38701,38702,38703,38704,38705,38706,38707,38708,38710,38711);
+DELETE FROM skill_line_ability    WHERE spell_id IN (38700,38701,38702,38703,38704,38705,38706,38707,38708,38710,38711);   -- GENERAL tab on purpose
+DELETE FROM playercreateinfo_spell WHERE spell  IN (38700,38701,38702,38703,38704,38705,38706,38707,38708,38710,38711);
 
 -- Call Warrior Master    -> creature 2600200  (class 1 only)
 DROP TEMPORARY TABLE IF EXISTS tmp_s;
@@ -274,9 +274,30 @@ INSERT INTO playercreateinfo_spell (race, class, spell, note)
 INSERT IGNORE INTO tw_char.character_spell (guid, spell, active, disabled)
   SELECT guid, 38710, 1, 0 FROM tw_char.characters;
 
+-- Call Challenge Master  -> creature 2600401
+DROP TEMPORARY TABLE IF EXISTS tmp_s;
+CREATE TEMPORARY TABLE tmp_s LIKE spell_template;
+INSERT INTO tmp_s SELECT * FROM spell_template WHERE entry = 13262;
+UPDATE tmp_s SET
+  entry = 38711, name = 'Call Challenge Master', nameSubtext = '',
+  description = 'Summons the Challenge Master for 5 minutes. She teaches the optional challenges.',
+  effect1 = 3, effect2 = 0, effect3 = 0,        -- DUMMY; the Lua script spawns it
+  effectItemType1 = 0, effectTriggerSpell1 = 0,
+  Targets = 0, effectImplicitTargetA1 = 1, effectImplicitTargetB1 = 0,
+  spellLevel = 1, baseLevel = 1, manaCost = 0, powerType = 0,
+  RecoveryTime = 0, categoryRecoveryTime = 0,
+  reagent1 = 0, reagentCount1 = 0, reagent2 = 0, reagentCount2 = 0,
+  EquippedItemClass = -1, RequiresSpellFocus = 0, spellIconId = 1662;
+INSERT INTO spell_template SELECT * FROM tmp_s;
+DROP TEMPORARY TABLE tmp_s;
+INSERT INTO playercreateinfo_spell (race, class, spell, note)
+  SELECT DISTINCT race, class, 38711, 'TurtleMod: summon' FROM playercreateinfo;
+INSERT IGNORE INTO tw_char.character_spell (guid, spell, active, disabled)
+  SELECT guid, 38711, 1, 0 FROM tw_char.characters;
+
 -- ---------------------------------------------------------------------------------------
-SELECT entry, name, spellIconId FROM spell_template WHERE entry IN (38700,38701,38702,38703,38704,38705,38706,38707,38708,38710) ORDER BY entry;
+SELECT entry, name, spellIconId FROM spell_template WHERE entry IN (38700,38701,38702,38703,38704,38705,38706,38707,38708,38710,38711) ORDER BY entry;
 SELECT entry, name, npc_flags FROM creature_template WHERE entry = 2600400;
 SELECT s.name, COUNT(*) AS granted FROM tw_char.character_spell cs
   JOIN spell_template s ON s.entry = cs.spell
-  WHERE cs.spell IN (38700,38701,38702,38703,38704,38705,38706,38707,38708,38710) GROUP BY s.name ORDER BY s.name;
+  WHERE cs.spell IN (38700,38701,38702,38703,38704,38705,38706,38707,38708,38710,38711) GROUP BY s.name ORDER BY s.name;

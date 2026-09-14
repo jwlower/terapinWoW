@@ -88,6 +88,11 @@ Discipline / Holy / Shadow Magic Buff (38112–38114) 🧪 — placeholder only.
 <summary><b>Shaman</b></summary>
 
 Elemental Combat / Enhancement / Restoration Buff (38115–38117) 🧪 — placeholder only.
+
+🟨 **Planned: totems as relics.** Totem spells currently need a totem *item* in your bags.
+The intent is to drop that requirement and make totems **equippable relics** in the slot
+shamans otherwise waste on a ranged weapon. Confirmed possible on this build — `INVTYPE_RELIC`
+is handled at `Player.cpp:10494` and 65 items already use it. See the roadmap.
 </details>
 
 <details>

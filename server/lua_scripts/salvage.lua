@@ -1,28 +1,30 @@
--- Salvage: break a weapon or piece of armour back down into materials.
+-- Salvage: break gear back down into materials.
 --
 -- Universal and free. Any class, any profession, known from level 1 - no skill requirement
 -- and no reagent cost.
 --
--- HOW IT IS HOOKED
---   PLAYER_EVENT_ON_SPELL_CAST is a GLOBAL hook - it fires for every spell cast by any
---   player, with no entry key. The alternative, ITEM_EVENT_ON_DUMMY_EFFECT, is keyed by the
---   target item's entry (Eluna/hooks/ItemHooks.cpp), which would mean registering the hook
---   for all 14,937 weapons and armour pieces individually.
---
---   Spell:GetTarget() returns the item when the spell carries an item target
---   (SpellMethods.h -> m_targets.GetItemTarget()), which is what makes this work.
+-- WHAT IT ACCEPTS
+--   Weapons, all armour, jewellery (rings, necks, trinkets), shields and held items, from
+--   poor quality through epic. Equipped items are refused so a misclick cannot eat what you
+--   are wearing; soulbound is allowed, since that is most of what anyone wants to salvage.
 --
 -- WHAT IT RETURNS
---   Material type follows the item's own class and subclass - plate and mail give bars,
---   leather and mail-ish give leather, cloth gives cloth - and the TIER follows item level,
---   so a level 40 breastplate yields Mithril rather than Copper.
+--   A BASE material chosen by what the item is made of, at a tier chosen by its item level,
+--   plus RARITY BONUSES for green and better:
 --
---   Amount scales with quality, per the roadmap:
---       white  0-2      green  1-5      blue  2-6      purple  3-8
+--     plate / mail / shields / weapons -> metal bars
+--     leather                          -> leather
+--     cloth, shirts, tabards           -> cloth
+--     rings / necks / trinkets         -> gems, plus a precious metal bar once worthwhile
 --
--- SAFETY
---   Refuses equipped items, so a misclick cannot eat the weapon you are holding. Soulbound
---   items ARE allowed - those are most of what anyone wants to salvage.
+--     green and up  -> + enchanting dust
+--     blue and up   -> + a magic essence
+--     epic          -> + an enchanting shard
+--
+--   Jewellery is identified by INVENTORY TYPE, not by subclass. Armour subclass 0 is not
+--   jewellery: measured against this database it is 691 rings, 440 necks and 424 trinkets,
+--   but also 354 held items, 149 shirts and 83 tabards. Only inventory types 2 (neck),
+--   11 (finger) and 12 (trinket) are actually jewellery.
 --
 -- WHY THE WORK IS DEFERRED BY A TICK  (this crashed the server before)
 --   PLAYER_EVENT_ON_SPELL_CAST fires from Spell::prepare (Spell.cpp:3884) - PART WAY
@@ -32,36 +34,25 @@
 --
 --   Destroying the item inside the hook therefore pulls the rug out from under the running
 --   spell. Worse, it is INTERMITTENT: Player::DestroyItem ends in SetState(ITEM_REMOVED),
---   and Item::SetState (Item.cpp:802) reads
---
---       if (uState == ITEM_NEW && state == ITEM_REMOVED) { ...; delete this; return; }
---
---   so an item that has not yet been saved to the database - anything freshly looted - is
---   FREED ON THE SPOT, and the spell then dereferences freed memory. An item that had
---   already been saved is merely detached and the same code appears to work fine. That is
---   why this survived testing and then crashed with an ACCESS_VIOLATION later.
---
---   The fix: read the item's properties in the hook (reads are harmless), then do the
---   destroy and the grant from a one-shot timed event on a later world tick, by which
---   point the Spell object is long gone. Timed events registered on a WorldObject are
---   cancelled automatically when it goes away, so a logout in between is safe.
+--   and Item::SetState (Item.cpp:802) deletes the item outright when its state is still
+--   ITEM_NEW - anything freshly looted - so the spell then dereferences freed memory. An
+--   item already saved to the database is merely detached and the same code appears to work
+--   fine. That is why this survived testing and then crashed with an ACCESS_VIOLATION.
 --
 -- WHY THE LINK IS REBUILT
---   LuaItem::GetItemLink returns the FRENCH name. It does
---       if (ItemLocale const* il = GetItemLocale(id)) name = il->Name[locale];
---   which overrides the English name whenever ANY locale row exists, and indexes Name[]
---   with a raw LocaleConstant. Those are different spaces: ObjectMgr::GetOrNewIndexForLocale
---   returns -1 for enUS and packs the other locales densely in first-seen order, so with
---   French rows in `locales_item`, index 0 IS French. Asking for English hands you French.
---   Item:GetName() reads Name1 directly and has no such problem, so we keep the link that
---   the client already renders correctly and swap only the bracketed name.
+--   LuaItem::GetItemLink returns the FRENCH name: it overrides the English name whenever
+--   ANY locales_item row exists, and indexes Name[] with a raw LocaleConstant.
+--   ObjectMgr::GetOrNewIndexForLocale returns -1 for enUS and packs the other locales
+--   densely in first-seen order, so with French rows loaded, index 0 IS French.
 
 local SALVAGE_SPELL = 38600
 
--- Item classes
 local CLASS_WEAPON, CLASS_ARMOR = 2, 4
--- Armour subclasses
-local ARMOR_CLOTH, ARMOR_LEATHER, ARMOR_MAIL, ARMOR_PLATE = 1, 2, 3, 4
+local ARMOR_MISC, ARMOR_CLOTH, ARMOR_LEATHER, ARMOR_MAIL, ARMOR_PLATE = 0, 1, 2, 3, 4
+local ARMOR_SHIELD = 6
+
+local JEWELLERY = { [2] = true, [11] = true, [12] = true }   -- neck, finger, trinket
+local CLOTHLIKE = { [4] = true, [19] = true, [20] = true }   -- shirt, tabard, robe
 
 -- tier tables: {minimum item level, item entry}, highest first so the first match wins
 local BARS = {
@@ -86,13 +77,62 @@ local CLOTH = {
     { 15, 2592  },  -- Wool Cloth
     { 0,  2589  },  -- Linen Cloth
 }
+local GEMS = {
+    { 60, 12800 },  -- Azerothian Diamond
+    { 55, 12361 },  -- Blue Sapphire
+    { 50, 12799 },  -- Large Opal
+    { 45, 7910  },  -- Star Ruby
+    { 40, 7909  },  -- Aquamarine
+    { 35, 1529  },  -- Jade
+    { 30, 3864  },  -- Citrine
+    { 25, 1206  },  -- Moss Agate
+    { 20, 1705  },  -- Lesser Moonstone
+    { 15, 1210  },  -- Shadowgem
+    { 8,  774   },  -- Malachite
+    { 0,  818   },  -- Tigerseye
+}
+local PRECIOUS = {
+    { 45, 6037 },   -- Truesilver Bar
+    { 30, 3577 },   -- Gold Bar
+    { 0,  2842 },   -- Silver Bar
+}
+local DUST = {
+    { 55, 16204 },  -- Illusion Dust
+    { 45, 11176 },  -- Dream Dust
+    { 35, 11137 },  -- Vision Dust
+    { 25, 11083 },  -- Soul Dust
+    { 0,  10940 },  -- Strange Dust
+}
+local ESSENCE = {
+    { 55, 16203 },  -- Greater Eternal Essence
+    { 50, 16202 },  -- Lesser Eternal Essence
+    { 45, 11175 },  -- Greater Nether Essence
+    { 40, 11174 },  -- Lesser Nether Essence
+    { 35, 11135 },  -- Greater Mystic Essence
+    { 30, 11134 },  -- Lesser Mystic Essence
+    { 25, 11082 },  -- Greater Astral Essence
+    { 20, 10998 },  -- Lesser Astral Essence
+    { 10, 10939 },  -- Greater Magic Essence
+    { 0,  10938 },  -- Lesser Magic Essence
+}
+local SHARD = {
+    { 55, 14344 },  -- Large Brilliant Shard
+    { 50, 14343 },  -- Small Brilliant Shard
+    { 45, 11178 },  -- Large Radiant Shard
+    { 40, 11177 },  -- Small Radiant Shard
+    { 35, 11139 },  -- Large Glowing Shard
+    { 30, 11138 },  -- Small Glowing Shard
+    { 25, 11084 },  -- Large Glimmering Shard
+    { 0,  10978 },  -- Small Glimmering Shard
+}
 
--- quality -> {min, max} returned
+-- quality -> { base min, base max, dust, essence, shard }
 local YIELD = {
-    [1] = { 0, 2 },   -- white
-    [2] = { 1, 5 },   -- green
-    [3] = { 2, 6 },   -- blue
-    [4] = { 3, 8 },   -- purple
+    [0] = { 0, 1, false, false, false },   -- poor
+    [1] = { 0, 2, false, false, false },   -- white
+    [2] = { 1, 5, true,  false, false },   -- green
+    [3] = { 2, 6, true,  true,  false },   -- blue
+    [4] = { 3, 8, true,  true,  true  },   -- epic
 }
 
 local function PickTier(tiers, ilvl)
@@ -104,28 +144,34 @@ local function PickTier(tiers, ilvl)
     return tiers[#tiers][2]
 end
 
-local function MaterialFor(itemClass, subClass, ilvl)
+-- Returns the base material table, and whether a precious metal comes with it.
+local function BaseMaterial(itemClass, subClass, invType)
+    if JEWELLERY[invType] then
+        return GEMS, true
+    end
     if itemClass == CLASS_WEAPON then
-        return PickTier(BARS, ilvl)
+        return BARS, false
     end
     if itemClass == CLASS_ARMOR then
-        if subClass == ARMOR_CLOTH then return PickTier(CLOTH, ilvl) end
-        if subClass == ARMOR_LEATHER then return PickTier(LEATHER, ilvl) end
-        if subClass == ARMOR_MAIL or subClass == ARMOR_PLATE then
-            return PickTier(BARS, ilvl)
+        if subClass == ARMOR_CLOTH then return CLOTH, false end
+        if subClass == ARMOR_LEATHER then return LEATHER, false end
+        if subClass == ARMOR_MAIL or subClass == ARMOR_PLATE or subClass == ARMOR_SHIELD then
+            return BARS, false
         end
-        -- shields, librams, and the rest: metal
-        return PickTier(BARS, ilvl)
+        if subClass == ARMOR_MISC and CLOTHLIKE[invType] then
+            return CLOTH, false
+        end
+        return BARS, false
     end
-    return nil
+    return nil, false
 end
 
 -- Runs a tick after the cast, from a one-shot timed event. By now the Spell object that
 -- handed us the item is gone, so destroying the item is safe.
-local function Finish(player, guid, link, mat, amount)
-    -- Re-find it by guid. If it is no longer there - destroyed, traded, mailed in the
-    -- meantime - grant nothing. Bailing out is the safe direction to fail: awarding the
-    -- materials without consuming an item would be a duplication bug.
+local function Finish(player, guid, link, rewards)
+    -- Re-find it by guid. If it is gone - destroyed, traded, mailed in the meantime - grant
+    -- nothing. Bailing out is the safe direction to fail: awarding materials without
+    -- consuming an item would be a duplication bug.
     local item = player:GetItemByGUID(guid)
     if not item then
         player:SendBroadcastMessage("|cffff5555Salvage:|r that item is no longer in your bags.")
@@ -134,18 +180,25 @@ local function Finish(player, guid, link, mat, amount)
 
     player:RemoveItem(item, 1)
 
-    if amount > 0 then
-        player:AddItem(mat, amount)
+    local given = 0
+    for i = 1, #rewards do
+        local entry, count = rewards[i][1], rewards[i][2]
+        if count > 0 then
+            player:AddItem(entry, count)
+            given = given + count
+        end
+    end
+
+    if given > 0 then
         player:SendBroadcastMessage(string.format(
-            "|cff33ff99Salvage:|r %s yielded %d material(s).", link, amount))
+            "|cff33ff99Salvage:|r %s yielded %d material(s).", link, given))
     else
-        -- A white item can legitimately produce nothing. Say so rather than leaving the
-        -- player wondering whether the spell failed.
+        -- A poor or white item can legitimately produce nothing. Say so rather than leaving
+        -- the player wondering whether the spell failed.
         player:SendBroadcastMessage(string.format(
             "|cff33ff99Salvage:|r %s came apart into nothing usable.", link))
     end
 end
-
 
 local function OnSpellCast(event, player, spell, skipCheck)
     if spell:GetEntry() ~= SALVAGE_SPELL then
@@ -160,13 +213,14 @@ local function OnSpellCast(event, player, spell, skipCheck)
         return
     end
 
-    local quality = item:GetQuality()
-    local ilvl = item:GetItemLevel()
+    local quality   = item:GetQuality()
+    local ilvl      = item:GetItemLevel()
     local itemClass = item:GetClass()
-    local subClass = item:GetSubClass()
+    local subClass  = item:GetSubClass()
+    local invType   = item:GetInventoryType()
 
     if itemClass ~= CLASS_WEAPON and itemClass ~= CLASS_ARMOR then
-        player:SendBroadcastMessage("|cffff5555Salvage:|r only weapons and armour can be salvaged.")
+        player:SendBroadcastMessage("|cffff5555Salvage:|r only weapons, armour and jewellery can be salvaged.")
         return
     end
 
@@ -182,30 +236,40 @@ local function OnSpellCast(event, player, spell, skipCheck)
         return
     end
 
-    local mat = MaterialFor(itemClass, subClass, ilvl)
-    if not mat then
+    local baseTable, alsoPrecious = BaseMaterial(itemClass, subClass, invType)
+    if not baseTable then
         player:SendBroadcastMessage("|cffff5555Salvage:|r nothing useful in that.")
         return
     end
 
-    local amount = math.random(band[1], band[2])
+    local rewards = {}
+    rewards[#rewards + 1] = { PickTier(baseTable, ilvl), math.random(band[1], band[2]) }
 
-    -- Keep the link the client already renders, but put the English name back in it.
-    -- A function replacement rather than a string one, so a "%" in a name cannot be read
-    -- as a gsub capture escape.
+    -- Jewellery gives a precious metal alongside its gem, but only once it is worth
+    -- something - a level 3 copper ring should not hand out silver.
+    if alsoPrecious and ilvl >= 15 then
+        rewards[#rewards + 1] = { PickTier(PRECIOUS, ilvl), 1 }
+    end
+
+    if band[3] then rewards[#rewards + 1] = { PickTier(DUST, ilvl), math.random(1, 2) } end
+    if band[4] then rewards[#rewards + 1] = { PickTier(ESSENCE, ilvl), 1 } end
+    if band[5] then rewards[#rewards + 1] = { PickTier(SHARD, ilvl), 1 } end
+
+    -- Keep the link the client already renders, but put the English name back in it. A
+    -- function replacement rather than a string one, so a percent sign in a name cannot be
+    -- read as a gsub capture escape.
     local name = item:GetName()
     local link = item:GetItemLink():gsub("%[.-%]", function() return "[" .. name .. "]" end, 1)
 
     -- Identify the exact item rather than its entry, so a player holding two of the same
-    -- thing loses the one they actually clicked. Eluna pushes ObjectGuid BY VALUE
-    -- (LuaEngine.cpp:495), so this stays valid to hold across ticks even though the Item
-    -- behind it may not.
+    -- thing loses the one they clicked. Eluna pushes ObjectGuid BY VALUE
+    -- (LuaEngine.cpp:495), so a guid is safe to hold across ticks; an Item* is not.
     local guid = item:GetGUID()
 
     -- 100 ms: one world tick is enough, and the delay is imperceptible. See the header for
     -- why this cannot run inline.
     player:RegisterEvent(function(eventId, delay, repeats, pl)
-        Finish(pl, guid, link, mat, amount)
+        Finish(pl, guid, link, rewards)
     end, 100, 1)
 end
 

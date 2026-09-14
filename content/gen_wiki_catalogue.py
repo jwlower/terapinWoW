@@ -24,14 +24,16 @@ def q(sql):
 
 spells = q("SELECT entry,name,effect1,LEFT(REPLACE(description,'|','/'),90) "
            "FROM tw_world.spell_template WHERE entry BETWEEN 38000 AND 38999 ORDER BY entry;")
-items = q("SELECT entry,name,class,subclass,item_level,required_level "
+items = q("SELECT entry,name,class,subclass,item_level,required_level,Quality "
           "FROM tw_world.item_template WHERE entry BETWEEN 90000 AND 90999 ORDER BY entry;")
 if not spells or not items:
     raise SystemExit("no rows returned - is the database up on port 3307?")
 
 SUBCLASS = {  # item class 2 = weapon, 4 = armour
-    (2, 5): "Two-hand mace", (2, 6): "Polearm", (2, 13): "Fist weapon",
-    (2, 16): "Thrown", (2, 18): "Crossbow", (4, 6): "Shield",
+    (2, 0): "One-hand axe",  (2, 1): "Two-hand axe",  (2, 4): "One-hand mace",
+    (2, 5): "Two-hand mace", (2, 6): "Polearm",       (2, 7): "One-hand sword",
+    (2, 8): "Two-hand sword",(2, 13): "Fist weapon",  (2, 15): "Dagger",
+    (2, 16): "Thrown",       (2, 18): "Crossbow",     (4, 6): "Shield",
 }
 
 BANDS = [
@@ -107,40 +109,51 @@ w("rewards of the same level.\n")
 
 groups = collections.OrderedDict()
 for i in items:
-    entry, name, cls, sub, ilvl, req = i
+    entry, name, cls, sub, ilvl, req, qual = i
     kind = SUBCLASS.get((int(cls), int(sub)), "class %s/%s" % (cls, sub))
     shape = name.split()[-1] if kind == "Shield" else kind
     groups.setdefault(shape, []).append((int(entry), name, int(ilvl), int(req)))
 
-w("### Progression ladder\n")
-w("Shield required levels are derived as `item_level - 5`, consistent across all three")
-w("shapes. **Weapons are not consistent with them**: Copper and Bronze use -5, but Iron,")
-w("Mithril and Thorium use -6, so a weapon unlocks one level before the shield of the same")
-w("item level. Harmless, but unintended - the two generators were written separately and")
-w("only shields were later given an explicit rule.")
+w("### Progression ladders")
 w("")
-w("**Weapons also have no Steel tier.** Steel was added to the shield line and never")
-w("back-filled to weapons, which is why that column is empty for them below.")
+w("Two separate ladders, because they are different tiers of content and merging them")
+w("hides both. Greens are the designed pieces with stats; whites are the plain")
+w("damage-and-speed tier that fills every gap.")
 w("")
-w("| line | " + " | ".join(["Copper", "Bronze", "Iron", "Steel", "Mithril", "Thorium"]) + " |")
-w("|---|---|---|---|---|---|---|")
-TIERS = ["Copper", "Bronze", "Iron", "Steel", "Mithril", "Thorium"]
-for shape, rows in groups.items():
-    by_tier = {}
-    for entry, name, ilvl, req in rows:
-        for t in TIERS:
-            if name.startswith(t):
-                by_tier[t] = req
-    if not by_tier:
+
+for want_q, label, note in (
+    (2, "Green craftables", "Stat-carrying pieces. Shields use `item_level - 5` throughout; "
+                            "the older weapons use -5 for Copper and Bronze but -6 above that, "
+                            "and have no Steel tier - both unintended, from generators written "
+                            "separately."),
+    (1, "White craftables", "One per weapon type per 5 levels, required level 5 to 60. No stats: "
+                            "pure damage and speed, on a DPS curve pooled per weapon family so "
+                            "every two-hander of a tier matches."),
+):
+    picked = [i for i in items if int(i[6]) == want_q]
+    if not picked:
         continue
-    cells = [("lvl %d" % by_tier[t]) if t in by_tier else "—" for t in TIERS]
-    w("| **%s** | %s |" % (shape, " | ".join(cells)))
-w("")
+    bykind = collections.OrderedDict()
+    for entry, name, cls, sub, ilvl, req, qual in picked:
+        kind = SUBCLASS.get((int(cls), int(sub)), "class %s/%s" % (cls, sub))
+        if kind == "Shield":
+            kind = name.split()[-1]
+        bykind.setdefault(kind, []).append(int(req))
+    w("#### %s" % label)
+    w("")
+    w(note)
+    w("")
+    w("| line | items | required levels |")
+    w("|---|---|---|")
+    for kind, reqs in bykind.items():
+        reqs = sorted(set(reqs))
+        w("| **%s** | %d | %s |" % (kind, len(reqs), ", ".join(str(r) for r in reqs)))
+    w("")
 
 w("### Full list\n")
 w("| id | item | type | ilvl | req |")
 w("|---|---|---|---|---|")
-for entry, name, cls, sub, ilvl, req in items:
+for entry, name, cls, sub, ilvl, req, qual in items:
     kind = SUBCLASS.get((int(cls), int(sub)), "class %s/%s" % (cls, sub))
     w("| %s | %s | %s | %s | %s |" % (entry, name, kind, ilvl, req))
 w("")

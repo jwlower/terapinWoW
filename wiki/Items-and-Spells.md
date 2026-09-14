@@ -15,7 +15,7 @@ Custom IDs live in reserved blocks so they never collide with Turtle's own conte
 | **38400-38499** | Thrown abilities | 4 |
 | **38500-38599** | Blacksmithing shield recipes | 36 |
 | **38600-38699** | Universal utility spells | 2 |
-| **90000-90999** | custom items | 34 |
+| **90000-90999** | custom items | 166 |
 
 > ### The hard ceiling ⛔
 > **Custom spell IDs must stay below 60000.** `SMSG_INITIAL_SPELLS` packs the player's
@@ -107,27 +107,45 @@ Every one is **crafted by Blacksmithing** - none drop. Quality is uncommon (gree
 throughout: the stat budgets are deliberately modest so craftables do not outclass quest
 rewards of the same level.
 
-### Progression ladder
+### Progression ladders
 
-Shield required levels are derived as `item_level - 5`, consistent across all three
-shapes. **Weapons are not consistent with them**: Copper and Bronze use -5, but Iron,
-Mithril and Thorium use -6, so a weapon unlocks one level before the shield of the same
-item level. Harmless, but unintended - the two generators were written separately and
-only shields were later given an explicit rule.
+Two separate ladders, because they are different tiers of content and merging them
+hides both. Greens are the designed pieces with stats; whites are the plain
+damage-and-speed tier that fills every gap.
 
-**Weapons also have no Steel tier.** Steel was added to the shield line and never
-back-filled to weapons, which is why that column is empty for them below.
+#### Green craftables
 
-| line | Copper | Bronze | Iron | Steel | Mithril | Thorium |
-|---|---|---|---|---|---|---|
-| **Thrown** | lvl 5 | lvl 20 | lvl 32 | — | lvl 46 | lvl 57 |
-| **Crossbow** | lvl 5 | lvl 20 | lvl 32 | — | lvl 46 | lvl 57 |
-| **Polearm** | lvl 5 | lvl 20 | lvl 32 | — | — | — |
-| **Fist weapon** | — | — | — | — | lvl 46 | — |
-| **Two-hand mace** | — | — | lvl 32 | — | — | — |
-| **Bulwark** | lvl 5 | lvl 20 | lvl 33 | lvl 41 | lvl 47 | lvl 58 |
-| **Wardingshield** | lvl 5 | lvl 20 | lvl 33 | lvl 41 | lvl 47 | lvl 58 |
-| **Roundshield** | lvl 5 | lvl 20 | lvl 33 | lvl 41 | lvl 47 | lvl 58 |
+Stat-carrying pieces. Shields use `item_level - 5` throughout; the older weapons use -5 for Copper and Bronze but -6 above that, and have no Steel tier - both unintended, from generators written separately.
+
+| line | items | required levels |
+|---|---|---|
+| **Shield** | 1 | 13 |
+| **Thrown** | 5 | 5, 20, 32, 46, 57 |
+| **Crossbow** | 5 | 5, 20, 32, 46, 57 |
+| **Polearm** | 3 | 5, 20, 32 |
+| **Fist weapon** | 1 | 46 |
+| **Two-hand mace** | 1 | 32 |
+| **Bulwark** | 6 | 5, 20, 33, 41, 47, 58 |
+| **Wardingshield** | 6 | 5, 20, 33, 41, 47, 58 |
+| **Roundshield** | 6 | 5, 20, 33, 41, 47, 58 |
+
+#### White craftables
+
+One per weapon type per 5 levels, required level 5 to 60. No stats: pure damage and speed, on a DPS curve pooled per weapon family so every two-hander of a tier matches.
+
+| line | items | required levels |
+|---|---|---|
+| **One-hand axe** | 12 | 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60 |
+| **Two-hand axe** | 12 | 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60 |
+| **One-hand mace** | 12 | 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60 |
+| **Two-hand mace** | 12 | 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60 |
+| **Polearm** | 12 | 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60 |
+| **One-hand sword** | 12 | 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60 |
+| **Two-hand sword** | 12 | 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60 |
+| **Fist weapon** | 12 | 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60 |
+| **Dagger** | 12 | 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60 |
+| **Thrown** | 12 | 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60 |
+| **Crossbow** | 12 | 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60 |
 
 ### Full list
 
@@ -167,6 +185,138 @@ back-filled to weapons, which is why that column is empty for them below.
 | 90155 | Steel Roundshield | Shield | 46 | 41 |
 | 90156 | Mithril Roundshield | Shield | 52 | 47 |
 | 90157 | Thorium Roundshield | Shield | 63 | 58 |
+| 90200 | Copper Hatchet | One-hand axe | 10 | 5 |
+| 90201 | Heavy Copper Hatchet | One-hand axe | 15 | 10 |
+| 90202 | Bronze Hatchet | One-hand axe | 20 | 15 |
+| 90203 | Heavy Bronze Hatchet | One-hand axe | 25 | 20 |
+| 90204 | Iron Hatchet | One-hand axe | 30 | 25 |
+| 90205 | Heavy Iron Hatchet | One-hand axe | 35 | 30 |
+| 90206 | Steel Hatchet | One-hand axe | 40 | 35 |
+| 90207 | Heavy Steel Hatchet | One-hand axe | 45 | 40 |
+| 90208 | Mithril Hatchet | One-hand axe | 50 | 45 |
+| 90209 | Heavy Mithril Hatchet | One-hand axe | 55 | 50 |
+| 90210 | Thorium Hatchet | One-hand axe | 60 | 55 |
+| 90211 | Heavy Thorium Hatchet | One-hand axe | 65 | 60 |
+| 90212 | Copper Waraxe | Two-hand axe | 10 | 5 |
+| 90213 | Heavy Copper Waraxe | Two-hand axe | 15 | 10 |
+| 90214 | Bronze Waraxe | Two-hand axe | 20 | 15 |
+| 90215 | Heavy Bronze Waraxe | Two-hand axe | 25 | 20 |
+| 90216 | Iron Waraxe | Two-hand axe | 30 | 25 |
+| 90217 | Heavy Iron Waraxe | Two-hand axe | 35 | 30 |
+| 90218 | Steel Waraxe | Two-hand axe | 40 | 35 |
+| 90219 | Heavy Steel Waraxe | Two-hand axe | 45 | 40 |
+| 90220 | Mithril Waraxe | Two-hand axe | 50 | 45 |
+| 90221 | Heavy Mithril Waraxe | Two-hand axe | 55 | 50 |
+| 90222 | Thorium Waraxe | Two-hand axe | 60 | 55 |
+| 90223 | Heavy Thorium Waraxe | Two-hand axe | 65 | 60 |
+| 90224 | Copper Cudgel | One-hand mace | 10 | 5 |
+| 90225 | Heavy Copper Cudgel | One-hand mace | 15 | 10 |
+| 90226 | Bronze Cudgel | One-hand mace | 20 | 15 |
+| 90227 | Heavy Bronze Cudgel | One-hand mace | 25 | 20 |
+| 90228 | Iron Cudgel | One-hand mace | 30 | 25 |
+| 90229 | Heavy Iron Cudgel | One-hand mace | 35 | 30 |
+| 90230 | Steel Cudgel | One-hand mace | 40 | 35 |
+| 90231 | Heavy Steel Cudgel | One-hand mace | 45 | 40 |
+| 90232 | Mithril Cudgel | One-hand mace | 50 | 45 |
+| 90233 | Heavy Mithril Cudgel | One-hand mace | 55 | 50 |
+| 90234 | Thorium Cudgel | One-hand mace | 60 | 55 |
+| 90235 | Heavy Thorium Cudgel | One-hand mace | 65 | 60 |
+| 90236 | Copper Sledge | Two-hand mace | 10 | 5 |
+| 90237 | Heavy Copper Sledge | Two-hand mace | 15 | 10 |
+| 90238 | Bronze Sledge | Two-hand mace | 20 | 15 |
+| 90239 | Heavy Bronze Sledge | Two-hand mace | 25 | 20 |
+| 90240 | Iron Sledge | Two-hand mace | 30 | 25 |
+| 90241 | Heavy Iron Sledge | Two-hand mace | 35 | 30 |
+| 90242 | Steel Sledge | Two-hand mace | 40 | 35 |
+| 90243 | Heavy Steel Sledge | Two-hand mace | 45 | 40 |
+| 90244 | Mithril Sledge | Two-hand mace | 50 | 45 |
+| 90245 | Heavy Mithril Sledge | Two-hand mace | 55 | 50 |
+| 90246 | Thorium Sledge | Two-hand mace | 60 | 55 |
+| 90247 | Heavy Thorium Sledge | Two-hand mace | 65 | 60 |
+| 90248 | Copper Halberd | Polearm | 10 | 5 |
+| 90249 | Heavy Copper Halberd | Polearm | 15 | 10 |
+| 90250 | Bronze Halberd | Polearm | 20 | 15 |
+| 90251 | Heavy Bronze Halberd | Polearm | 25 | 20 |
+| 90252 | Iron Halberd | Polearm | 30 | 25 |
+| 90253 | Heavy Iron Halberd | Polearm | 35 | 30 |
+| 90254 | Steel Halberd | Polearm | 40 | 35 |
+| 90255 | Heavy Steel Halberd | Polearm | 45 | 40 |
+| 90256 | Mithril Halberd | Polearm | 50 | 45 |
+| 90257 | Heavy Mithril Halberd | Polearm | 55 | 50 |
+| 90258 | Thorium Halberd | Polearm | 60 | 55 |
+| 90259 | Heavy Thorium Halberd | Polearm | 65 | 60 |
+| 90260 | Copper Shortblade | One-hand sword | 10 | 5 |
+| 90261 | Heavy Copper Shortblade | One-hand sword | 15 | 10 |
+| 90262 | Bronze Shortblade | One-hand sword | 20 | 15 |
+| 90263 | Heavy Bronze Shortblade | One-hand sword | 25 | 20 |
+| 90264 | Iron Shortblade | One-hand sword | 30 | 25 |
+| 90265 | Heavy Iron Shortblade | One-hand sword | 35 | 30 |
+| 90266 | Steel Shortblade | One-hand sword | 40 | 35 |
+| 90267 | Heavy Steel Shortblade | One-hand sword | 45 | 40 |
+| 90268 | Mithril Shortblade | One-hand sword | 50 | 45 |
+| 90269 | Heavy Mithril Shortblade | One-hand sword | 55 | 50 |
+| 90270 | Thorium Shortblade | One-hand sword | 60 | 55 |
+| 90271 | Heavy Thorium Shortblade | One-hand sword | 65 | 60 |
+| 90272 | Copper Greatblade | Two-hand sword | 10 | 5 |
+| 90273 | Heavy Copper Greatblade | Two-hand sword | 15 | 10 |
+| 90274 | Bronze Greatblade | Two-hand sword | 20 | 15 |
+| 90275 | Heavy Bronze Greatblade | Two-hand sword | 25 | 20 |
+| 90276 | Iron Greatblade | Two-hand sword | 30 | 25 |
+| 90277 | Heavy Iron Greatblade | Two-hand sword | 35 | 30 |
+| 90278 | Steel Greatblade | Two-hand sword | 40 | 35 |
+| 90279 | Heavy Steel Greatblade | Two-hand sword | 45 | 40 |
+| 90280 | Mithril Greatblade | Two-hand sword | 50 | 45 |
+| 90281 | Heavy Mithril Greatblade | Two-hand sword | 55 | 50 |
+| 90282 | Thorium Greatblade | Two-hand sword | 60 | 55 |
+| 90283 | Heavy Thorium Greatblade | Two-hand sword | 65 | 60 |
+| 90284 | Copper Grips | Fist weapon | 10 | 5 |
+| 90285 | Heavy Copper Grips | Fist weapon | 15 | 10 |
+| 90286 | Bronze Grips | Fist weapon | 20 | 15 |
+| 90287 | Heavy Bronze Grips | Fist weapon | 25 | 20 |
+| 90288 | Iron Grips | Fist weapon | 30 | 25 |
+| 90289 | Heavy Iron Grips | Fist weapon | 35 | 30 |
+| 90290 | Steel Grips | Fist weapon | 40 | 35 |
+| 90291 | Heavy Steel Grips | Fist weapon | 45 | 40 |
+| 90292 | Mithril Grips | Fist weapon | 50 | 45 |
+| 90293 | Heavy Mithril Grips | Fist weapon | 55 | 50 |
+| 90294 | Thorium Grips | Fist weapon | 60 | 55 |
+| 90295 | Heavy Thorium Grips | Fist weapon | 65 | 60 |
+| 90296 | Copper Dirk | Dagger | 10 | 5 |
+| 90297 | Heavy Copper Dirk | Dagger | 15 | 10 |
+| 90298 | Bronze Dirk | Dagger | 20 | 15 |
+| 90299 | Heavy Bronze Dirk | Dagger | 25 | 20 |
+| 90300 | Iron Dirk | Dagger | 30 | 25 |
+| 90301 | Heavy Iron Dirk | Dagger | 35 | 30 |
+| 90302 | Steel Dirk | Dagger | 40 | 35 |
+| 90303 | Heavy Steel Dirk | Dagger | 45 | 40 |
+| 90304 | Mithril Dirk | Dagger | 50 | 45 |
+| 90305 | Heavy Mithril Dirk | Dagger | 55 | 50 |
+| 90306 | Thorium Dirk | Dagger | 60 | 55 |
+| 90307 | Heavy Thorium Dirk | Dagger | 65 | 60 |
+| 90308 | Copper Throwing Knife | Thrown | 10 | 5 |
+| 90309 | Heavy Copper Throwing Knife | Thrown | 15 | 10 |
+| 90310 | Bronze Throwing Knife | Thrown | 20 | 15 |
+| 90311 | Heavy Bronze Throwing Knife | Thrown | 25 | 20 |
+| 90312 | Iron Throwing Knife | Thrown | 30 | 25 |
+| 90313 | Heavy Iron Throwing Knife | Thrown | 35 | 30 |
+| 90314 | Steel Throwing Knife | Thrown | 40 | 35 |
+| 90315 | Heavy Steel Throwing Knife | Thrown | 45 | 40 |
+| 90316 | Mithril Throwing Knife | Thrown | 50 | 45 |
+| 90317 | Heavy Mithril Throwing Knife | Thrown | 55 | 50 |
+| 90318 | Thorium Throwing Knife | Thrown | 60 | 55 |
+| 90319 | Heavy Thorium Throwing Knife | Thrown | 65 | 60 |
+| 90320 | Copper Handbow | Crossbow | 10 | 5 |
+| 90321 | Heavy Copper Handbow | Crossbow | 15 | 10 |
+| 90322 | Bronze Handbow | Crossbow | 20 | 15 |
+| 90323 | Heavy Bronze Handbow | Crossbow | 25 | 20 |
+| 90324 | Iron Handbow | Crossbow | 30 | 25 |
+| 90325 | Heavy Iron Handbow | Crossbow | 35 | 30 |
+| 90326 | Steel Handbow | Crossbow | 40 | 35 |
+| 90327 | Heavy Steel Handbow | Crossbow | 45 | 40 |
+| 90328 | Mithril Handbow | Crossbow | 50 | 45 |
+| 90329 | Heavy Mithril Handbow | Crossbow | 55 | 50 |
+| 90330 | Thorium Handbow | Crossbow | 60 | 55 |
+| 90331 | Heavy Thorium Handbow | Crossbow | 65 | 60 |
 
 ## Changes to vanilla content
 

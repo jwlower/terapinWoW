@@ -13,6 +13,7 @@ play**. One to four people who want to actually finish things — not a raid gui
 | [Professions](Professions) | Per-profession. Blacksmithing is the one with real new content. |
 | [Items and Spells](Items-and-Spells) | The catalogue — every custom ID, what it replaced, and why. |
 | [Dungeons](Dungeons) | Respawning bosses, no lockouts, one questgiver per dungeon. |
+| [Challenges](Challenges) | The ten opt-in challenge modes, and which three do nothing on this build. |
 | [Small Group Play](Small-Group-Play) | The whole point. What makes 1–4 players work, and what doesn't. |
 
 Design reasoning and feasibility live in [ROADMAP.md](../blob/main/ROADMAP.md); this wiki
