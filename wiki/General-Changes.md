@@ -96,6 +96,8 @@ Sources: `tuning-riding-tiers.sql`, `tuning-mount-purchase.sql`, `21-interact-wh
 | **Teleports** | All eight mage city teleports, for **every class**, General tab, level 1, free, no reagent. |
 | **Salvage** (38600) | Break any weapon or armour into bars, leather or cloth. Universal and free. |
 | **Talent reset** | Free, anywhere, self-service, for every player. |
+| **Call <Class> Master** (38700-38708) | Summons **your** class trainer for 5 minutes. One spell per class, taught only to that class. |
+| **Call Banker** (38710) | Summons a banker for 5 minutes. Unlike Strongbox it is a **physical NPC**, so in a duo one summon serves both players. |
 | **No repair** | Nothing takes durability damage and nothing ever breaks. |
 | **Profession cap** | Fixed — professions were stuck at 75. |
 | **Smelting** | Mithril now carries you to skill 230 before it greys, instead of dead-ending. |

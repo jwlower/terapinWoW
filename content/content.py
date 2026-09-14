@@ -756,3 +756,43 @@ SPELLS.append({
         "powerType": 0,
     },
 })
+
+
+# ---------------------------------------------------------------------------------------
+# Summonable services - one class-trainer call per class, plus a banker (38700-38710).
+#
+# Defined in summons.py and shared with gen_summons.py, so the client DBC and the server
+# SQL cannot disagree about ids, names or icons.
+#
+# Class gating happens at the GRANT, not here: sql/23 teaches each class spell only to its
+# own class. The DBC record itself is identical in shape for all ten.
+# ---------------------------------------------------------------------------------------
+import summons as _sm   # noqa: E402
+
+for _sid, _name, _desc, _icon, _npc, _cid in _sm.all_spells():
+    SPELLS.append({
+        "id": _sid,
+        "clone_from": _sm.CLONE_FROM,     # Disenchant, as Salvage and Strongbox use
+        "name": _name,
+        "rank": "",
+        "desc": _desc,
+        "overrides": {
+            "effect1": 3,                 # SPELL_EFFECT_DUMMY - summon_services.lua spawns it
+            "effect2": 0, "effect3": 0,
+            "itemType1": 0,
+            "trigger1": 0,
+            "Targets": 0,                 # takes no target
+            "target1": 1,                 # TARGET_UNIT_CASTER
+            "target2": 0,
+            "baseLevel": 1,
+            "spellLevel": 1,
+            "manaCost": 0,
+            "powerType": 0,
+            "RecoveryTime": 0,
+            "reagent1": 0, "reagentCount1": 0,
+            "reagent2": 0, "reagentCount2": 0,
+            "EquippedItemClass": 0xFFFFFFFF,
+            "RequiresSpellFocus": 0,
+            "icon": _icon,
+        },
+    })
