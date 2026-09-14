@@ -1,0 +1,33 @@
+diff --git a/src/game/Maps/Map.cpp b/src/game/Maps/Map.cpp
+index d633e6d..83fac0a 100644
+--- a/src/game/Maps/Map.cpp
++++ b/src/game/Maps/Map.cpp
+@@ -831,6 +831,28 @@ inline void Map::UpdateCells(uint32 map_diff)
+             };
+         m_motionThreads->processWorkload().wait();
+     }
++    else
++    {
++        // Run the same work on this thread when the pool is unavailable.
++        //
++        // WITHOUT THIS, EVERY QUEUED MOVEMENT UPDATE WAS SILENTLY DISCARDED by the
++        // unitsMvtUpdate.clear() below. The cell update immediately above has always had
++        // a synchronous fallback (UpdateActiveCellsSynch); motion had none.
++        //
++        // That is what broke creature chase and wandering on continents. Enabling Eluna
++        // forces Continents.MotionUpdate.Threads to 0 - deliberately, because a map's Lua
++        // state is single-threaded - so the pool never reaches READY, and from then on no
++        // creature's MotionMaster was ever updated.
++        //
++        // It matches every symptom: MoveChase fired and built a valid path (zero
++        // MoveSplineInitArgs::Validate failures, zero path-build errors) but the tick that
++        // would consume it never ran; waypoint patrol was unaffected because it does not
++        // go through UpdateMotionAsync; and only continents were affected, per the
++        // IsContinent() guard above.
++        for (auto it = unitsMvtUpdate.begin(); it != unitsMvtUpdate.end(); it++)
++            if ((*it)->IsInWorld())
++                (*it)->GetMotionMaster()->UpdateMotionAsync(diff);
++    }
+     unitsMvtUpdate.clear();
+ }
+ 

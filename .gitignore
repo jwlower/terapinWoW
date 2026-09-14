@@ -1,0 +1,47 @@
+# ---------------------------------------------------------------------------------------
+# NEVER COMMIT - credentials and personal data
+# ---------------------------------------------------------------------------------------
+# tw_logon holds account password hashes. tw_char holds characters. scripts/backup-db.ps1
+# writes here on purpose; this rule is what keeps those dumps off GitHub.
+backup/
+*.dump.sql
+*char*.sql
+*logon*.sql
+transfer-dumps/
+
+# A real deployment's config, if you ever change the credentials in server/conf.
+# The committed .conf files use localhost mangos/mangos defaults and no personal data.
+server/conf/*.local.conf
+
+# ---------------------------------------------------------------------------------------
+# Game data extracted from the client - 3.75 GB, and not ours to redistribute.
+# Regenerate with the extractors in server/bin (see README).
+# ---------------------------------------------------------------------------------------
+maps/
+vmaps/
+mmaps/
+dbc/
+*.mpq
+*.MPQ
+
+# ---------------------------------------------------------------------------------------
+# Build output and noise
+# ---------------------------------------------------------------------------------------
+out/
+logs/
+*.pdb
+*.log
+mangosd.exe.*
+*.bak-*
+*.before-*
+__pycache__/
+*.pyc
+*.pid
+
+# The WoW icon pack (8,628 PNGs) lives OUTSIDE this repo, at D:/Games/turtlewow/wowiconpack.
+# It is reference art for picking custom icons - the PNG -> BLP2 path in content/build.py -
+# not a dependency, and nothing here references it. At 8,636 files it was 99% of the repo's
+# file count for 0% of its content, which made git status and clones slow. These rules stop
+# it coming back if it is ever copied in again.
+wowiconpack/
+wowiconpack.zip

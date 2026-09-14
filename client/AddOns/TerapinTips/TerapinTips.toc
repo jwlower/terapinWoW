@@ -1,0 +1,10 @@
+## Interface: 11200
+## Title: TerapinTips
+## Notes: Vendor prices on item tooltips, and hold SHIFT to compare with equipped gear.
+## Version: 1.0
+
+prices.lua
+mounts.lua
+recipes.lua
+TerapinTips.lua
+dismount.lua

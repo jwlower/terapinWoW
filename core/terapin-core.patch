@@ -1,0 +1,158 @@
+Terapin core changes - regenerated 2026-09-13 15:28
+
+Apply from tortoise-oneclick-compiler/source with:  git apply terapin-core.patch
+
+  Map.cpp          synchronous fallback for motion updates - THE chase regression.
+                   Queued updates were discarded outright when the thread pool was
+                   unavailable, which Eluna causes by forcing the pool to zero.
+  ScriptMgr.h/.cpp Item overload for the dummy-effect dispatch.
+  SpellEffects.cpp routes an item-target dummy to that overload.
+  Unit.cpp         Unit::Attack dismounts instead of refusing, so a mounted player
+                   can start a fight. Upstream returned false, which meant you could
+                   not attack at all while mounted.
+  GameObject.h     GAMEOBJECT_TYPE_CHEST is usable mounted, so gathering a node no
+                   longer dismounts you at the LOOT step (Spell::SendLoot routes a
+                   chest through GameObject::Use).
+
+---8<--- patch begins ---8<---
+diff --git a/src/game/Maps/Map.cpp b/src/game/Maps/Map.cpp
+index d633e6d..83fac0a 100644
+--- a/src/game/Maps/Map.cpp
++++ b/src/game/Maps/Map.cpp
+@@ -831,6 +831,28 @@ inline void Map::UpdateCells(uint32 map_diff)
+             };
+         m_motionThreads->processWorkload().wait();
+     }
++    else
++    {
++        // Run the same work on this thread when the pool is unavailable.
++        //
++        // WITHOUT THIS, EVERY QUEUED MOVEMENT UPDATE WAS SILENTLY DISCARDED by the
++        // unitsMvtUpdate.clear() below. The cell update immediately above has always had
++        // a synchronous fallback (UpdateActiveCellsSynch); motion had none.
++        //
++        // That is what broke creature chase and wandering on continents. Enabling Eluna
++        // forces Continents.MotionUpdate.Threads to 0 - deliberately, because a map's Lua
++        // state is single-threaded - so the pool never reaches READY, and from then on no
++        // creature's MotionMaster was ever updated.
++        //
++        // It matches every symptom: MoveChase fired and built a valid path (zero
++        // MoveSplineInitArgs::Validate failures, zero path-build errors) but the tick that
++        // would consume it never ran; waypoint patrol was unaffected because it does not
++        // go through UpdateMotionAsync; and only continents were affected, per the
++        // IsContinent() guard above.
++        for (auto it = unitsMvtUpdate.begin(); it != unitsMvtUpdate.end(); it++)
++            if ((*it)->IsInWorld())
++                (*it)->GetMotionMaster()->UpdateMotionAsync(diff);
++    }
+     unitsMvtUpdate.clear();
+ }
+ 
+diff --git a/src/game/Objects/GameObject.h b/src/game/Objects/GameObject.h
+index ea3a716..2c8a39e 100644
+--- a/src/game/Objects/GameObject.h
++++ b/src/game/Objects/GameObject.h
+@@ -376,6 +376,17 @@ struct GameObjectInfo
+         switch (type)
+         {
+             case GAMEOBJECT_TYPE_MAILBOX: return true;
++            // TERAPIN: ore veins, herbs and treasure chests are all GAMEOBJECT_TYPE_CHEST,
++            // and this is the ONLY caller - GameObject::Use decides whether to dismount.
++            //
++            // Gathering already survives the cast (the gathering spells carry
++            // SPELL_ATTR_CASTABLE_WHILE_MOUNTED), but Spell::SendLoot then routes a chest
++            // through GameObject::Use, which threw the player off at the loot step. The
++            // cast worked and the mount vanished a moment later, which just looks broken.
++            //
++            // There is no chest.allowMounted to drive this from data - all 16 fields of the
++            // chest struct are spoken for - so it is a flat true.
++            case GAMEOBJECT_TYPE_CHEST: return true;
+             case GAMEOBJECT_TYPE_QUESTGIVER: return questgiver.allowMounted != 0;
+             case GAMEOBJECT_TYPE_TEXT: return text.allowMounted != 0;
+             case GAMEOBJECT_TYPE_GOOBER: return goober.allowMounted != 0;
+diff --git a/src/game/Objects/Unit.cpp b/src/game/Objects/Unit.cpp
+index 7cd0f15..07c76a8 100644
+--- a/src/game/Objects/Unit.cpp
++++ b/src/game/Objects/Unit.cpp
+@@ -5261,9 +5261,24 @@ bool Unit::Attack(Unit* victim, bool meleeAttack)
+     if (!IsAlive() || !victim->IsInWorld() || !victim->IsAlive())
+         return false;
+ 
+-    // player cannot attack in mount state
++    // TERAPIN: going for a swing is a deliberate commitment to a fight, so dismount and let
++    // the attack through instead of silently refusing it.
++    //
++    // Upstream returned false here, which meant a mounted player could not attack AT ALL -
++    // the click did nothing and gave no feedback. It also made
++    // AURA_INTERRUPT_FLAG_MELEE_ATTACK unreachable for players: that flag is processed at
++    // the end of Unit::AttackerStateUpdate, which can only run once an attack has started.
++    //
++    // Dismounting here, at attack INITIATION, is also better timing than dismounting on the
++    // first swing to land - no riding animation mid-fight while the weapon swings.
++    //
++    // Being attacked is untouched: this is Unit::Attack, the aggressor's side only, so
++    // riding away from a mob still works.
+     if (IsPlayer() && IsMounted())
+-        return false;
++    {
++        Unmount();
++        RemoveSpellsCausingAura(SPELL_AURA_MOUNTED);
++    }
+     
+     if (IsCreature() && !((Creature*)this)->CanHaveTarget())
+         return false;
+diff --git a/src/game/ScriptMgr.cpp b/src/game/ScriptMgr.cpp
+index 3366186..13caa8a 100644
+--- a/src/game/ScriptMgr.cpp
++++ b/src/game/ScriptMgr.cpp
+@@ -2369,6 +2369,18 @@ bool ScriptMgr::OnEffectDummy(WorldObject* pCaster, uint32 spellId, SpellEffectI
+     return false;
+ }
+ 
++bool ScriptMgr::OnEffectDummy(WorldObject* pCaster, uint32 spellId, SpellEffectIndex effIndex, Item* pTarget)
++{
++    // No native C++ script table for item dummies - this exists purely so Lua can act on an
++    // item the player has targeted. Mirrors the Creature and GameObject overloads below.
++#ifdef ENABLE_ELUNA
++    if (Eluna* e = pCaster->GetEluna())
++        e->OnDummyEffect(pCaster, spellId, effIndex, pTarget);
++#endif
++
++    return false;
++}
++
+ bool ScriptMgr::OnEffectDummy(WorldObject* pCaster, uint32 spellId, SpellEffectIndex effIndex, GameObject* pTarget)
+ {
+     Script* pTempScript = m_NPC_scripts[pTarget->GetGOInfo()->ScriptId];
+diff --git a/src/game/ScriptMgr.h b/src/game/ScriptMgr.h
+index 8edbef4..e33076f 100644
+--- a/src/game/ScriptMgr.h
++++ b/src/game/ScriptMgr.h
+@@ -1619,6 +1619,9 @@ class ScriptMgr
+         bool OnProcessEvent(uint32 eventId, Object* pSource, Object* pTarget, bool isStart);
+         bool OnEffectDummy(WorldObject* pCaster, uint32 spellId, SpellEffectIndex effIndex, Creature* pTarget);
+         bool OnEffectDummy(WorldObject* pCaster, uint32 spellId, SpellEffectIndex effIndex, GameObject* pTarget);
++        // Item targets had no dispatch at all. Eluna already provides the Item overload;
++        // this is the host-side bridge that was missing.
++        bool OnEffectDummy(WorldObject* pCaster, uint32 spellId, SpellEffectIndex effIndex, Item* pTarget);
+         bool OnAuraDummy(Aura const* pAura, bool apply);
+ 
+         typedef std::unordered_map<uint32, Script*> QuestScriptMap;
+diff --git a/src/game/Spells/SpellEffects.cpp b/src/game/Spells/SpellEffects.cpp
+index 236408b..2899d7f 100644
+--- a/src/game/Spells/SpellEffects.cpp
++++ b/src/game/Spells/SpellEffects.cpp
+@@ -1255,6 +1255,13 @@ void Spell::EffectDummy(SpellEffectIndex eff_idx)
+         sScriptMgr.OnEffectDummy(m_caster, m_spellInfo->Id, eff_idx, gameObjTarget);
+     else if (unitTarget && unitTarget->GetTypeId() == TYPEID_UNIT)
+         sScriptMgr.OnEffectDummy(m_caster, m_spellInfo->Id, eff_idx, (Creature*)unitTarget);
++    else if (itemTarget)
++        // Item targets were accepted by the guard at the top of this function but never
++        // dispatched to scripts, so a dummy spell cast ON AN ITEM reached nothing. Eluna
++        // already ships the Item overload (Eluna/hooks/ItemHooks.cpp); only this bridge
++        // was missing. Needed for anything that acts on an item the player points at -
++        // salvaging, for one.
++        sScriptMgr.OnEffectDummy(m_caster, m_spellInfo->Id, eff_idx, itemTarget);
+ }
+ 
+ void Spell::EffectTriggerSpell(SpellEffectIndex eff_idx)
