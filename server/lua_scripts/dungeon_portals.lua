@@ -31,7 +31,19 @@
 
 local STONE_RANGE = 1000      -- yards from the stone to the door it belongs to
 
-local PLAYER_EVENT_ON_CHAT     = 18
+local PLAYER_EVENT_ON_COMMAND     = 42
+
+-- WHY ON_COMMAND AND NOT ON_CHAT
+--   A message starting with '!' never reaches the chat hook. ChatHandler::ParseCommands
+--   (Chat.cpp:1790) treats a leading '!' or '.' as a COMMAND and consumes it, so the original
+--   version of this handler could never have fired - the player just got the core's own
+--   "There is no such command".
+--
+--   PLAYER_EVENT_ON_COMMAND (42) is dispatched from the CHAT_COMMAND_UNKNOWN case at
+--   Chat.cpp:1716, immediately BEFORE that message. Returning false marks the command handled
+--   and suppresses it; returning true lets the core answer as usual, which is correct for any
+--   command that is not ours. The text arrives with the '!' already stripped.
+
 local GAMEOBJECT_EVENT_ON_USE  = 14
 
 local SKILL_ADVENTURING = 795
@@ -108,9 +120,9 @@ end
 -- The list
 -- ---------------------------------------------------------------------------------------
 
-local function OnChat(event, player, msg)
-    if string.lower(msg) ~= "!portals" then
-        return
+local function OnCommand(event, player, command)
+    if not player or not command or string.lower(command) ~= "portals" then
+        return true                               -- not ours; let the core answer
     end
 
     local all = Portals()
@@ -139,7 +151,7 @@ local stones = TerapinMeetingStones or {}
 for _, entry in ipairs(stones) do
     RegisterGameObjectEvent(entry, GAMEOBJECT_EVENT_ON_USE, OnStoneUse)
 end
-RegisterPlayerEvent(PLAYER_EVENT_ON_CHAT, OnChat)
+RegisterPlayerEvent(PLAYER_EVENT_ON_COMMAND, OnCommand)
 
 print(string.format("[Terapin] dungeon_portals.lua loaded - %d dungeons, %d stone template(s)",
                     #Portals(), #stones))

@@ -39,7 +39,20 @@ local SPELL_EFFECT_CREATE_ITEM = 24
 
 local PLAYER_EVENT_ON_LOGIN      = 3
 local PLAYER_EVENT_ON_SPELL_CAST = 5
-local PLAYER_EVENT_ON_CHAT       = 18
+local PLAYER_EVENT_ON_COMMAND    = 42
+
+-- WHY ON_COMMAND AND NOT ON_CHAT
+--   `!batch 5` never reaches the chat hook. ChatHandler::ParseCommands (Chat.cpp:1790) treats
+--   a leading '!' or '.' as a COMMAND, not as speech, and consumes the message - so the first
+--   version of this script, which listened on PLAYER_EVENT_ON_CHAT, could never have fired.
+--   What the player saw was the core's own "There is no such command".
+--
+--   PLAYER_EVENT_ON_COMMAND (42) is dispatched from the CHAT_COMMAND_UNKNOWN case at
+--   Chat.cpp:1716, immediately BEFORE that message is sent. Returning false marks the command
+--   handled and suppresses it; returning true lets the core carry on and complain as usual,
+--   which is what should happen for a command that genuinely is not ours.
+--
+--   The text arrives with the leading '!' already stripped, so it reads "batch 5".
 
 -- Mirrors Player::SkillGainChance (Player.cpp:6933) and the live mangosd.conf. The core reads
 -- SkillChance.* and multiplies by 10 to get per-mille; these are those values already
@@ -294,10 +307,13 @@ end
 -- The command
 -- ---------------------------------------------------------------------------------------
 
-local function OnChat(event, player, msg)
-    local arg = string.match(string.lower(msg), "^!batch%s*(%d*)%s*$")
+local function OnCommand(event, player, command)
+    if not player or not command then
+        return true                              -- console; not ours
+    end
+    local arg = string.match(string.lower(command), "^batch%s*(%d*)%s*$")
     if not arg then
-        return
+        return true                              -- some other command; let the core answer
     end
 
     local guid = player:GetGUIDLow()
@@ -325,7 +341,7 @@ local function OnChat(event, player, msg)
     end
 
     Persist(guid, qty)                           -- best effort; see the note above
-    return false                                 -- swallow the message
+    return false                                 -- handled: suppress "no such command"
 end
 
 local function OnLogin(event, player)
@@ -339,7 +355,7 @@ local function OnLogin(event, player)
 end
 
 RegisterPlayerEvent(PLAYER_EVENT_ON_SPELL_CAST, OnSpellCast)
-RegisterPlayerEvent(PLAYER_EVENT_ON_CHAT, OnChat)
+RegisterPlayerEvent(PLAYER_EVENT_ON_COMMAND, OnCommand)
 RegisterPlayerEvent(PLAYER_EVENT_ON_LOGIN, OnLogin)
 
 print("[Terapin] batch_crafting.lua loaded - !batch <n>, max " .. MAX_BATCH)

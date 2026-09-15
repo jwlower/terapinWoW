@@ -49,7 +49,19 @@ local MAX_BAG_SLOTS = 36
 local ITEM_CLASS_CONTAINER = 1
 
 local PLAYER_EVENT_ON_LOGIN = 3
-local PLAYER_EVENT_ON_CHAT  = 18
+local PLAYER_EVENT_ON_COMMAND  = 42
+
+-- WHY ON_COMMAND AND NOT ON_CHAT
+--   A message starting with '!' never reaches the chat hook. ChatHandler::ParseCommands
+--   (Chat.cpp:1790) treats a leading '!' or '.' as a COMMAND and consumes it, so the original
+--   version of this handler could never have fired - the player just got the core's own
+--   "There is no such command".
+--
+--   PLAYER_EVENT_ON_COMMAND (42) is dispatched from the CHAT_COMMAND_UNKNOWN case at
+--   Chat.cpp:1716, immediately BEFORE that message. Returning false marks the command handled
+--   and suppresses it; returning true lets the core answer as usual, which is correct for any
+--   command that is not ours. The text arrives with the '!' already stripped.
+
 local PLAYER_EVENT_ON_REPOP = 35
 
 -- ---------------------------------------------------------------------------------------
@@ -261,9 +273,9 @@ local function OnLogin(event, player)
     end
 end
 
-local function OnChat(event, player, msg, msgType, lang)
-    if string.lower(msg) ~= "!oldschool" then
-        return
+local function OnCommand(event, player, command)
+    if not player or not command or string.lower(command) ~= "oldschool" then
+        return true                               -- not ours; let the core answer
     end
     if player:HasSpell(OLD_SCHOOL) then
         player:RemoveSpell(OLD_SCHOOL)
@@ -273,11 +285,11 @@ local function OnChat(event, player, msg, msgType, lang)
         player:SendBroadcastMessage(
             "|cffff2020Old School ON.|r Everything you carry and everything you wear is forfeit when you die.")
     end
-    return false                                 -- swallow the message
+    return false                                 -- handled
 end
 
 RegisterPlayerEvent(PLAYER_EVENT_ON_REPOP, OnRepop)
 RegisterPlayerEvent(PLAYER_EVENT_ON_LOGIN, OnLogin)
-RegisterPlayerEvent(PLAYER_EVENT_ON_CHAT, OnChat)
+RegisterPlayerEvent(PLAYER_EVENT_ON_COMMAND, OnCommand)
 
 print("[Terapin] old_school.lua loaded - spell " .. OLD_SCHOOL)

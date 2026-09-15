@@ -32,7 +32,19 @@
 local DISCOVER_RANGE = 70      -- yards from the landing spot that counts as "you are here"
 
 local PLAYER_EVENT_ON_LOGIN       = 3
-local PLAYER_EVENT_ON_CHAT        = 18
+local PLAYER_EVENT_ON_COMMAND        = 42
+
+-- WHY ON_COMMAND AND NOT ON_CHAT
+--   A message starting with '!' never reaches the chat hook. ChatHandler::ParseCommands
+--   (Chat.cpp:1790) treats a leading '!' or '.' as a COMMAND and consumes it, so the original
+--   version of this handler could never have fired - the player just got the core's own
+--   "There is no such command".
+--
+--   PLAYER_EVENT_ON_COMMAND (42) is dispatched from the CHAT_COMMAND_UNKNOWN case at
+--   Chat.cpp:1716, immediately BEFORE that message. Returning false marks the command handled
+--   and suppresses it; returning true lets the core answer as usual, which is correct for any
+--   command that is not ours. The text arrives with the '!' already stripped.
+
 local PLAYER_EVENT_ON_UPDATE_AREA = 47
 
 local function Inns()
@@ -107,9 +119,9 @@ end
 -- The list
 -- ---------------------------------------------------------------------------------------
 
-local function OnChat(event, player, msg)
-    if string.lower(msg) ~= "!inns" then
-        return
+local function OnCommand(event, player, command)
+    if not player or not command or string.lower(command) ~= "inns" then
+        return true                               -- not ours; let the core answer
     end
 
     local all = Inns()
@@ -133,7 +145,7 @@ local function OnChat(event, player, msg)
                 "  |cffffffff%s|r - %s%s", inn.name, inn.where, range))
         end
     end
-    return false                                 -- swallow the message
+    return false                                 -- handled
 end
 
 local function OnLogin(event, player)
@@ -141,7 +153,7 @@ local function OnLogin(event, player)
 end
 
 RegisterPlayerEvent(PLAYER_EVENT_ON_UPDATE_AREA, OnUpdateArea)
-RegisterPlayerEvent(PLAYER_EVENT_ON_CHAT, OnChat)
+RegisterPlayerEvent(PLAYER_EVENT_ON_COMMAND, OnCommand)
 RegisterPlayerEvent(PLAYER_EVENT_ON_LOGIN, OnLogin)
 
 print("[Terapin] inn_discovery.lua loaded - Adventuring skill " .. tostring(TerapinInnSkill or 795))

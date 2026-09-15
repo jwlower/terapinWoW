@@ -43,7 +43,17 @@ local REDUCTION_CAP  = 85
 local PLAYER_EVENT_ON_UPDATE_ZONE = 27
 local PLAYER_EVENT_ON_LOGIN       = 3
 local PLAYER_EVENT_ON_REPOP       = 35
-local PLAYER_EVENT_ON_CHAT        = 18
+local PLAYER_EVENT_ON_COMMAND     = 42
+
+-- WHY ON_COMMAND AND NOT ON_CHAT
+--   A message starting with '!' never reaches the chat hook. ChatHandler::ParseCommands
+--   (Chat.cpp:1790) treats a leading '!' or '.' as a COMMAND and consumes it, so this handler
+--   could never have fired - the player just got "There is no such command".
+--
+--   PLAYER_EVENT_ON_COMMAND (42) fires from the CHAT_COMMAND_UNKNOWN case at Chat.cpp:1716,
+--   just before that message. Returning false marks it handled; returning true lets the core
+--   answer as usual. The text arrives with the '!' already stripped.
+
 
 -- TERAPIN_DUNGEON_LEVELS comes from dungeon_levels.lua, generated from
 -- areatrigger_teleport.required_level. It loads first because the .toc-less lua_scripts
@@ -131,9 +141,9 @@ local function OnRepop(event, player)
     Apply(player)
 end
 
-local function OnChat(event, player, msg, msgType, lang)
-    if string.lower(msg) ~= "!scale" then
-        return
+local function OnCommand(event, player, command)
+    if not player or not command or string.lower(command) ~= "scale" then
+        return true                               -- not ours; let the core answer
     end
 
     if player:HasSpell(MARKER_SPELL) then
@@ -145,13 +155,13 @@ local function OnChat(event, player, msg, msgType, lang)
     end
 
     Apply(player)
-    return false        -- swallow the message so "!scale" is not broadcast to the zone
+    return false        -- handled: suppress "There is no such command"
 end
 
 RegisterPlayerEvent(PLAYER_EVENT_ON_UPDATE_ZONE, OnZone)
 RegisterPlayerEvent(PLAYER_EVENT_ON_LOGIN, OnLogin)
 RegisterPlayerEvent(PLAYER_EVENT_ON_REPOP, OnRepop)
-RegisterPlayerEvent(PLAYER_EVENT_ON_CHAT, OnChat)
+RegisterPlayerEvent(PLAYER_EVENT_ON_COMMAND, OnCommand)
 
 local n = 0
 for _ in pairs(LEVELS) do n = n + 1 end
