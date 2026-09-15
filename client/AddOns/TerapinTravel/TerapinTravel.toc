@@ -1,0 +1,9 @@
+## Interface: 11200
+## Title: |cff33ff99Terapin|r Travel
+## Author: Terapin
+## Notes: Pins every inn and dungeon you have discovered on the map. Requires pfQuest.
+## Version: 1.0.0
+## Dependencies: pfQuest
+
+data.lua
+TerapinTravel.lua

@@ -355,7 +355,7 @@ re-adding a mandatory item would undo that.
 
 ## Travel
 
-### Adventuring — ✅ Live (inns + dungeon portals) / 🟨 Planned (map pings)
+### Adventuring — ✅ Live
 A new secondary skill. Walk into any inn and you keep the road back to it: a ten second
 teleport to that inn, filed in its own **Adventuring** spellbook tab. `!inns` lists what you
 have found. **63 inns.**
@@ -399,8 +399,25 @@ handler would never fire. The handler returns false so the stone still summons n
 `GameObject::Use` calls the hook at GameObject.cpp:1496, *before* the type switch at 1509,
 which is why a solo click reaches it at all.
 
-Still to come: **map pings**, the only piece needing an addon — likely via pfQuest's marker
-API.
+**Map pins — the `TerapinTravel` addon.** Every discovered inn and dungeon is pinned on the
+world map and minimap. `/travel` re-pins on demand.
+
+This is the one piece that *cannot* be done server-side: the world map is drawn entirely by
+the client and no packet says "put a pin here". It rides on **pfQuest** rather than drawing
+its own layer — `pfMap:AddNode` already handles the world map, minimap, clustering, tooltips
+and redraws, so the addon only says where and what. It hooks nothing, which matters: the last
+addon here that reached into client internals disabled camera panning game-wide.
+
+**No server messaging.** The teleports *are* the record — each discovery is a spell in the
+spellbook — so the addon reads the spellbook and matches by name against generated data.
+Nothing to send, save, or keep in sync. All 92 names are verified identical between the addon
+data and the server's spell names.
+
+*Coordinates* convert world positions to pfQuest's (zone, x%, y%) via `WorldMapArea.dbc`.
+**The axes cross over** — the world's Y is the map's X — and getting that backwards yields
+coordinates that look entirely plausible and are simply transposed, which is what the first
+attempt did. The conversion was validated against pfQuest's own spawn data: ten creatures
+across six zones agreed to within 0.24%.
 
 ## Crafting
 
