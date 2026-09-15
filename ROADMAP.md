@@ -355,7 +355,7 @@ re-adding a mandatory item would undo that.
 
 ## Travel
 
-### Adventuring — ✅ Live (inns) / 🟨 Planned (dungeon portals, map pings)
+### Adventuring — ✅ Live (inns + dungeon portals) / 🟨 Planned (map pings)
 A new secondary skill. Walk into any inn and you keep the road back to it: a ten second
 teleport to that inn, filed in its own **Adventuring** spellbook tab. `!inns` lists what you
 have found. **63 inns.**
@@ -387,8 +387,20 @@ wrong — dungeon graveyards sit at their instance entrance, which put Goldshire
 server's `SetSkill` looks the id up in `sSkillLineStore` and returns silently if it is
 missing, which would leave every teleport filed under a skill nobody has.
 
-Still to come: **dungeon portals**, earned as quests from summoning stones, and **map pings**
-(the only piece needing an addon — likely via pfQuest's marker API).
+**Dungeon portals — 29.** Use the summoning stone outside any dungeon and you keep the way
+back to its door. `!portals` lists them. You land **outside** the instance, not inside:
+`areatrigger_teleport` holds the position within the instance, while the `AreaTrigger.dbc`
+position for the same trigger is the doorway in the outside world. You still walk in, and a
+group can still gather.
+
+The gameobject use hook is keyed by **entry** — `Eluna::OnGameObjectUse` passes `GetEntry()`
+as the binding key — so all 32 meeting stone templates are registered individually; a global
+handler would never fire. The handler returns false so the stone still summons normally.
+`GameObject::Use` calls the hook at GameObject.cpp:1496, *before* the type switch at 1509,
+which is why a solo click reaches it at all.
+
+Still to come: **map pings**, the only piece needing an addon — likely via pfQuest's marker
+API.
 
 ## Crafting
 

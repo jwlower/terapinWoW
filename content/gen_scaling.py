@@ -31,11 +31,23 @@ def q(sql):
 # ---------------------------------------------------------------------------------------
 # 1. The dungeon level table
 # ---------------------------------------------------------------------------------------
-rows = q("SELECT at.target_map, m.map_name, MAX(at.required_level) "
+# MIN, NOT MAX, AND THIS WAS A LIVE BUG.
+#
+#   Turtle puts Grim Batol's entrance on map 43 - the same map id as Wailing Caverns - and it
+#   requires level 61 where the Wailing Caverns door requires 10. With MAX, Wailing Caverns
+#   inherited 61, and dungeon_scaling.lua adds its +10 offset on top: a level 15 player walking
+#   into a level 17-24 dungeon was being scaled toward SEVENTY-ONE.
+#
+#   Map 43 is the only map in this database whose entrances disagree, so nothing else moved.
+#
+#   MIN is the right aggregate regardless of that quirk: where a dungeon has several doors, the
+#   lowest one is the gate you can actually walk through, so it is the level the dungeon is
+#   really balanced for.
+rows = q("SELECT at.target_map, m.map_name, MIN(at.required_level) "
          "FROM tw_world.areatrigger_teleport at "
          "JOIN tw_world.map_template m ON m.entry = at.target_map "
-         "WHERE m.map_type = 1 GROUP BY at.target_map, m.map_name "
-         "HAVING MAX(at.required_level) > 0 ORDER BY at.target_map;")
+         "WHERE m.map_type = 1 AND at.required_level > 0 "
+         "GROUP BY at.target_map, m.map_name ORDER BY at.target_map;")
 if len(rows) < 20:
     raise SystemExit("only %d dungeons found - that is too few, refusing to ship it" % len(rows))
 

@@ -1197,3 +1197,36 @@ for _r in _in.grid():
         "req_skill_value": 0, "min_value": 0, "max_value": 0,
         "class_mask": 0, "race_mask": 0,
     })
+
+
+# ---------------------------------------------------------------------------------------
+# Adventuring, part two - 29 dungeon portals, earned at summoning stones.
+#
+# Same skill line as the inns above, so travel collects in one tab. Generated data lives in
+# dungeon_portals.py; gen_dungeon_portals.py writes that, the SQL and the server's copy of the
+# list from one pass, so none of the three can drift.
+#
+# The destination is the doorway OUTSIDE the instance, taken from AreaTrigger.dbc, not the
+# position inside it that areatrigger_teleport carries. You still walk in.
+# ---------------------------------------------------------------------------------------
+import dungeon_portals as _dp   # noqa: E402
+
+for _d in _dp.grid():
+    SPELLS.append({
+        "id": _d["spell"],
+        "clone_from": 3561,                  # Teleport: Stormwind
+        "name": _d["name"],
+        "rank": "Dungeon",
+        "desc": ("Teleport to the entrance of %s. The door requires level %d."
+                 % (_d["name"], _d["req"])),
+        "overrides": {
+            "icon": 237,                     # Spell_Arcane_PortalStormwind
+            "manaCost": 0,
+        },
+    })
+    SKILL_LINE_ABILITY.append({
+        "id": _dp.SLA_BASE + _d["spell"] - _dp.SPELL_BASE,
+        "skill": _dp.SKILL_ADVENTURING, "spell": _d["spell"],
+        "req_skill_value": 0, "min_value": 0, "max_value": 0,
+        "class_mask": 0, "race_mask": 0,
+    })
