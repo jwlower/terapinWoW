@@ -353,6 +353,43 @@ re-adding a mandatory item would undo that.
 
 ---
 
+## Travel
+
+### Adventuring — ✅ Live (inns) / 🟨 Planned (dungeon portals, map pings)
+A new secondary skill. Walk into any inn and you keep the road back to it: a ten second
+teleport to that inn, filed in its own **Adventuring** spellbook tab. `!inns` lists what you
+have found. **63 inns.**
+
+The skill value is the number of inns found, so the skill bar doubles as a completion meter.
+Category 9 — the same as First Aid and Survival — so it never costs a primary profession slot.
+
+Cloned from **3561 Teleport: Stormwind**, which is already a ten second cast that breaks on
+damage with no cooldown. The Hearthstone looks like the obvious source and is the wrong one:
+it is bound to an item and its destination is the player's home bind, not a row we control.
+Destinations are `spell_target_position` rows keyed by spell id.
+
+**No cooldown is deliberate.** A ten second cast that breaks on damage is already the whole
+limit — useless as an escape and useless in a fight. What is left is walking somewhere you
+have already been, and charging a cooldown for that is just making the player wait.
+
+*Discovery* uses `PLAYER_EVENT_ON_UPDATE_AREA` (47). There is no bridged area-trigger hook, so
+the inns' own tavern triggers are unreachable; an area change plus a distance check gets there
+anyway, since you cannot enter an inn without crossing an area boundary.
+
+*Data* is derived, not typed: the inn list and its names come from `areatrigger_tavern`,
+coordinates from `AreaTrigger.dbc`, landing spots from the 48 Innkeeper spawns, town names
+from `game_tele`, and level ranges from the 15th/85th percentile of hostile spawn levels
+within 300 yards. An earlier attempt derived zones from the nearest graveyard and was badly
+wrong — dungeon graveyards sit at their instance entrance, which put Goldshire's inn in
+"Stormwind Vault".
+
+**Both** `SkillLine.dbc` files need the new skill — the client's *and* the server's. The
+server's `SetSkill` looks the id up in `sSkillLineStore` and returns silently if it is
+missing, which would leave every teleport filed under a skill nobody has.
+
+Still to come: **dungeon portals**, earned as quests from summoning stones, and **map pings**
+(the only piece needing an addon — likely via pfQuest's marker API).
+
 ## Crafting
 
 ### Non-exclusive specializations — 🟩 Data

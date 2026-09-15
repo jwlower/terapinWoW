@@ -257,6 +257,65 @@ def main():
         sla.records.sort(key=lambda r: r[0])
         files.append((sla_name, sla.pack()))
 
+    # ---- SkillLine.dbc: mints a whole new skill, and with it a spellbook tab ----
+    #
+    # A SkillLineAbility row files a spell under a skill. If that SKILL does not exist in the
+    # client's own SkillLine.dbc, the row points at nothing and the spell is dropped just as
+    # surely as if it had no row at all - so a new profession needs both files, not one.
+    #
+    # CATEGORY MATTERS MORE THAN IT LOOKS. Category 11 is a PRIMARY profession and the client
+    # enforces the two-profession limit on those. Adventuring uses category 9, the same as
+    # First Aid and Survival, so it can never cost anyone their Blacksmithing slot.
+    skill_specs = getattr(content, "SKILL_LINE", [])
+    if skill_specs and not noop:
+        sl_name = "DBFilesClient\\SkillLine.dbc"
+        sl_src, sl_raw = None, None
+        for arch_name in SEARCH:
+            p = os.path.join(CLIENT_DATA, arch_name)
+            if not os.path.exists(p):
+                continue
+            try:
+                d = mpyq.MPQArchive(p, listfile=False).read_file(sl_name)
+            except Exception:
+                continue
+            if d:
+                sl_src, sl_raw = arch_name, d
+                break
+        if sl_raw is None:
+            raise SystemExit("SkillLine.dbc not found in the client MPQ chain")
+
+        sl = dbc.Dbc(sl_raw)
+        print("\nSkillLine.dbc from %s: %d records, %d fields"
+              % (sl_src, len(sl.records), sl.field_count))
+
+        # Column order confirmed against Blacksmithing (164), which must read category 11.
+        SL_ID, SL_CAT, SL_NAME, SL_DESC = 0, 1, 3, 12
+        probe = [r for r in sl.records if r[SL_ID] == 164]
+        if (not probe or probe[0][SL_CAT] != 11
+                or sl.get_string(probe[0][SL_NAME]) != "Blacksmithing"):
+            raise SystemExit("SkillLine column order is not what was expected - "
+                             "refusing to write a row that would land in wrong fields")
+        print("  column order verified against skill 164 (Blacksmithing)")
+
+        existing = dict((r[SL_ID], i) for i, r in enumerate(sl.records))
+        for spec in skill_specs:
+            if spec["id"] in existing:
+                rec = sl.records[existing[spec["id"]]]
+                print("  skill %d already present - updating" % spec["id"])
+            else:
+                rec = [0] * sl.field_count
+                sl.records.append(rec)
+            rec[SL_ID] = spec["id"]
+            rec[SL_CAT] = spec["category"]
+            rec[SL_NAME] = sl.add_string(spec["name"])
+            if spec.get("description"):
+                rec[SL_DESC] = sl.add_string(spec["description"])
+            print("  skill %d -> %-16s category %d"
+                  % (spec["id"], spec["name"], spec["category"]))
+
+        sl.records.sort(key=lambda r: r[0])
+        files.append((sl_name, sl.pack()))
+
     # ---- SpellIcon.dbc: new icon textures for recipes whose item icon had no entry ----
     #
     # SpellIcon.dbc ships with ~1463 textures while items reference tens of thousands, so

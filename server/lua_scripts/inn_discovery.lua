@@ -1,0 +1,147 @@
+-- Adventuring: walk into an inn and you keep the road back to it.
+--
+--   Every inn you visit teaches you a ten second teleport to that inn, filed in its own
+--   Adventuring tab. No trainer, no cost - the only way to get one is to have stood there.
+--
+--   `!inns` lists what you have found and what is left.
+--
+-- WHY ON_UPDATE_AREA AND NOT THE TAVERN TRIGGER ITSELF
+--   The inns ARE areatrigger_tavern rows, so the obvious hook is the area trigger - but no
+--   area trigger hook is bridged to Eluna. ElunaScriptBridge.cpp has no OnAreaTrigger at all.
+--
+--   PLAYER_EVENT_ON_UPDATE_AREA (47) IS bridged, with (player, oldArea, newArea), and fires
+--   on every subzone change - which is more than often enough, because you cannot reach an
+--   inn's interior without crossing an area boundary on the way in. From there it is a
+--   distance check against the 63 known inns on that map.
+--
+--   That also avoids needing to know which area id each inn sits in, which is terrain data
+--   the server reads from .map files and SQL cannot see.
+--
+-- THE SKILL IS GRANTED ON LOGIN, NOT ON FIRST DISCOVERY
+--   A spell whose skill line the character does not have is filed under nothing, and the
+--   client quietly drops it - the same trap documented in docs/SPELL-IDS.md that left the
+--   Challenge Master's trainer window empty. So Adventuring is handed out at login, before
+--   any spell can arrive, and its maximum is the number of inns in the world so the skill
+--   bar doubles as a completion meter.
+--
+-- WHY TerapinInns IS READ LAZILY
+--   ElunaLoader.cpp:338 sorts scripts by file path. "inn_discovery" sorts before
+--   "inn_targets", so the table does not exist when this chunk runs. Every use goes through
+--   Inns() below, which reads the global at CALL time.
+
+local DISCOVER_RANGE = 70      -- yards from the landing spot that counts as "you are here"
+
+local PLAYER_EVENT_ON_LOGIN       = 3
+local PLAYER_EVENT_ON_CHAT        = 18
+local PLAYER_EVENT_ON_UPDATE_AREA = 47
+
+local function Inns()
+    return TerapinInns or {}
+end
+
+local function Skill()
+    return TerapinInnSkill or 795
+end
+
+-- ---------------------------------------------------------------------------------------
+-- The skill itself
+-- ---------------------------------------------------------------------------------------
+
+local function Known(player)
+    local n = 0
+    for _, inn in ipairs(Inns()) do
+        if player:HasSpell(inn.spell) then
+            n = n + 1
+        end
+    end
+    return n
+end
+
+-- Keeps the skill present and its value equal to the number of inns found.
+local function SyncSkill(player)
+    local total = #Inns()
+    if total == 0 then
+        return
+    end
+    local found = Known(player)
+    -- SetSkill(id, step, currentValue, maxValue). A value of 0 would hide the line, so the
+    -- floor is 1 - "you know about inns" - even before the first one is found.
+    player:SetSkill(Skill(), 0, found + 1, total + 1)
+end
+
+-- ---------------------------------------------------------------------------------------
+-- Finding one
+-- ---------------------------------------------------------------------------------------
+
+local function Discover(player, inn)
+    player:LearnSpell(inn.spell)
+    SyncSkill(player)
+
+    local range = ""
+    if inn.lo and inn.lo > 0 then
+        range = string.format(" |cff888888(levels %d-%d)|r", inn.lo, inn.hi)
+    end
+    player:SendBroadcastMessage(string.format(
+        "|cff33ff99Adventuring:|r you will remember |cffffffff%s|r, %s.%s",
+        inn.name, inn.where, range))
+    player:SendBroadcastMessage(string.format(
+        "|cff888888%d of %d inns found. The road back is in your Adventuring tab.|r",
+        Known(player), #Inns()))
+end
+
+local function OnUpdateArea(event, player, oldArea, newArea)
+    local map = player:GetMapId()
+    local x, y, z = player:GetX(), player:GetY(), player:GetZ()
+    for _, inn in ipairs(Inns()) do
+        if inn.map == map and not player:HasSpell(inn.spell) then
+            local dx, dy, dz = x - inn.x, y - inn.y, z - inn.z
+            if dx * dx + dy * dy + dz * dz <= DISCOVER_RANGE * DISCOVER_RANGE then
+                Discover(player, inn)
+                return
+            end
+        end
+    end
+end
+
+-- ---------------------------------------------------------------------------------------
+-- The list
+-- ---------------------------------------------------------------------------------------
+
+local function OnChat(event, player, msg)
+    if string.lower(msg) ~= "!inns" then
+        return
+    end
+
+    local all = Inns()
+    local found = Known(player)
+    player:SendBroadcastMessage(string.format(
+        "|cff33ff99Adventuring:|r %d of %d inns found.", found, #all))
+
+    if found == 0 then
+        player:SendBroadcastMessage(
+            "|cff888888Walk into any inn and you will remember the way back to it.|r")
+        return false
+    end
+
+    for _, inn in ipairs(all) do
+        if player:HasSpell(inn.spell) then
+            local range = ""
+            if inn.lo and inn.lo > 0 then
+                range = string.format(" (%d-%d)", inn.lo, inn.hi)
+            end
+            player:SendBroadcastMessage(string.format(
+                "  |cffffffff%s|r - %s%s", inn.name, inn.where, range))
+        end
+    end
+    return false                                 -- swallow the message
+end
+
+local function OnLogin(event, player)
+    SyncSkill(player)
+end
+
+RegisterPlayerEvent(PLAYER_EVENT_ON_UPDATE_AREA, OnUpdateArea)
+RegisterPlayerEvent(PLAYER_EVENT_ON_CHAT, OnChat)
+RegisterPlayerEvent(PLAYER_EVENT_ON_LOGIN, OnLogin)
+
+print("[Terapin] inn_discovery.lua loaded - Adventuring skill " .. tostring(TerapinInnSkill or 795))

@@ -178,6 +178,7 @@ SPELLS = [
 # the skill_line_ability SQL table (ObjectMgr.cpp:7209), so both sides need their own copy.
 #
 # Field order is taken from the live file and verified against known rows at build time.
+SKILL_LINE = []
 SKILL_LINE_ABILITY = [
     {
         "id": 7211,            # next free id (max existing 7210; column is SMALLINT)
@@ -1142,5 +1143,57 @@ for _r in _gr.grid():
         "req_skill_value": _r["gate"],
         "min_value": min(_r["gate"] + 20, 300),
         "max_value": min(_r["gate"] + 50, 300),
+        "class_mask": 0, "race_mask": 0,
+    })
+
+
+# ---------------------------------------------------------------------------------------
+# Adventuring - a new skill, and 63 inn teleports filed under it.
+#
+# Generated data lives in inns.py (gen_inn_data.py builds it from areatrigger_tavern,
+# AreaTrigger.dbc and the creature table); gen_inns.py turns the same list into SQL, so the
+# client and the server cannot disagree about ids or destinations.
+#
+# WHY A NEW SKILL LINE AT ALL
+#   63 teleports in the General tab would bury everything else in it. A skill line is what
+#   gives the client a tab to put them in - and it doubles as a completion meter, because the
+#   skill value is the number of inns found.
+#
+# THE SKILL AND ITS SPELLS MUST BOTH BE HERE. A SkillLineAbility row pointing at a skill the
+# client has never heard of is dropped exactly as silently as a spell with no row at all.
+# ---------------------------------------------------------------------------------------
+import inns as _in   # noqa: E402
+
+SKILL_LINE.append({
+    "id": _in.SKILL_ADVENTURING,
+    "category": _in.SKILL_CATEGORY,          # 9 = secondary, so it costs no profession slot
+    "name": "Adventuring",
+    "description": "The roads you have walked, and the way back to them.",
+})
+
+_IN_CLONE = 3561   # Teleport: Stormwind - 10s cast, breaks on damage, no cooldown
+
+for _r in _in.grid():
+    _where = _r["town"] and ("%s, %s" % (_r["town"], _r["zone"])) or _r["zone"]
+    if _r["lo"]:
+        _desc = ("Teleport to %s in %s. The land around it suits levels %d to %d."
+                 % (_r["inn"], _where, _r["lo"], _r["hi"]))
+    else:
+        _desc = "Teleport to %s in %s." % (_r["inn"], _where)
+    SPELLS.append({
+        "id": _r["spell"],
+        "clone_from": _IN_CLONE,
+        "name": _r["inn"],
+        "rank": _r["zone"],                  # shows under the name in the spellbook
+        "desc": _desc,
+        "overrides": {
+            "icon": 2179,                    # the hearthstone rune
+            "manaCost": 0,
+        },
+    })
+    SKILL_LINE_ABILITY.append({
+        "id": 7900 + _r["spell"] - _in.SPELL_BASE,
+        "skill": _in.SKILL_ADVENTURING, "spell": _r["spell"],
+        "req_skill_value": 0, "min_value": 0, "max_value": 0,
         "class_mask": 0, "race_mask": 0,
     })
