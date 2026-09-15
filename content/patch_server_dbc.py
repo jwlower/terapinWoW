@@ -77,5 +77,63 @@ def main():
           % (len(check.records), sid, check.get_string(got[0][SL_NAME]), got[0][SL_CAT]))
 
 
+# ---------------------------------------------------------------------------------------
+# Lock.dbc - what skill a gathering node demands before it opens
+#
+# The same two-copies problem as SkillLine: build.py edits the CLIENT's Lock.dbc inside
+# patch-6.mpq, and this edits the server's. The server has the final say on whether a node
+# opens, so a mismatch shows as a node the client offers and the server then refuses.
+# ---------------------------------------------------------------------------------------
+SERVER_LOCK = r"D:\Games\turtlewow\TortoiseNew\TortoiseCompiledNew\server\dbc\Lock.dbc"
+LOCK_BACKUP = SERVER_LOCK + ".bak-before-terapin"
+
+LK_TYPE, LK_INDEX, LK_REQ = 1, 9, 17
+
+
+def patch_locks():
+    import content
+
+    specs = getattr(content, "LOCK_SKILL", [])
+    if not specs:
+        return
+
+    t = dbc.load(SERVER_LOCK)
+    print("\nserver Lock.dbc: %d records, %d fields" % (len(t.records), t.field_count))
+
+    # Same guard as build.py, against the next tier of the same woodcutting ladder.
+    probe = [r for r in t.records if r[0] == 1660]
+    if not probe or probe[0][LK_TYPE] != 2 or probe[0][LK_REQ] != 125:
+        raise SystemExit("Lock.dbc column order is not what was expected - "
+                         "refusing to write a value into the wrong field")
+    print("  column order verified against lock 1660 (woodcutting, 125)")
+
+    if not os.path.exists(LOCK_BACKUP):
+        shutil.copy2(SERVER_LOCK, LOCK_BACKUP)
+        print("  backup -> %s" % os.path.basename(LOCK_BACKUP))
+
+    index = dict((r[0], r) for r in t.records)
+    for spec in specs:
+        rec = index.get(spec["lock"])
+        if not rec:
+            raise SystemExit("Lock %d is not in the server's Lock.dbc" % spec["lock"])
+        was = rec[LK_REQ + spec["slot"]]
+        rec[LK_REQ + spec["slot"]] = spec["required"] & 0xFFFFFFFF
+        print("  lock %-6d slot %d  %d -> %d   %s"
+              % (spec["lock"], spec["slot"], was, spec["required"], spec.get("note", "")))
+
+    with open(SERVER_LOCK, "wb") as fh:
+        fh.write(t.pack())
+
+    check = dbc.load(SERVER_LOCK)
+    cindex = dict((r[0], r) for r in check.records)
+    for spec in specs:
+        got = cindex[spec["lock"]][LK_REQ + spec["slot"]]
+        if got != spec["required"]:
+            raise SystemExit("wrote the file but lock %d reads %d, wanted %d"
+                             % (spec["lock"], got, spec["required"]))
+    print("  VERIFY OK: %d lock(s) now require what they should" % len(specs))
+
+
 if __name__ == "__main__":
     main()
+    patch_locks()

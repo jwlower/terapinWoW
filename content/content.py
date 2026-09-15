@@ -179,6 +179,24 @@ SPELLS = [
 #
 # Field order is taken from the live file and verified against known rows at build time.
 SKILL_LINE = []
+
+# ---------------------------------------------------------------------------------------
+# Lock.dbc edits: what skill a gathering node demands before it will open.
+#
+# A harvestable node points at a Lock row, and that row says "this lock type, at this skill
+# value". Client and server each read their own copy, so an edit here must be mirrored into
+# server/dbc/Lock.dbc by patch_server_dbc.py - otherwise one side offers a node the other
+# refuses.
+# ---------------------------------------------------------------------------------------
+LOCK_SKILL = [
+    # The Simple Wood Tree - the first tree in Survival and the only one a new character can
+    # reach - demanded skill 5 while Survival starts you at 1. So the very first tree anyone
+    # meets was the one tree they could not chop. The rest of the ladder (125/175/225/250/270
+    # on locks 1660-1664) is deliberately untouched.
+    {"lock": 1665, "slot": 0, "required": 1,
+     "note": "Simple Wood Tree - chopable from skill 1"},
+]
+
 SKILL_LINE_ABILITY = [
     {
         "id": 7211,            # next free id (max existing 7210; column is SMALLINT)

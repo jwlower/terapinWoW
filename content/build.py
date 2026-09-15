@@ -316,6 +316,56 @@ def main():
         sl.records.sort(key=lambda r: r[0])
         files.append((sl_name, sl.pack()))
 
+    # ---- Lock.dbc: the skill a gathering node demands ----
+    #
+    # The server reads its own copy of this file, so every edit here has to be mirrored by
+    # patch_server_dbc.py. If they disagree the node still refuses to open - the server has
+    # the final say - but the client will happily show it as harvestable first, which is a
+    # worse experience than either side saying no on its own.
+    lock_specs = getattr(content, "LOCK_SKILL", [])
+    if lock_specs and not noop:
+        lk_name = "DBFilesClient\\Lock.dbc"
+        lk_src, lk_raw = None, None
+        for arch_name in SEARCH:
+            p = os.path.join(CLIENT_DATA, arch_name)
+            if not os.path.exists(p):
+                continue
+            try:
+                d = mpyq.MPQArchive(p, listfile=False).read_file(lk_name)
+            except Exception:
+                continue
+            if d:
+                lk_src, lk_raw = arch_name, d
+                break
+        if lk_raw is None:
+            raise SystemExit("Lock.dbc not found in the client MPQ chain")
+
+        lk = dbc.Dbc(lk_raw)
+        print("\nLock.dbc from %s: %d records, %d fields"
+              % (lk_src, len(lk.records), lk.field_count))
+
+        # Layout: id, then 8 x type, 8 x lock-type index, 8 x required skill value.
+        # Verified against lock 1660, the next tier of the same woodcutting ladder.
+        LK_TYPE, LK_INDEX, LK_REQ = 1, 9, 17
+        probe = [r for r in lk.records if r[0] == 1660]
+        if not probe or probe[0][LK_TYPE] != 2 or probe[0][LK_REQ] != 125:
+            raise SystemExit("Lock.dbc column order is not what was expected - "
+                             "refusing to write a value into the wrong field")
+        print("  column order verified against lock 1660 (woodcutting, 125)")
+
+        index = dict((r[0], r) for r in lk.records)
+        for spec in lock_specs:
+            rec = index.get(spec["lock"])
+            if not rec:
+                raise SystemExit("Lock %d is not in Lock.dbc" % spec["lock"])
+            slot = spec["slot"]
+            was = rec[LK_REQ + slot]
+            rec[LK_REQ + slot] = spec["required"] & 0xFFFFFFFF
+            print("  lock %-6d slot %d  %d -> %d   %s"
+                  % (spec["lock"], slot, was, spec["required"], spec.get("note", "")))
+
+        files.append((lk_name, lk.pack()))
+
     # ---- SpellIcon.dbc: new icon textures for recipes whose item icon had no entry ----
     #
     # SpellIcon.dbc ships with ~1463 textures while items reference tens of thousands, so

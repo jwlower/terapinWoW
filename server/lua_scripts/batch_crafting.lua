@@ -66,18 +66,55 @@ local recipeOf = {}
 -- Persistence
 -- ---------------------------------------------------------------------------------------
 
+-- PERSISTENCE IS OPTIONAL AND MUST NEVER TAKE THE FEATURE DOWN WITH IT.
+--
+--   CharDBQuery and CharDBExecute are gated behind Eluna.UseUnsafeMethods, and when that is
+--   off they do not return an error - they raise, which aborts the whole handler from the
+--   point of the call. That has now broken two features silently: the Old School corpse
+--   chest, and this one, where `!batch 5` set the quantity, died inside Persist, and never
+--   printed its confirmation. To the player the command simply did nothing.
+--
+--   (The config itself read as false because of a trailing comment on the value line -
+--   Config::GetBoolDefault does an exact strcmp against "true". See mangosd.conf.)
+--
+--   So every database call is wrapped. If persistence is unavailable, batching still works
+--   for the session and only the memory across a logout is lost, with one line in the log
+--   rather than a feature that quietly is not there.
+local dbWarned = false
+
+local function DbFailed(what, err)
+    if not dbWarned then
+        dbWarned = true
+        print("[Terapin] batch_crafting: database unavailable (" .. tostring(what) .. "): "
+              .. tostring(err))
+        print("[Terapin] batch quantities will not survive a logout. "
+              .. "Check Eluna.UseUnsafeMethods in mangosd.conf.")
+    end
+end
+
 local function Persist(guid, qty)
-    CharDBExecute(string.format(
-        "REPLACE INTO terapin_batch (player_guid, qty) VALUES (%d, %d)", guid, qty))
+    local ok, err = pcall(function()
+        CharDBExecute(string.format(
+            "REPLACE INTO terapin_batch (player_guid, qty) VALUES (%d, %d)", guid, qty))
+    end)
+    if not ok then
+        DbFailed("write", err)
+    end
 end
 
 local function LoadQty(guid)
-    local q = CharDBQuery(string.format(
-        "SELECT qty FROM terapin_batch WHERE player_guid = %d", guid))
-    if not q then
+    local ok, res = pcall(function()
+        return CharDBQuery(string.format(
+            "SELECT qty FROM terapin_batch WHERE player_guid = %d", guid))
+    end)
+    if not ok then
+        DbFailed("read", res)
         return 1
     end
-    return q:GetUInt32(0)
+    if not res then
+        return 1
+    end
+    return res:GetUInt32(0)
 end
 
 -- ---------------------------------------------------------------------------------------
@@ -275,8 +312,9 @@ local function OnChat(event, player, msg)
     if qty < 1 then qty = 1 end
     if qty > MAX_BATCH then qty = MAX_BATCH end
     batchOf[guid] = qty
-    Persist(guid, qty)
 
+    -- Tell the player BEFORE touching the database. The confirmation is what proves the
+    -- command was heard, and it must not be hostage to storage that may not be there.
     if qty == 1 then
         player:SendBroadcastMessage("|cff33ff99Batch off.|r One item per craft.")
     else
@@ -285,6 +323,8 @@ local function OnChat(event, player, msg)
             .. "Materials for all %d are taken, and each one rolls for a skill-up as normal.",
             qty, qty))
     end
+
+    Persist(guid, qty)                           -- best effort; see the note above
     return false                                 -- swallow the message
 end
 
