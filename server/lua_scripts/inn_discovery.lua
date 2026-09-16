@@ -5,17 +5,23 @@
 --
 --   `!inns` lists what you have found and what is left.
 --
--- WHY ON_UPDATE_AREA AND NOT THE TAVERN TRIGGER ITSELF
+-- HOW DISCOVERY IS DETECTED, AND THE ASSUMPTION THAT WAS WRONG
 --   The inns ARE areatrigger_tavern rows, so the obvious hook is the area trigger - but no
 --   area trigger hook is bridged to Eluna. ElunaScriptBridge.cpp has no OnAreaTrigger at all.
 --
---   PLAYER_EVENT_ON_UPDATE_AREA (47) IS bridged, with (player, oldArea, newArea), and fires
---   on every subzone change - which is more than often enough, because you cannot reach an
---   inn's interior without crossing an area boundary on the way in. From there it is a
---   distance check against the 63 known inns on that map.
+--   The first version used PLAYER_EVENT_ON_UPDATE_AREA alone, reasoning that you cannot
+--   reach an inn without crossing an area boundary. THAT IS FALSE for every inn inside a
+--   town. Goldshire is a single area: the boundary is crossed out on the road, a hundred-odd
+--   yards from the innkeeper, and never again while you walk to the door. Discovery fired
+--   once, far away, and the Lion's Pride Inn could never be found.
 --
---   That also avoids needing to know which area id each inn sits in, which is terrain data
---   the server reads from .map files and SQL cannot see.
+--   So proximity is POLLED every SCAN_INTERVAL instead. 63 distance comparisons every few
+--   seconds, for a handful of players, costs nothing - and unlike a boundary it cannot be
+--   walked past. The area hook is kept as well, since it is free and catches the inns that
+--   genuinely are their own area the instant you step in.
+--
+--   Polling also avoids needing to know which area id each inn sits in, which is terrain
+--   data the server reads from .map files and SQL cannot see.
 --
 -- THE SKILL IS GRANTED ON LOGIN, NOT ON FIRST DISCOVERY
 --   A spell whose skill line the character does not have is filed under nothing, and the
@@ -178,7 +184,8 @@ local function CheckHome(player, force)
     end
 end
 
-local function OnUpdateArea(event, player, oldArea, newArea)
+-- Returns true when something was discovered.
+local function ScanNearby(player)
     local map = player:GetMapId()
     local x, y, z = player:GetX(), player:GetY(), player:GetZ()
     for _, inn in ipairs(Inns()) do
@@ -186,11 +193,42 @@ local function OnUpdateArea(event, player, oldArea, newArea)
             local dx, dy, dz = x - inn.x, y - inn.y, z - inn.z
             if dx * dx + dy * dy + dz * dz <= DISCOVER_RANGE * DISCOVER_RANGE then
                 Discover(player, inn)
-                return
+                return true
             end
         end
     end
-    CheckHome(player)
+    return false
+end
+
+-- AN AREA CHANGE ALONE IS NOT ENOUGH, AND THIS IS WHY GOLDSHIRE NEVER TRIGGERED.
+--
+--   The header used to claim you cannot reach an inn's interior without crossing an area
+--   boundary. That is wrong for every inn that sits inside a town: Goldshire is ONE area, so
+--   the boundary is crossed out on the road, a hundred-odd yards from the innkeeper, and
+--   then never again while you walk to the door. The check fired exactly once, far away,
+--   and the inn was never found.
+--
+--   So proximity is polled instead. 63 distance comparisons every few seconds, for at most a
+--   handful of players, is nothing - and unlike an area boundary it cannot be walked past.
+--   The area hook is kept as well because it costs nothing and catches the case instantly
+--   where the inn IS its own area.
+local SCAN_INTERVAL = 3000     -- ms
+
+local function StartScan(player)
+    player:RegisterEvent(function(eventId, delay, repeats, pl)
+        if not pl then
+            return
+        end
+        if not ScanNearby(pl) then
+            CheckHome(pl)      -- rate limited internally; only touches the DB every 30s
+        end
+    end, SCAN_INTERVAL, 0)     -- 0 = repeat until the player goes away
+end
+
+local function OnUpdateArea(event, player, oldArea, newArea)
+    if not ScanNearby(player) then
+        CheckHome(player)
+    end
 end
 
 -- ---------------------------------------------------------------------------------------
@@ -229,6 +267,8 @@ end
 local function OnLogin(event, player)
     SyncSkill(player)
     CheckHome(player, true)      -- force: a bind made in an earlier session still counts
+    ScanNearby(player)           -- logged out inside an inn? claim it now
+    StartScan(player)
 end
 
 RegisterPlayerEvent(PLAYER_EVENT_ON_UPDATE_AREA, OnUpdateArea)

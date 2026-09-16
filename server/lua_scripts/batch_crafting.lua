@@ -275,16 +275,33 @@ local function MakeExtra(player, r, want)
     return made, stopped
 end
 
+-- Flip to true and the log says exactly why a craft did or did not batch. Left in because
+-- "it silently did nothing" has been the failure mode of every problem in this file so far.
+local DEBUG = true
+
 local function OnSpellCast(event, player, spell)
     local guid = player:GetGUIDLow()
+    local spellId = spell:GetEntry()
     local want = (batchOf[guid] or 1) - 1
     if want < 1 then
+        if DEBUG and batchOf[guid] then
+            print(string.format("[Terapin] batch: spell %d cast, qty is %d, nothing to add",
+                                spellId, batchOf[guid] or 1))
+        end
         return
     end
 
-    local r = Recipe(spell:GetEntry())
+    local r = Recipe(spellId)
     if not r then
+        if DEBUG then
+            print(string.format("[Terapin] batch: spell %d is not batchable (not a recipe, "
+                                .. "no reagents, on cooldown, or a class conjure)", spellId))
+        end
         return
+    end
+    if DEBUG then
+        print(string.format("[Terapin] batch: spell %d -> item %d x%d, %d reagent(s), "
+                            .. "queueing %d extra", spellId, r.item, r.amount, #r.reagents, want))
     end
 
     player:RegisterEvent(function(eventId, delay, repeats, pl)
@@ -292,6 +309,10 @@ local function OnSpellCast(event, player, spell)
             return
         end
         local made, stopped = MakeExtra(pl, r, want)
+        if DEBUG then
+            print(string.format("[Terapin] batch: made %d extra%s", made,
+                                stopped and (" - stopped: " .. stopped) or ""))
+        end
         if made > 0 then
             pl:SendBroadcastMessage(string.format(
                 "|cff33ff99Batch:|r %d extra made (%d total).", made, made + 1))
