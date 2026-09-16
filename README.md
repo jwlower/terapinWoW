@@ -20,7 +20,7 @@ here is aimed at one to four people who want to actually finish things.
 | [`server/`](server) | The server itself — binaries, configs, Eluna scripts, DBC patchers. |
 | [`db/`](db) | Every database change, as ordered idempotent migrations. |
 | [`content/`](content) | The pipeline that builds the client patch (new spells, items, icons). |
-| [`client/`](client) | The `TerapinTips` addon. |
+| [`client/`](client) | The `TerapinTips` and `TerapinTravel` addons. |
 | [`core/`](core) | Patches against the server source tree. |
 | [`scripts/`](scripts) | Sync from the live install; back up the databases. |
 
@@ -95,6 +95,17 @@ the file count and nothing references it. Drop a PNG into `content/icons/` and a
 source tree. Kept small and standalone so a fresh checkout can be brought up to date in one
 command.
 
+**In-game commands use `!name` and are handled by Eluna's `PLAYER_EVENT_ON_COMMAND`, never
+the chat hook.** `ChatHandler::ParseCommands` treats a leading `!` or `.` as a *command* and
+consumes the message, so a handler on `PLAYER_EVENT_ON_CHAT` can never fire — it silently
+does nothing while the player gets "There is no such command". The convention is also
+inverted from the chat hook: return **false** to mark the command handled, **true** to let
+the core answer. This needs `PlayerCommands = 1` in `mangosd.conf`, which is noted there.
+
+**Never put a comment on a config *value* line.** `Config::GetBoolDefault` does an exact
+`strcmp` against `"true"`, so `Eluna.UseUnsafeMethods = true  # why` reads as **false** and
+silently disables the setting. Comments go on their own line above.
+
 After editing anything in the live install, pull it back in with:
 
 ```bash
@@ -116,6 +127,8 @@ bash scripts/sync-from-live.sh
 | **Riding** | Trainable at level 20 instead of 40. Bank bag slots are free. |
 | **All weapon skills** | Every character starts trained in every weapon its class can learn — derived from `class_mask`, so it grants exactly what a weapon master would have. |
 | **No tools, no workbenches** | 2,127 trade recipes need no hammer, rod, spanner, anvil, forge or alchemy lab. Craft anywhere. |
+| **Batch crafting** | `!batch 5` and every recipe makes five, in **one cast and one animation** — the part vanilla's "Create All" does not do. 2,320 recipes qualify. |
+| **Survival** | The Simple Wood Tree is chopable from skill 1. It asked for 5 while Survival starts you at 1, so the first tree anyone met was the one tree they could not chop. |
 
 ### Mounts
 
@@ -153,6 +166,31 @@ The eight mage teleports, granted to **every class**, General tab, level 1, no r
 | **Recipe icons** | 635 | Trainers showed a generic face for every custom recipe. |
 | **Custom NPCs** | — | Class and profession trainers, dungeon questgivers, a supplier, a banker, a Challenge Master. |
 | **Summons** | 11 | Call your class trainer, a banker, or the Challenge Master — General tab, free, level 1. |
+| **Craftable gear** | 272 | Plate and mail from Blacksmithing, leather from Leatherworking, cloth from Tailoring. Four bands at skill 20 / 90 / 165 / 245. Fills a real hole: before this there was **no craftable epic below skill 226** in any profession. |
+| **Inn teleports** | 63 | One per inn, earned by walking in. See [Adventuring](#adventuring). |
+| **Dungeon portals** | 29 | One per dungeon, earned at its summoning stone. |
+
+### Adventuring
+
+A new secondary skill, and the way you get around. **Walk into an inn and you keep the road
+back to it**; **use the summoning stone outside a dungeon** and you keep the way to its door.
+Each is a ten second teleport that breaks on damage, with **no cooldown** — useless in a
+fight, and no tedium getting anywhere you have already been.
+
+Nothing is bought and there is no trainer. The only way to get one is to have stood there,
+so the tab fills in as a record of where you have actually been. The skill value is the
+number of places found (**92** in total), so the bar doubles as a completion meter.
+`!inns` and `!portals` list what you have.
+
+It is a **secondary** skill, deliberately — the same category as First Aid — so it never
+costs anyone a primary profession slot.
+
+Dungeon portals land you **outside** the door, not inside the instance, so you still walk in
+and a group can still gather.
+
+Every field is derived rather than typed: the inn list and its names from `areatrigger_tavern`,
+coordinates from `AreaTrigger.dbc`, landing spots from the 48 Innkeeper spawns, town names
+from `game_tele`, and level ranges from the hostile spawns around each inn.
 
 ### Dungeon mentor scaling
 
@@ -167,19 +205,26 @@ change, so good gear still feels good. Type `!scale` to toggle it.
 ### Optional challenges
 
 Beyond Turtle's ten built-in ones (three of which do nothing on this build — see the
-[wiki](wiki/Challenges)), the **Challenge Master** offers two of our own as quests:
+[wiki](wiki/Challenges)), the **Challenge Master** offers **Old School** as a quest.
 
-| | |
-|---|---|
-| **Fragile** | on death, one random piece of equipped gear falls to your corpse |
-| **Butterfingers** | on death, ~20% of your carried stacks fall to your corpse |
+Die, and you lose **everything** — every item in every bag, and everything you were wearing.
+Then a choice: take the spirit healer and you also lose all progress toward your next level,
+or walk back to your body and recover **four random pieces** of the gear you had on.
 
-Nothing is destroyed — it lands in a chest where you died that only you can open. Bags and
-quest items are never taken. Drop either with `!fragile` / `!butterfingers`.
+So death is never free, but the long walk is worth making. Drop it with `!oldschool`.
 
-### Client addon — `TerapinTips`
+It replaces the earlier Fragile and Butterfingers, which each took a little on death. Three
+overlapping death penalties was confusing rather than interesting, and one that actually
+hurts is worth more than two that do not.
 
-Shift-hover comparison against your equipped item, and vendor prices on tooltips.
+**Resurrection sickness is off server-wide** — not part of the challenge, it applies to
+everyone. Old School is the penalty for dying now; a ten-minute stat debuff on top of it
+would just be tedious.
+
+### Client addons
+
+**`TerapinTips`** — shift-hover comparison against your equipped item, and vendor prices on
+tooltips.
 
 Also **auto-dismount on attacking**, which has to live here rather than on the server: while
 mounted the 1.12 client drops `CMSG_ATTACKSWING` locally, so the server never gets the chance
@@ -192,6 +237,18 @@ regenerates that list from the client's own `Spell.dbc`.
 Note the attack-key hook only covers the Attack **keybind**. Right-clicking a mob cannot
 be intercepted — `TurnOrActionStart/Stop` are protected functions, and wrapping them breaks
 every right-click including camera panning.
+
+**`TerapinTravel`** — pins every inn and dungeon you have discovered on the world map and
+minimap. `/travel` re-pins on demand.
+
+This is the one piece of Adventuring that *cannot* be done from the server: the world map is
+drawn entirely by the client and no packet says "put a pin here". It rides on **pfQuest**
+rather than drawing its own layer — `pfMap:AddNode` already handles the map, minimap,
+clustering, tooltips and redraws — so it hooks nothing, which matters given what the
+right-click hook above cost.
+
+It needs no server messaging and saves nothing: the teleports *are* the record, so it reads
+your spellbook and matches by name against generated data. Learn one and the pin appears.
 
 ---
 
