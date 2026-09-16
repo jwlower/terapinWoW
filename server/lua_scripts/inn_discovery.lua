@@ -69,15 +69,31 @@ local function Known(player)
     return n
 end
 
--- Keeps the skill present and its value equal to the number of inns found.
+-- Keeps the skill present, and its value equal to EVERYTHING discovered - inns and dungeon
+-- portals together.
+--
+-- BOTH SCRIPTS OWN THIS SKILL AND THEY MUST AGREE ON THE MAXIMUM. This counted only inns at
+-- first, so the bar read "out of 64" while dungeon_portals.lua set it to 93: whichever ran
+-- last won, and since login only calls this one, 64 is what a player saw. One skill, one
+-- total - Adventuring is a record of everywhere you have been, not of inns with dungeons
+-- bolted on.
+local function Portals()
+    return TerapinDungeonPortals or {}
+end
+
 local function SyncSkill(player)
-    local total = #Inns()
+    local total = #Inns() + #Portals()
     if total == 0 then
         return
     end
     local found = Known(player)
+    for _, d in ipairs(Portals()) do
+        if player:HasSpell(d.spell) then
+            found = found + 1
+        end
+    end
     -- SetSkill(id, step, currentValue, maxValue). A value of 0 would hide the line, so the
-    -- floor is 1 - "you know about inns" - even before the first one is found.
+    -- floor is 1 - "you know places exist" - even before the first one is found.
     player:SetSkill(Skill(), 0, found + 1, total + 1)
 end
 
