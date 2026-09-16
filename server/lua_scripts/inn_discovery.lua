@@ -271,6 +271,21 @@ local function OnLogin(event, player)
     StartScan(player)
 end
 
+-- A RELOAD DOES NOT RE-FIRE OnLogin FOR PLAYERS ALREADY IN THE WORLD.
+--
+--   `.reload eluna` swaps the scripts and re-registers the hooks, but nobody logs in again -
+--   so the per-player scan timer started in OnLogin never exists for anyone already online,
+--   and discovery silently does nothing until they relog. That is exactly what happened
+--   while testing: the fix was live, the player was standing in the inn, and no timer was
+--   running for them.
+--
+--   So on load, adopt everyone who is already here.
+for _, pl in ipairs(GetPlayersInWorld() or {}) do
+    SyncSkill(pl)
+    ScanNearby(pl)
+    StartScan(pl)
+end
+
 RegisterPlayerEvent(PLAYER_EVENT_ON_UPDATE_AREA, OnUpdateArea)
 RegisterPlayerEvent(PLAYER_EVENT_ON_COMMAND, OnCommand)
 RegisterPlayerEvent(PLAYER_EVENT_ON_LOGIN, OnLogin)
