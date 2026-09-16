@@ -8,11 +8,13 @@ for where each field comes from and why.
     lo/hi           hostile levels around the inn, 0 when there was no sample
 """
 
-# Skill line 795, category 9 - the same category as First Aid and Survival.
-# NOT category 11: primary professions are capped at two per character, and
-# Adventuring must never cost anyone a Blacksmithing slot.
+# Skill line 795, category 7 - "Class Skills".
+# SPELLBOOK TABS COME FROM CATEGORY 7, and only from category 7. Category 9
+# (Secondary Skills, where First Aid lives) lists the skill correctly but gives its
+# spells no tab of their own - 92 teleports would land in General and bury it.
+# Still NOT category 11: that is a primary profession and capped at two per character.
 SKILL_ADVENTURING = 795
-SKILL_CATEGORY = 9
+SKILL_CATEGORY = 7
 SPELL_BASE = 44200
 
 INNS = [

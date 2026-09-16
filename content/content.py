@@ -198,6 +198,11 @@ SKILL_RACE_CLASS = [
     {"id": 900, "skill": 795, "race_mask": 2047, "class_mask": 1503,
      "flags": 128, "req_level": 0, "tier": 63, "cost": 0,
      "note": "Adventuring - every race, every class"},
+    # Professions is only a filing cabinet for the spellbook - nothing is granted under it -
+    # but the row costs one line and its absence is exactly what made Adventuring invisible.
+    {"id": 901, "skill": 796, "race_mask": 2047, "class_mask": 1503,
+     "flags": 128, "req_level": 0, "tier": 63, "cost": 0,
+     "note": "Professions tab - every race, every class"},
 ]
 
 # ---------------------------------------------------------------------------------------
@@ -1267,4 +1272,38 @@ for _d in _dp.grid():
         "skill": _dp.SKILL_ADVENTURING, "spell": _d["spell"],
         "req_skill_value": 0, "min_value": 0, "max_value": 0,
         "class_mask": 0, "race_mask": 0,
+    })
+
+
+# ---------------------------------------------------------------------------------------
+# A Professions tab - 96 profession spells collected out of General.
+#
+# A spellbook tab IS a category-7 skill line; nothing else produces one. Professions are
+# category 11, so Blacksmithing, Mining, Smelting, First Aid, Fishing and the rest all pile
+# into General with no home of their own. This mints "Professions" and files them there.
+#
+# THE RE-FILING IS CLIENT-SIDE ONLY, WHICH IS THE ENTIRE TRICK.
+#   Player::UpdateCraftSkill walks a spell's skill-line rows and rolls the skill-up against
+#   the FIRST one carrying a skill id. Re-file Smelting server-side and its skill-ups would
+#   roll against a skill nobody has. build.py edits the CLIENT's SkillLineAbility.dbc only;
+#   the server's skill_line_ability table is untouched, so it still sees Smelting as Mining.
+#
+#   Recipes are deliberately NOT moved - they belong in the trade window, not the spellbook.
+#   See gen_professions_tab.py for exactly what is included and why.
+# ---------------------------------------------------------------------------------------
+import professions_tab as _pt   # noqa: E402
+
+SKILL_LINE.append({
+    "id": _pt.SKILL_PROFESSIONS,
+    "category": _pt.SKILL_CATEGORY,
+    "name": "Professions",
+    "description": "Everything your trades let you do.",
+})
+
+for _spell, _name, _realskill in _pt.grid():
+    # No "id" key: build.py updates the EXISTING row for this spell rather than adding one,
+    # which is what moves it between tabs instead of listing it in both.
+    SKILL_LINE_ABILITY.append({
+        "skill": _pt.SKILL_PROFESSIONS,
+        "spell": _spell,
     })

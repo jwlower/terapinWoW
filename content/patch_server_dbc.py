@@ -50,31 +50,43 @@ def main():
         shutil.copy2(SERVER_DBC, BACKUP)
         print("  backup -> %s" % os.path.basename(BACKUP))
 
-    existing = dict((r[SL_ID], i) for i, r in enumerate(t.records))
-    sid = inns.SKILL_ADVENTURING
-    if sid in existing:
-        rec = t.records[existing[sid]]
-        print("  skill %d already present - updating" % sid)
-    else:
-        rec = [0] * t.field_count
-        t.records.append(rec)
-        print("  skill %d added" % sid)
+    # EVERY skill line content.py declares, not just the first one. This was hardcoded to
+    # Adventuring at first, so when the Professions line was added the client got it and the
+    # server did not - and SetSkill silently refuses a skill the server has never heard of.
+    import content
 
-    rec[SL_ID] = sid
-    rec[SL_CAT] = inns.SKILL_CATEGORY
-    rec[SL_NAME] = t.add_string("Adventuring")
-    rec[SL_DESC] = t.add_string("The roads you have walked, and the way back to them.")
+    existing = dict((r[SL_ID], i) for i, r in enumerate(t.records))
+    specs = getattr(content, "SKILL_LINE", [])
+    if not specs:
+        return
+
+    for spec in specs:
+        sid = spec["id"]
+        if sid in existing:
+            rec = t.records[existing[sid]]
+            print("  skill %d already present - updating" % sid)
+        else:
+            rec = [0] * t.field_count
+            t.records.append(rec)
+            print("  skill %d added" % sid)
+
+        rec[SL_ID] = sid
+        rec[SL_CAT] = spec["category"]
+        rec[SL_NAME] = t.add_string(spec["name"])
+        if spec.get("description"):
+            rec[SL_DESC] = t.add_string(spec["description"])
 
     t.records.sort(key=lambda r: r[SL_ID])
     with open(SERVER_DBC, "wb") as fh:
         fh.write(t.pack())
 
     check = dbc.load(SERVER_DBC)
-    got = [r for r in check.records if r[SL_ID] == sid]
-    if not got:
-        raise SystemExit("wrote the file but skill %d is not in it" % sid)
-    print("  VERIFY OK: %d records, skill %d = %-12s category %d"
-          % (len(check.records), sid, check.get_string(got[0][SL_NAME]), got[0][SL_CAT]))
+    for spec in specs:
+        got = [r for r in check.records if r[SL_ID] == spec["id"]]
+        if not got:
+            raise SystemExit("wrote the file but skill %d is not in it" % spec["id"])
+        print("  VERIFY OK: skill %-4d = %-12s category %d"
+              % (spec["id"], check.get_string(got[0][SL_NAME]), got[0][SL_CAT]))
 
 
 # ---------------------------------------------------------------------------------------
