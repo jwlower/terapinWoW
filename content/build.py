@@ -316,6 +316,65 @@ def main():
         sl.records.sort(key=lambda r: r[0])
         files.append((sl_name, sl.pack()))
 
+    # ---- SkillRaceClassInfo.dbc: which races and classes a skill applies to ----
+    #
+    # A SKILL WITH NO ROW HERE IS GRANTED BUT INVISIBLE. Adventuring was set correctly by the
+    # server, saved to character_skills at 1/64, and simply did not appear in the skills
+    # window - the client uses this table to decide whether a skill applies to the character
+    # at all. SkillLine.dbc alone is not enough.
+    src_specs = getattr(content, "SKILL_RACE_CLASS", [])
+    if src_specs and not noop:
+        rc_name = "DBFilesClient\\SkillRaceClassInfo.dbc"
+        rc_src, rc_raw = None, None
+        for arch_name in SEARCH:
+            p = os.path.join(CLIENT_DATA, arch_name)
+            if not os.path.exists(p):
+                continue
+            try:
+                d = mpyq.MPQArchive(p, listfile=False).read_file(rc_name)
+            except Exception:
+                continue
+            if d:
+                rc_src, rc_raw = arch_name, d
+                break
+        if rc_raw is None:
+            raise SystemExit("SkillRaceClassInfo.dbc not found in the client MPQ chain")
+
+        rc = dbc.Dbc(rc_raw)
+        print("\nSkillRaceClassInfo.dbc from %s: %d records, %d fields"
+              % (rc_src, len(rc.records), rc.field_count))
+
+        # [id, skill, raceMask, classMask, flags, reqLevel, skillTierId, skillCostId]
+        # Verified against First Aid (129), which must read race 2047 / class 1503.
+        probe = [r for r in rc.records if r[1] == 129]
+        if not probe or probe[0][2] != 2047 or probe[0][3] != 1503:
+            raise SystemExit("SkillRaceClassInfo column order is not what was expected - "
+                             "refusing to write a row that would land in wrong fields")
+        print("  column order verified against skill 129 (First Aid)")
+
+        by_id = dict((r[0], i) for i, r in enumerate(rc.records))
+        for spec in src_specs:
+            if spec["id"] in by_id:
+                rec = rc.records[by_id[spec["id"]]]
+                print("  id %d already present - updating" % spec["id"])
+            else:
+                rec = [0] * rc.field_count
+                rc.records.append(rec)
+            rec[0] = spec["id"]
+            rec[1] = spec["skill"]
+            rec[2] = spec["race_mask"]
+            rec[3] = spec["class_mask"]
+            rec[4] = spec["flags"]
+            rec[5] = spec.get("req_level", 0)
+            rec[6] = spec.get("tier", 0)
+            rec[7] = spec.get("cost", 0)
+            print("  skill %-4d -> race %d / class %d flags %d   %s"
+                  % (spec["skill"], spec["race_mask"], spec["class_mask"], spec["flags"],
+                     spec.get("note", "")))
+
+        rc.records.sort(key=lambda r: r[0])
+        files.append((rc_name, rc.pack()))
+
     # ---- Lock.dbc: the skill a gathering node demands ----
     #
     # The server reads its own copy of this file, so every edit here has to be mirrored by

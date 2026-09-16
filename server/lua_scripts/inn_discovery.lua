@@ -85,7 +85,7 @@ end
 -- Finding one
 -- ---------------------------------------------------------------------------------------
 
-local function Discover(player, inn)
+local function Discover(player, inn, why)
     player:LearnSpell(inn.spell)
     SyncSkill(player)
 
@@ -94,11 +94,72 @@ local function Discover(player, inn)
         range = string.format(" |cff888888(levels %d-%d)|r", inn.lo, inn.hi)
     end
     player:SendBroadcastMessage(string.format(
-        "|cff33ff99Adventuring:|r you will remember |cffffffff%s|r, %s.%s",
-        inn.name, inn.where, range))
+        "|cff33ff99Adventuring:|r you will remember |cffffffff%s|r, %s%s.%s",
+        inn.name, inn.where, why and (" - " .. why) or "", range))
     player:SendBroadcastMessage(string.format(
         "|cff888888%d of %d inns found. The road back is in your Adventuring tab.|r",
         Known(player), #Inns()))
+end
+
+-- ---------------------------------------------------------------------------------------
+-- Your home inn counts too
+--
+-- Binding at an innkeeper is the clearest possible statement that you know an inn, so it
+-- should hand you the teleport even if walking in somehow did not - and it covers the inns
+-- whose innkeeper stands further from the rest-spot than DISCOVER_RANGE.
+--
+-- THERE IS NO HOMEBIND HOOK. PLAYER_EVENT_ON_BIND_TO_INSTANCE is about instance saves, and
+-- the bind itself happens through innkeeper gossip, which is not bridged to Eluna at all.
+-- So the homebind is read from character_homebind instead: once at login, and at most every
+-- HOME_CHECK_SECONDS on an area change. Bind at an inn and walking out the door claims it.
+--
+-- HOME_RANGE is wider than DISCOVER_RANGE on purpose: the bind point is wherever the
+-- innkeeper happens to stand, which is not always where the teleport lands you.
+-- ---------------------------------------------------------------------------------------
+local HOME_RANGE = 150
+local HOME_CHECK_SECONDS = 30
+
+local lastHomeCheck = {}
+
+local function HomeInn(player)
+    local q
+    local ok, res = pcall(function()
+        return CharDBQuery(string.format(
+            "SELECT map, position_x, position_y, position_z FROM character_homebind "
+            .. "WHERE guid = %d", player:GetGUIDLow()))
+    end)
+    if not ok or not res then
+        return nil                               -- no bind row yet, or the database is off
+    end
+    q = res
+
+    local map = q:GetUInt32(0)
+    local x, y, z = q:GetFloat(1), q:GetFloat(2), q:GetFloat(3)
+    for _, inn in ipairs(Inns()) do
+        if inn.map == map then
+            local dx, dy, dz = x - inn.x, y - inn.y, z - inn.z
+            if dx * dx + dy * dy + dz * dz <= HOME_RANGE * HOME_RANGE then
+                return inn
+            end
+        end
+    end
+    return nil
+end
+
+-- Grants the home inn if it is not already known. Rate limited: this is the only part of
+-- discovery that touches the database, and an area change is a frequent event.
+local function CheckHome(player, force)
+    local guid = player:GetGUIDLow()
+    local now = GetGameTime()
+    if not force and lastHomeCheck[guid] and now - lastHomeCheck[guid] < HOME_CHECK_SECONDS then
+        return
+    end
+    lastHomeCheck[guid] = now
+
+    local inn = HomeInn(player)
+    if inn and not player:HasSpell(inn.spell) then
+        Discover(player, inn, "you have made it your home")
+    end
 end
 
 local function OnUpdateArea(event, player, oldArea, newArea)
@@ -113,6 +174,7 @@ local function OnUpdateArea(event, player, oldArea, newArea)
             end
         end
     end
+    CheckHome(player)
 end
 
 -- ---------------------------------------------------------------------------------------
@@ -150,6 +212,7 @@ end
 
 local function OnLogin(event, player)
     SyncSkill(player)
+    CheckHome(player, true)      -- force: a bind made in an earlier session still counts
 end
 
 RegisterPlayerEvent(PLAYER_EVENT_ON_UPDATE_AREA, OnUpdateArea)

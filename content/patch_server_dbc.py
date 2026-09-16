@@ -134,6 +134,69 @@ def patch_locks():
     print("  VERIFY OK: %d lock(s) now require what they should" % len(specs))
 
 
+# ---------------------------------------------------------------------------------------
+# SkillRaceClassInfo.dbc - which races and classes a skill applies to
+#
+# The client needs this or the skill is granted but never listed. The server keeps its own
+# copy and builds mSkillRaceClassInfoMap from it, so both are written for parity.
+# ---------------------------------------------------------------------------------------
+SERVER_RC = r"D:\Games\turtlewow\TortoiseNew\TortoiseCompiledNew\server\dbc\SkillRaceClassInfo.dbc"
+RC_BACKUP = SERVER_RC + ".bak-before-terapin"
+
+
+def patch_race_class():
+    import content
+
+    specs = getattr(content, "SKILL_RACE_CLASS", [])
+    if not specs:
+        return
+
+    t = dbc.load(SERVER_RC)
+    print("\nserver SkillRaceClassInfo.dbc: %d records, %d fields"
+          % (len(t.records), t.field_count))
+
+    probe = [r for r in t.records if r[1] == 129]
+    if not probe or probe[0][2] != 2047 or probe[0][3] != 1503:
+        raise SystemExit("SkillRaceClassInfo column order is not what was expected - "
+                         "refusing to write a row that would land in wrong fields")
+    print("  column order verified against skill 129 (First Aid)")
+
+    if not os.path.exists(RC_BACKUP):
+        shutil.copy2(SERVER_RC, RC_BACKUP)
+        print("  backup -> %s" % os.path.basename(RC_BACKUP))
+
+    by_id = dict((r[0], i) for i, r in enumerate(t.records))
+    for spec in specs:
+        if spec["id"] in by_id:
+            rec = t.records[by_id[spec["id"]]]
+            print("  id %d already present - updating" % spec["id"])
+        else:
+            rec = [0] * t.field_count
+            t.records.append(rec)
+        rec[0] = spec["id"]
+        rec[1] = spec["skill"]
+        rec[2] = spec["race_mask"]
+        rec[3] = spec["class_mask"]
+        rec[4] = spec["flags"]
+        rec[5] = spec.get("req_level", 0)
+        rec[6] = spec.get("tier", 0)
+        rec[7] = spec.get("cost", 0)
+        print("  skill %-4d -> race %d / class %d flags %d   %s"
+              % (spec["skill"], spec["race_mask"], spec["class_mask"], spec["flags"],
+                 spec.get("note", "")))
+
+    t.records.sort(key=lambda r: r[0])
+    with open(SERVER_RC, "wb") as fh:
+        fh.write(t.pack())
+
+    check = dbc.load(SERVER_RC)
+    for spec in specs:
+        if not any(r[1] == spec["skill"] for r in check.records):
+            raise SystemExit("wrote the file but skill %d has no row" % spec["skill"])
+    print("  VERIFY OK: %d row(s) present" % len(specs))
+
+
 if __name__ == "__main__":
     main()
     patch_locks()
+    patch_race_class()

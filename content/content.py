@@ -181,6 +181,26 @@ SPELLS = [
 SKILL_LINE = []
 
 # ---------------------------------------------------------------------------------------
+# SkillRaceClassInfo.dbc - which races and classes a skill applies to.
+#
+# A SKILL WITH NO ROW HERE IS GRANTED BUT INVISIBLE. The server sets it, it saves to
+# character_skills, and the skills window simply does not list it - the client uses this table
+# to decide whether a skill applies to you at all. That is exactly what happened to
+# Adventuring: SetSkill succeeded, the row was in the database at 1/64, and the panel was
+# empty.
+#
+# Shaped after Survival (142), First Aid (129) and Cooking (185), which are the other
+# everyone-can-have-it secondary skills:
+#     race 2047  = all 11 races      class 1503 = all 9 classes
+#     flags 128  = SKILL_FLAG_INCLUDE_IN_SORT, so its spells sort together in the spellbook
+# ---------------------------------------------------------------------------------------
+SKILL_RACE_CLASS = [
+    {"id": 900, "skill": 795, "race_mask": 2047, "class_mask": 1503,
+     "flags": 128, "req_level": 0, "tier": 63, "cost": 0,
+     "note": "Adventuring - every race, every class"},
+]
+
+# ---------------------------------------------------------------------------------------
 # Lock.dbc edits: what skill a gathering node demands before it will open.
 #
 # A harvestable node points at a Lock row, and that row says "this lock type, at this skill
