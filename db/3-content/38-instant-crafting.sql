@@ -38,3 +38,13 @@ SELECT ROW_COUNT() AS changed_this_run;
 SELECT COUNT(*) AS total_instant_craft_spells
 FROM spell_template
 WHERE effect1 = 24 AND effectItemType1 > 0 AND entry < 60000 AND castingTimeIndex = 1;
+
+-- ---------------------------------------------------------------------------------------
+-- Disenchant (13262, Enchanting-gated as normal) and Salvage (38600, universal and free -
+-- see 17-salvage.sql) get the same treatment: castingTimeIndex 14 (3000ms) -> 1 (0ms).
+-- Neither carries a Category, RecoveryTime or categoryRecoveryTime, so there is nothing
+-- else to leave alone here.
+-- ---------------------------------------------------------------------------------------
+UPDATE spell_template SET castingTimeIndex = 1 WHERE entry IN (13262, 38600);
+
+SELECT entry, name, castingTimeIndex FROM spell_template WHERE entry IN (13262, 38600);

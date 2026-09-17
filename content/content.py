@@ -106,6 +106,16 @@ MODIFY = [
         "expect_at_least": 1500,
         "set": {"CastingTimeIndex": 1},
     },
+    {
+        "label": "instant disenchant",
+        # Disenchant (13262, gated to Enchanting as normal) sits on castingTimeIndex 14
+        # (3000ms) with no Category, RecoveryTime or categoryRecoveryTime - same trick as
+        # crafting. Salvage (38600) gets the same CastingTimeIndex set directly in its own
+        # SPELLS entry below instead of here - it does not exist in the table yet at
+        # MODIFY-time, since it is a new record this same build creates.
+        "match_ids": {13262},
+        "set": {"CastingTimeIndex": 1},
+    },
 ]
 
 # A trainer entry cannot point at an ability directly. npc_trainer.spell must be a
@@ -686,6 +696,11 @@ SPELLS.append({
         "EquippedItemClass": 0xFFFFFFFF,   # -1: no equipped-item requirement
         "RequiresSpellFocus": 0,
         "icon": 335,             # Trade_BlackSmithing - the hammer-and-anvil icon
+        # Instant, matching the "instant disenchant/salvage" MODIFY below - but Salvage is
+        # a brand NEW client record created by THIS build, so it does not exist yet when
+        # MODIFY runs over the already-loaded table. Set directly here instead of via
+        # match_ids, which would (and did) fail with "not in this DBC".
+        "CastingTimeIndex": 1,
     },
 })
 
