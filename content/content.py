@@ -73,12 +73,38 @@ SPELLFAMILY_WARRIOR = 4
 # tooltip text from its own Spell.dbc, so Battle Shout kept reading "2 min" even though
 # the aura really lasted 10. Changing DurationIndex on the client side too makes the
 # displayed duration match the actual one.
+def _is_craft_spell(rec, F):
+    """A recipe that actually creates an item - not a trainer wrapper, not an enchant."""
+    return rec[F["effect1"]] == 24 and rec[F["itemType1"]] > 0
+
+
 MODIFY = [
     {
         "match_name": "Battle Shout",
         "only_if": {"DurationIndex": 4},   # the ranks that apply the buff; the
                                            # LEARN_SPELL entries have DurationIndex 0
         "set": {"DurationIndex": 6},       # SpellDuration.dbc ID 6 = 600000 ms = 10 min
+    },
+    {
+        "label": "instant crafting",
+        # ---------------------------------------------------------------------------
+        # CastingTimeIndex is an INDEX into SpellCastTimes.dbc, not milliseconds. id=1
+        # is the entry every truly-instant spell in the game already uses: base=0,
+        # perLevel=0, minimum=0. This is what the little progress bar under "Create"
+        # actually times, so setting it to 1 is the whole trick - no core change.
+        #
+        # NEITHER Category NOR RecoveryTime/categoryRecoveryTime is touched here.
+        #   - 2698 of 2727 craft spells have Category 0 (no shared cooldown) already.
+        #   - The 28 that carry a real RecoveryTime/categoryRecoveryTime are the same
+        #     ones batch_crafting.lua refuses to batch - Transmute: Arcanite (48h),
+        #     the Salt Shaker (72h). The cooldown IS the recipe; instant cast removes
+        #     the few seconds of "casting...", not the 48 hours after it.
+        #   - Category 31/310 on conjures and transmutes are per-family throttles
+        #     unrelated to cast time, left exactly as they are.
+        # ---------------------------------------------------------------------------
+        "match_where": _is_craft_spell,
+        "expect_at_least": 1500,
+        "set": {"CastingTimeIndex": 1},
     },
 ]
 
