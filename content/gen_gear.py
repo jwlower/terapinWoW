@@ -248,8 +248,13 @@ for r in rows:
 
 w("-- Each profession master teaches its own.")
 w("INSERT INTO npc_trainer (entry, spell, spellcost, reqskill, reqskillvalue, reqlevel) VALUES")
-vals = ["  (%d, %d, %d, %d, %d, %d)"
-        % (MASTER[r["skill"]], r["teach"], r["cost"], r["skill"], r["gate"], r["req"])
+# reqlevel = 0, not r["req"] (the level you must be to WEAR the item). Measured against the
+# real game: across every profession's real recipes (939 Blacksmithing, 1111 Tailoring, 627
+# Leatherworking, ...) reqlevel is 0 on effectively all of them - a trainer gates purely on
+# skill, never on character level. Wear-level and learn-level are not the same question, and
+# vanilla only ever asks the first one.
+vals = ["  (%d, %d, %d, %d, %d, 0)"
+        % (MASTER[r["skill"]], r["teach"], r["cost"], r["skill"], r["gate"])
         for r in rows]
 w(",\n".join(vals) + ";")
 w("")

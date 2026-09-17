@@ -233,10 +233,13 @@ for r in rows:
 
 w("-- Every Blacksmithing Master teaches the lot.")
 w("INSERT INTO npc_trainer (entry, spell, spellcost, reqskill, reqskillvalue, reqlevel) VALUES")
+# reqlevel = 0, not r["req"]. Same fix as gen_gear.py - see its comment. spellcost still
+# scales with r["req"] deliberately; that is gold cost, an entirely different question from
+# whether the game gates learning by character level, which real professions never do.
 vals = []
 for r in rows:
-    vals.append("  (2600300, %d, %d, %d, %d, %d)"
-                % (r["teach"], r["req"] * 100, W.SKILL_BS, r["skill"], r["req"]))
+    vals.append("  (2600300, %d, %d, %d, %d, 0)"
+                % (r["teach"], r["req"] * 100, W.SKILL_BS, r["skill"]))
 w(",\n".join(vals) + ";")
 w("")
 w("SELECT COUNT(*) AS white_weapons FROM item_template WHERE entry IN (%s);" % items)
