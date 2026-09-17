@@ -178,6 +178,14 @@ SPELLS = [
 # the skill_line_ability SQL table (ObjectMgr.cpp:7209), so both sides need their own copy.
 #
 # Field order is taken from the live file and verified against known rows at build time.
+# Every vanilla class as a SkillLineAbility class mask: warrior, paladin, hunter, rogue,
+# priest, shaman, mage, warlock, druid. Bit for class C is 1 << (C - 1).
+#
+# THIS MATTERS FOR SPELLBOOK TABS. A class mask of 0 does not mean "all classes" here - the
+# client treats it as belonging to no class and files the spell under General. Heroic Strike
+# carries classmask 1 and gets the Arms tab; Blacksmithing carries 0 and does not.
+ALL_CLASSES = 1503
+
 SKILL_LINE = []
 
 # ---------------------------------------------------------------------------------------
@@ -1237,8 +1245,11 @@ for _r in _in.grid():
     SKILL_LINE_ABILITY.append({
         "id": 7900 + _r["spell"] - _in.SPELL_BASE,
         "skill": _in.SKILL_ADVENTURING, "spell": _r["spell"],
-        "req_skill_value": 0, "min_value": 0, "max_value": 0,
-        "class_mask": 0, "race_mask": 0,
+        "req_skill_value": 1, "min_value": 0, "max_value": 0,
+        # class_mask MUST name the classes, and 0 is not "everyone" - it is "nobody".
+        # A tabbed spell reads classmask=1 (Heroic Strike, warrior); Blacksmithing reads 0
+        # and lands in General. 1503 is all nine vanilla classes.
+        "class_mask": ALL_CLASSES, "race_mask": 0,
     })
 
 
@@ -1270,40 +1281,44 @@ for _d in _dp.grid():
     SKILL_LINE_ABILITY.append({
         "id": _dp.SLA_BASE + _d["spell"] - _dp.SPELL_BASE,
         "skill": _dp.SKILL_ADVENTURING, "spell": _d["spell"],
-        "req_skill_value": 0, "min_value": 0, "max_value": 0,
-        "class_mask": 0, "race_mask": 0,
+        "req_skill_value": 1, "min_value": 0, "max_value": 0,
+        "class_mask": ALL_CLASSES, "race_mask": 0,
     })
 
 
 # ---------------------------------------------------------------------------------------
-# A Professions tab - 96 profession spells collected out of General.
+# A Professions tab - REVERTED. It broke every profession opener except Enchanting's.
 #
-# A spellbook tab IS a category-7 skill line; nothing else produces one. Professions are
-# category 11, so Blacksmithing, Mining, Smelting, First Aid, Fishing and the rest all pile
-# into General with no home of their own. This mints "Professions" and files them there.
+# The idea: file 96 profession spells (Blacksmithing, Mining, Smelting, First Aid, ...) under
+# a new category-7 "Professions" skill line, moving them out of General the same way
+# Adventuring got its own tab.
 #
-# THE RE-FILING IS CLIENT-SIDE ONLY, WHICH IS THE ENTIRE TRICK.
-#   Player::UpdateCraftSkill walks a spell's skill-line rows and rolls the skill-up against
-#   the FIRST one carrying a skill id. Re-file Smelting server-side and its skill-ups would
-#   roll against a skill nobody has. build.py edits the CLIENT's SkillLineAbility.dbc only;
-#   the server's skill_line_ability table is untouched, so it still sees Smelting as Mining.
+# WHAT ACTUALLY HAPPENED: re-pointing skill_line_ability.skill on a profession's OPENER spell
+# (effect1 = 47, SPELL_EFFECT_TRADE_SKILL - Blacksmithing 2018, Enchanting 7411, etc.) away
+# from its real profession skill broke the trade window for every one of them except
+# Enchanting - and Enchanting's opener was moved by this code exactly the same way, so
+# whatever it is surviving on is not something this block controls. Diagnosis was still in
+# progress when this was reverted; the opener spells are NOT safe to re-file until it is
+# understood. See EffectTradeSkill (Spell.cpp) as the likely next place to look - the window
+# may be gated on the caster actually holding the skill the OPENER's own row claims, which
+# nobody holds for skill 796.
 #
-#   Recipes are deliberately NOT moved - they belong in the trade window, not the spellbook.
-#   See gen_professions_tab.py for exactly what is included and why.
+# professions_tab.py (the generator) and gen_professions_tab.py are left in place - the 96
+# spells identified as "belongs in a spellbook, not a recipe" is still correct and reusable
+# once a re-filing approach is found that does not touch the opener spells' own routing.
 # ---------------------------------------------------------------------------------------
-import professions_tab as _pt   # noqa: E402
-
-SKILL_LINE.append({
-    "id": _pt.SKILL_PROFESSIONS,
-    "category": _pt.SKILL_CATEGORY,
-    "name": "Professions",
-    "description": "Everything your trades let you do.",
-})
-
-for _spell, _name, _realskill in _pt.grid():
-    # No "id" key: build.py updates the EXISTING row for this spell rather than adding one,
-    # which is what moves it between tabs instead of listing it in both.
-    SKILL_LINE_ABILITY.append({
-        "skill": _pt.SKILL_PROFESSIONS,
-        "spell": _spell,
-    })
+# import professions_tab as _pt   # noqa: E402
+#
+# SKILL_LINE.append({
+#     "id": _pt.SKILL_PROFESSIONS,
+#     "category": _pt.SKILL_CATEGORY,
+#     "name": "Professions",
+#     "description": "Everything your trades let you do.",
+# })
+#
+# for _spell, _name, _realskill in _pt.grid():
+#     SKILL_LINE_ABILITY.append({
+#         "skill": _pt.SKILL_PROFESSIONS,
+#         "spell": _spell,
+#         "class_mask": ALL_CLASSES,
+#     })
