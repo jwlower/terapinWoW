@@ -55,13 +55,13 @@ DELETE FROM spell_template     WHERE entry    IN (43320,43321,43322,43323,43324,
 DELETE FROM skill_line_ability WHERE spell_id IN (43000,43001,43002,43003,43004,43005,43006,43007,43008,43009,43010,43011,43012,43013,43014,43015,43016,43017,43018,43019,43020,43021,43022,43023,43024,43025,43026,43027,43028,43029,43030,43031,43032,43033,43034,43035,43036,43037,43038,43039,43040,43041,43042,43043,43044,43045,43046,43047,43048,43049,43050,43051,43052,43053,43054,43055,43056,43057,43058,43059,43060,43061,43062,43063,43064,43065,43066,43067,43068,43069,43070,43071,43072,43073,43074,43075,43076,43077,43078,43079,43080,43081,43082,43083,43084,43085,43086,43087,43088,43089,43090,43091,43092,43093,43094,43095,43096,43097,43098,43099,43100,43101,43102,43103,43104,43105,43106,43107,43108,43109,43110,43111,43112,43113,43114,43115,43116,43117,43118,43119,43120,43121,43122,43123,43124,43125,43126,43127,43128,43129,43130,43131,43132,43133,43134,43135,43136,43137,43138,43139,43140,43141,43142,43143,43144,43145,43146,43147,43148,43149,43150,43151,43152,43153,43154,43155,43156,43157,43158,43159,43160,43161,43162,43163,43164,43165,43166,43167,43168,43169,43170,43171,43172,43173,43174,43175,43176,43177,43178,43179,43180,43181,43182,43183,43184,43185,43186,43187,43188,43189,43190,43191,43192,43193,43194,43195,43196,43197,43198,43199,43200,43201,43202,43203,43204,43205,43206,43207,43208,43209,43210,43211,43212,43213,43214,43215,43216,43217,43218,43219,43220,43221,43222,43223,43224,43225,43226,43227,43228,43229,43230,43231,43232,43233,43234,43235,43236,43237,43238,43239,43240,43241,43242,43243,43244,43245,43246,43247,43248,43249,43250,43251,43252,43253,43254,43255,43256,43257,43258,43259,43260,43261,43262,43263,43264,43265,43266,43267,43268,43269,43270,43271);
 DELETE FROM npc_trainer        WHERE spell    IN (43320,43321,43322,43323,43324,43325,43326,43327,43328,43329,43330,43331,43332,43333,43334,43335,43336,43337,43338,43339,43340,43341,43342,43343,43344,43345,43346,43347,43348,43349,43350,43351,43352,43353,43354,43355,43356,43357,43358,43359,43360,43361,43362,43363,43364,43365,43366,43367,43368,43369,43370,43371,43372,43373,43374,43375,43376,43377,43378,43379,43380,43381,43382,43383,43384,43385,43386,43387,43388,43389,43390,43391,43392,43393,43394,43395,43396,43397,43398,43399,43400,43401,43402,43403,43404,43405,43406,43407,43408,43409,43410,43411,43412,43413,43414,43415,43416,43417,43418,43419,43420,43421,43422,43423,43424,43425,43426,43427,43428,43429,43430,43431,43432,43433,43434,43435,43436,43437,43438,43439,43440,43441,43442,43443,43444,43445,43446,43447,43448,43449,43450,43451,43452,43453,43454,43455,43456,43457,43458,43459,43460,43461,43462,43463,43464,43465,43466,43467,43468,43469,43470,43471,43472,43473,43474,43475,43476,43477,43478,43479,43480,43481,43482,43483,43484,43485,43486,43487,43488,43489,43490,43491,43492,43493,43494,43495,43496,43497,43498,43499,43500,43501,43502,43503,43504,43505,43506,43507,43508,43509,43510,43511,43512,43513,43514,43515,43516,43517,43518,43519,43520,43521,43522,43523,43524,43525,43526,43527,43528,43529,43530,43531,43532,43533,43534,43535,43536,43537,43538,43539,43540,43541,43542,43543,43544,43545,43546,43547,43548,43549,43550,43551,43552,43553,43554,43555,43556,43557,43558,43559,43560,43561,43562,43563,43564,43565,43566,43567,43568,43569,43570,43571,43572,43573,43574,43575,43576,43577,43578,43579,43580,43581,43582,43583,43584,43585,43586,43587,43588,43589,43590,43591);
 
--- Grand Valor Helm                   Plate   band C  ilvl 56  req 45   <- clone 11746 (Golem Skull Helm)
+-- Grand Valor Helm                   Plate   band C  ilvl 56  req 28   <- clone 11746 (Golem Skull Helm)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 11746;
 UPDATE tmp_g SET
   entry = 90400, name = 'Grand Valor Helm',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 4, stat_value1 = 25,
   stat_type2 = 7, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -72,13 +72,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Valor Pauldrons              Plate   band C  ilvl 56  req 45   <- clone 10170 (Templar Pauldrons)
+-- Grand Valor Pauldrons              Plate   band C  ilvl 56  req 28   <- clone 10170 (Templar Pauldrons)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 10170;
 UPDATE tmp_g SET
   entry = 90401, name = 'Grand Valor Pauldrons',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 4, stat_value1 = 25,
   stat_type2 = 7, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -89,13 +89,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Valor Chestguard             Plate   band C  ilvl 56  req 45   <- clone 14958 (High Chief's Armor)
+-- Grand Valor Chestguard             Plate   band C  ilvl 56  req 28   <- clone 14958 (High Chief's Armor)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 14958;
 UPDATE tmp_g SET
   entry = 90402, name = 'Grand Valor Chestguard',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 4, stat_value1 = 25,
   stat_type2 = 7, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -106,13 +106,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Valor Bracers                Plate   band C  ilvl 56  req 45   <- clone 42373 (Bands of Water)
+-- Grand Valor Bracers                Plate   band C  ilvl 56  req 28   <- clone 42373 (Bands of Water)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 42373;
 UPDATE tmp_g SET
   entry = 90403, name = 'Grand Valor Bracers',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 4, stat_value1 = 25,
   stat_type2 = 7, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -123,13 +123,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Valor Gauntlets              Plate   band C  ilvl 56  req 45   <- clone 14967 (Glorious Gauntlets)
+-- Grand Valor Gauntlets              Plate   band C  ilvl 56  req 28   <- clone 14967 (Glorious Gauntlets)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 14967;
 UPDATE tmp_g SET
   entry = 90404, name = 'Grand Valor Gauntlets',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 4, stat_value1 = 25,
   stat_type2 = 7, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -140,13 +140,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Valor Girdle                 Plate   band C  ilvl 56  req 45   <- clone 42252 (Windplate Belt)
+-- Grand Valor Girdle                 Plate   band C  ilvl 56  req 28   <- clone 42252 (Windplate Belt)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 42252;
 UPDATE tmp_g SET
   entry = 90405, name = 'Grand Valor Girdle',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 4, stat_value1 = 25,
   stat_type2 = 7, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -157,13 +157,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Valor Legguards              Plate   band C  ilvl 56  req 45   <- clone 8318 (Alabaster Plate Leggings)
+-- Grand Valor Legguards              Plate   band C  ilvl 56  req 28   <- clone 8318 (Alabaster Plate Leggings)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 8318;
 UPDATE tmp_g SET
   entry = 90406, name = 'Grand Valor Legguards',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 4, stat_value1 = 25,
   stat_type2 = 7, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -174,13 +174,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Valor Boots                  Plate   band C  ilvl 56  req 45   <- clone 14972 (Glorious Sabatons)
+-- Grand Valor Boots                  Plate   band C  ilvl 56  req 28   <- clone 14972 (Glorious Sabatons)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 14972;
 UPDATE tmp_g SET
   entry = 90407, name = 'Grand Valor Boots',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 4, stat_value1 = 25,
   stat_type2 = 7, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -191,13 +191,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Valor Helm                Plate   band D  ilvl 71  req 58   <- clone 33602 (Corpsman's Lamellar Facegu)
+-- Hallowed Valor Helm                Plate   band D  ilvl 71  req 44   <- clone 33602 (Corpsman's Lamellar Facegu)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 33602;
 UPDATE tmp_g SET
   entry = 90408, name = 'Hallowed Valor Helm',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 4, stat_value1 = 43,
   stat_type2 = 7, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -208,13 +208,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Valor Pauldrons           Plate   band D  ilvl 71  req 58   <- clone 33405 (Combatant's Plate Shoulder)
+-- Hallowed Valor Pauldrons           Plate   band D  ilvl 71  req 44   <- clone 33405 (Combatant's Plate Shoulder)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 33405;
 UPDATE tmp_g SET
   entry = 90409, name = 'Hallowed Valor Pauldrons',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 4, stat_value1 = 43,
   stat_type2 = 7, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -225,13 +225,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Valor Chestguard          Plate   band D  ilvl 71  req 58   <- clone 33682 (Combatant's Plate Armor)
+-- Hallowed Valor Chestguard          Plate   band D  ilvl 71  req 44   <- clone 33682 (Combatant's Plate Armor)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 33682;
 UPDATE tmp_g SET
   entry = 90410, name = 'Hallowed Valor Chestguard',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 4, stat_value1 = 43,
   stat_type2 = 7, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -242,13 +242,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Valor Bracers             Plate   band D  ilvl 71  req 58   <- clone 19578 (Berserker Bracers)
+-- Hallowed Valor Bracers             Plate   band D  ilvl 71  req 44   <- clone 19578 (Berserker Bracers)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 19578;
 UPDATE tmp_g SET
   entry = 90411, name = 'Hallowed Valor Bracers',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 4, stat_value1 = 43,
   stat_type2 = 7, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -259,13 +259,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Valor Gauntlets           Plate   band D  ilvl 71  req 58   <- clone 33587 (Combatant's Lamellar Glove)
+-- Hallowed Valor Gauntlets           Plate   band D  ilvl 71  req 44   <- clone 33587 (Combatant's Lamellar Glove)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 33587;
 UPDATE tmp_g SET
   entry = 90412, name = 'Hallowed Valor Gauntlets',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 4, stat_value1 = 43,
   stat_type2 = 7, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -276,13 +276,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Valor Girdle              Plate   band D  ilvl 71  req 58   <- clone 21503 (Belt of the Sand Reaver)
+-- Hallowed Valor Girdle              Plate   band D  ilvl 71  req 44   <- clone 21503 (Belt of the Sand Reaver)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 21503;
 UPDATE tmp_g SET
   entry = 90413, name = 'Hallowed Valor Girdle',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 4, stat_value1 = 43,
   stat_type2 = 7, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -293,13 +293,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Valor Legguards           Plate   band D  ilvl 71  req 58   <- clone 22672 (Sentinel's Plate Legguards)
+-- Hallowed Valor Legguards           Plate   band D  ilvl 71  req 44   <- clone 22672 (Sentinel's Plate Legguards)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 22672;
 UPDATE tmp_g SET
   entry = 90414, name = 'Hallowed Valor Legguards',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 4, stat_value1 = 43,
   stat_type2 = 7, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -310,13 +310,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Valor Boots               Plate   band D  ilvl 71  req 58   <- clone 16472 (Marshal's Lamellar Boots)
+-- Hallowed Valor Boots               Plate   band D  ilvl 71  req 44   <- clone 16472 (Marshal's Lamellar Boots)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 16472;
 UPDATE tmp_g SET
   entry = 90415, name = 'Hallowed Valor Boots',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 4, stat_value1 = 43,
   stat_type2 = 7, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -327,13 +327,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Bastion Helm                 Plate   band C  ilvl 56  req 45   <- clone 11746 (Golem Skull Helm)
+-- Grand Bastion Helm                 Plate   band C  ilvl 56  req 28   <- clone 11746 (Golem Skull Helm)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 11746;
 UPDATE tmp_g SET
   entry = 90416, name = 'Grand Bastion Helm',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 7, stat_value1 = 25,
   stat_type2 = 4, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -344,13 +344,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Bastion Pauldrons            Plate   band C  ilvl 56  req 45   <- clone 10170 (Templar Pauldrons)
+-- Grand Bastion Pauldrons            Plate   band C  ilvl 56  req 28   <- clone 10170 (Templar Pauldrons)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 10170;
 UPDATE tmp_g SET
   entry = 90417, name = 'Grand Bastion Pauldrons',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 7, stat_value1 = 25,
   stat_type2 = 4, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -361,13 +361,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Bastion Chestguard           Plate   band C  ilvl 56  req 45   <- clone 14958 (High Chief's Armor)
+-- Grand Bastion Chestguard           Plate   band C  ilvl 56  req 28   <- clone 14958 (High Chief's Armor)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 14958;
 UPDATE tmp_g SET
   entry = 90418, name = 'Grand Bastion Chestguard',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 7, stat_value1 = 25,
   stat_type2 = 4, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -378,13 +378,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Bastion Bracers              Plate   band C  ilvl 56  req 45   <- clone 42373 (Bands of Water)
+-- Grand Bastion Bracers              Plate   band C  ilvl 56  req 28   <- clone 42373 (Bands of Water)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 42373;
 UPDATE tmp_g SET
   entry = 90419, name = 'Grand Bastion Bracers',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 7, stat_value1 = 25,
   stat_type2 = 4, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -395,13 +395,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Bastion Gauntlets            Plate   band C  ilvl 56  req 45   <- clone 14967 (Glorious Gauntlets)
+-- Grand Bastion Gauntlets            Plate   band C  ilvl 56  req 28   <- clone 14967 (Glorious Gauntlets)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 14967;
 UPDATE tmp_g SET
   entry = 90420, name = 'Grand Bastion Gauntlets',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 7, stat_value1 = 25,
   stat_type2 = 4, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -412,13 +412,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Bastion Girdle               Plate   band C  ilvl 56  req 45   <- clone 42252 (Windplate Belt)
+-- Grand Bastion Girdle               Plate   band C  ilvl 56  req 28   <- clone 42252 (Windplate Belt)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 42252;
 UPDATE tmp_g SET
   entry = 90421, name = 'Grand Bastion Girdle',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 7, stat_value1 = 25,
   stat_type2 = 4, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -429,13 +429,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Bastion Legguards            Plate   band C  ilvl 56  req 45   <- clone 8318 (Alabaster Plate Leggings)
+-- Grand Bastion Legguards            Plate   band C  ilvl 56  req 28   <- clone 8318 (Alabaster Plate Leggings)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 8318;
 UPDATE tmp_g SET
   entry = 90422, name = 'Grand Bastion Legguards',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 7, stat_value1 = 25,
   stat_type2 = 4, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -446,13 +446,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Bastion Boots                Plate   band C  ilvl 56  req 45   <- clone 14972 (Glorious Sabatons)
+-- Grand Bastion Boots                Plate   band C  ilvl 56  req 28   <- clone 14972 (Glorious Sabatons)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 14972;
 UPDATE tmp_g SET
   entry = 90423, name = 'Grand Bastion Boots',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 7, stat_value1 = 25,
   stat_type2 = 4, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -463,13 +463,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Bastion Helm              Plate   band D  ilvl 71  req 58   <- clone 33602 (Corpsman's Lamellar Facegu)
+-- Hallowed Bastion Helm              Plate   band D  ilvl 71  req 44   <- clone 33602 (Corpsman's Lamellar Facegu)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 33602;
 UPDATE tmp_g SET
   entry = 90424, name = 'Hallowed Bastion Helm',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 7, stat_value1 = 43,
   stat_type2 = 4, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -480,13 +480,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Bastion Pauldrons         Plate   band D  ilvl 71  req 58   <- clone 33405 (Combatant's Plate Shoulder)
+-- Hallowed Bastion Pauldrons         Plate   band D  ilvl 71  req 44   <- clone 33405 (Combatant's Plate Shoulder)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 33405;
 UPDATE tmp_g SET
   entry = 90425, name = 'Hallowed Bastion Pauldrons',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 7, stat_value1 = 43,
   stat_type2 = 4, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -497,13 +497,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Bastion Chestguard        Plate   band D  ilvl 71  req 58   <- clone 33682 (Combatant's Plate Armor)
+-- Hallowed Bastion Chestguard        Plate   band D  ilvl 71  req 44   <- clone 33682 (Combatant's Plate Armor)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 33682;
 UPDATE tmp_g SET
   entry = 90426, name = 'Hallowed Bastion Chestguard',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 7, stat_value1 = 43,
   stat_type2 = 4, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -514,13 +514,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Bastion Bracers           Plate   band D  ilvl 71  req 58   <- clone 19578 (Berserker Bracers)
+-- Hallowed Bastion Bracers           Plate   band D  ilvl 71  req 44   <- clone 19578 (Berserker Bracers)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 19578;
 UPDATE tmp_g SET
   entry = 90427, name = 'Hallowed Bastion Bracers',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 7, stat_value1 = 43,
   stat_type2 = 4, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -531,13 +531,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Bastion Gauntlets         Plate   band D  ilvl 71  req 58   <- clone 33587 (Combatant's Lamellar Glove)
+-- Hallowed Bastion Gauntlets         Plate   band D  ilvl 71  req 44   <- clone 33587 (Combatant's Lamellar Glove)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 33587;
 UPDATE tmp_g SET
   entry = 90428, name = 'Hallowed Bastion Gauntlets',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 7, stat_value1 = 43,
   stat_type2 = 4, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -548,13 +548,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Bastion Girdle            Plate   band D  ilvl 71  req 58   <- clone 21503 (Belt of the Sand Reaver)
+-- Hallowed Bastion Girdle            Plate   band D  ilvl 71  req 44   <- clone 21503 (Belt of the Sand Reaver)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 21503;
 UPDATE tmp_g SET
   entry = 90429, name = 'Hallowed Bastion Girdle',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 7, stat_value1 = 43,
   stat_type2 = 4, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -565,13 +565,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Bastion Legguards         Plate   band D  ilvl 71  req 58   <- clone 22672 (Sentinel's Plate Legguards)
+-- Hallowed Bastion Legguards         Plate   band D  ilvl 71  req 44   <- clone 22672 (Sentinel's Plate Legguards)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 22672;
 UPDATE tmp_g SET
   entry = 90430, name = 'Hallowed Bastion Legguards',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 7, stat_value1 = 43,
   stat_type2 = 4, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -582,13 +582,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Bastion Boots             Plate   band D  ilvl 71  req 58   <- clone 16472 (Marshal's Lamellar Boots)
+-- Hallowed Bastion Boots             Plate   band D  ilvl 71  req 44   <- clone 16472 (Marshal's Lamellar Boots)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 16472;
 UPDATE tmp_g SET
   entry = 90431, name = 'Hallowed Bastion Boots',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 7, stat_value1 = 43,
   stat_type2 = 4, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -599,13 +599,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Dawn Helm                    Plate   band C  ilvl 56  req 45   <- clone 11746 (Golem Skull Helm)
+-- Grand Dawn Helm                    Plate   band C  ilvl 56  req 28   <- clone 11746 (Golem Skull Helm)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 11746;
 UPDATE tmp_g SET
   entry = 90432, name = 'Grand Dawn Helm',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 5, stat_value1 = 25,
   stat_type2 = 6, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -616,13 +616,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Dawn Pauldrons               Plate   band C  ilvl 56  req 45   <- clone 10170 (Templar Pauldrons)
+-- Grand Dawn Pauldrons               Plate   band C  ilvl 56  req 28   <- clone 10170 (Templar Pauldrons)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 10170;
 UPDATE tmp_g SET
   entry = 90433, name = 'Grand Dawn Pauldrons',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 5, stat_value1 = 25,
   stat_type2 = 6, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -633,13 +633,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Dawn Chestguard              Plate   band C  ilvl 56  req 45   <- clone 14958 (High Chief's Armor)
+-- Grand Dawn Chestguard              Plate   band C  ilvl 56  req 28   <- clone 14958 (High Chief's Armor)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 14958;
 UPDATE tmp_g SET
   entry = 90434, name = 'Grand Dawn Chestguard',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 5, stat_value1 = 25,
   stat_type2 = 6, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -650,13 +650,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Dawn Bracers                 Plate   band C  ilvl 56  req 45   <- clone 42373 (Bands of Water)
+-- Grand Dawn Bracers                 Plate   band C  ilvl 56  req 28   <- clone 42373 (Bands of Water)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 42373;
 UPDATE tmp_g SET
   entry = 90435, name = 'Grand Dawn Bracers',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 5, stat_value1 = 25,
   stat_type2 = 6, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -667,13 +667,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Dawn Gauntlets               Plate   band C  ilvl 56  req 45   <- clone 14967 (Glorious Gauntlets)
+-- Grand Dawn Gauntlets               Plate   band C  ilvl 56  req 28   <- clone 14967 (Glorious Gauntlets)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 14967;
 UPDATE tmp_g SET
   entry = 90436, name = 'Grand Dawn Gauntlets',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 5, stat_value1 = 25,
   stat_type2 = 6, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -684,13 +684,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Dawn Girdle                  Plate   band C  ilvl 56  req 45   <- clone 42252 (Windplate Belt)
+-- Grand Dawn Girdle                  Plate   band C  ilvl 56  req 28   <- clone 42252 (Windplate Belt)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 42252;
 UPDATE tmp_g SET
   entry = 90437, name = 'Grand Dawn Girdle',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 5, stat_value1 = 25,
   stat_type2 = 6, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -701,13 +701,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Dawn Legguards               Plate   band C  ilvl 56  req 45   <- clone 8318 (Alabaster Plate Leggings)
+-- Grand Dawn Legguards               Plate   band C  ilvl 56  req 28   <- clone 8318 (Alabaster Plate Leggings)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 8318;
 UPDATE tmp_g SET
   entry = 90438, name = 'Grand Dawn Legguards',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 5, stat_value1 = 25,
   stat_type2 = 6, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -718,13 +718,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Dawn Boots                   Plate   band C  ilvl 56  req 45   <- clone 14972 (Glorious Sabatons)
+-- Grand Dawn Boots                   Plate   band C  ilvl 56  req 28   <- clone 14972 (Glorious Sabatons)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 14972;
 UPDATE tmp_g SET
   entry = 90439, name = 'Grand Dawn Boots',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 5, stat_value1 = 25,
   stat_type2 = 6, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -735,13 +735,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Dawn Helm                 Plate   band D  ilvl 71  req 58   <- clone 33602 (Corpsman's Lamellar Facegu)
+-- Hallowed Dawn Helm                 Plate   band D  ilvl 71  req 44   <- clone 33602 (Corpsman's Lamellar Facegu)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 33602;
 UPDATE tmp_g SET
   entry = 90440, name = 'Hallowed Dawn Helm',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 5, stat_value1 = 43,
   stat_type2 = 6, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -752,13 +752,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Dawn Pauldrons            Plate   band D  ilvl 71  req 58   <- clone 33405 (Combatant's Plate Shoulder)
+-- Hallowed Dawn Pauldrons            Plate   band D  ilvl 71  req 44   <- clone 33405 (Combatant's Plate Shoulder)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 33405;
 UPDATE tmp_g SET
   entry = 90441, name = 'Hallowed Dawn Pauldrons',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 5, stat_value1 = 43,
   stat_type2 = 6, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -769,13 +769,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Dawn Chestguard           Plate   band D  ilvl 71  req 58   <- clone 33682 (Combatant's Plate Armor)
+-- Hallowed Dawn Chestguard           Plate   band D  ilvl 71  req 44   <- clone 33682 (Combatant's Plate Armor)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 33682;
 UPDATE tmp_g SET
   entry = 90442, name = 'Hallowed Dawn Chestguard',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 5, stat_value1 = 43,
   stat_type2 = 6, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -786,13 +786,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Dawn Bracers              Plate   band D  ilvl 71  req 58   <- clone 19578 (Berserker Bracers)
+-- Hallowed Dawn Bracers              Plate   band D  ilvl 71  req 44   <- clone 19578 (Berserker Bracers)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 19578;
 UPDATE tmp_g SET
   entry = 90443, name = 'Hallowed Dawn Bracers',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 5, stat_value1 = 43,
   stat_type2 = 6, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -803,13 +803,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Dawn Gauntlets            Plate   band D  ilvl 71  req 58   <- clone 33587 (Combatant's Lamellar Glove)
+-- Hallowed Dawn Gauntlets            Plate   band D  ilvl 71  req 44   <- clone 33587 (Combatant's Lamellar Glove)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 33587;
 UPDATE tmp_g SET
   entry = 90444, name = 'Hallowed Dawn Gauntlets',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 5, stat_value1 = 43,
   stat_type2 = 6, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -820,13 +820,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Dawn Girdle               Plate   band D  ilvl 71  req 58   <- clone 21503 (Belt of the Sand Reaver)
+-- Hallowed Dawn Girdle               Plate   band D  ilvl 71  req 44   <- clone 21503 (Belt of the Sand Reaver)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 21503;
 UPDATE tmp_g SET
   entry = 90445, name = 'Hallowed Dawn Girdle',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 5, stat_value1 = 43,
   stat_type2 = 6, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -837,13 +837,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Dawn Legguards            Plate   band D  ilvl 71  req 58   <- clone 22672 (Sentinel's Plate Legguards)
+-- Hallowed Dawn Legguards            Plate   band D  ilvl 71  req 44   <- clone 22672 (Sentinel's Plate Legguards)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 22672;
 UPDATE tmp_g SET
   entry = 90446, name = 'Hallowed Dawn Legguards',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 5, stat_value1 = 43,
   stat_type2 = 6, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -854,13 +854,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Dawn Boots                Plate   band D  ilvl 71  req 58   <- clone 16472 (Marshal's Lamellar Boots)
+-- Hallowed Dawn Boots                Plate   band D  ilvl 71  req 44   <- clone 16472 (Marshal's Lamellar Boots)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 16472;
 UPDATE tmp_g SET
   entry = 90447, name = 'Hallowed Dawn Boots',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 5, stat_value1 = 43,
   stat_type2 = 6, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -871,13 +871,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hunt Helm                          Mail    band A  ilvl 22  req 16   <- clone 33043 (Blackwind Facemask)
+-- Hunt Helm                          Mail    band A  ilvl 22  req 4    <- clone 33043 (Blackwind Facemask)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 33043;
 UPDATE tmp_g SET
   entry = 90448, name = 'Hunt Helm',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 3, stat_value1 = 6,
   stat_type2 = 7, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -888,13 +888,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hunt Pauldrons                     Mail    band A  ilvl 22  req 16   <- clone 14728 (War Paint Shoulder Pads)
+-- Hunt Pauldrons                     Mail    band A  ilvl 22  req 4    <- clone 14728 (War Paint Shoulder Pads)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 14728;
 UPDATE tmp_g SET
   entry = 90449, name = 'Hunt Pauldrons',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 3, stat_value1 = 6,
   stat_type2 = 7, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -905,13 +905,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hunt Chestguard                    Mail    band A  ilvl 22  req 16   <- clone 285 (Scalemail Vest)
+-- Hunt Chestguard                    Mail    band A  ilvl 22  req 4    <- clone 285 (Scalemail Vest)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 285;
 UPDATE tmp_g SET
   entry = 90450, name = 'Hunt Chestguard',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 3, stat_value1 = 6,
   stat_type2 = 7, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -922,13 +922,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hunt Bracers                       Mail    band A  ilvl 22  req 16   <- clone 1852 (Scalemail Bracers)
+-- Hunt Bracers                       Mail    band A  ilvl 22  req 4    <- clone 1852 (Scalemail Bracers)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 1852;
 UPDATE tmp_g SET
   entry = 90451, name = 'Hunt Bracers',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 3, stat_value1 = 6,
   stat_type2 = 7, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -939,13 +939,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hunt Gauntlets                     Mail    band A  ilvl 22  req 16   <- clone 7606 (Polar Gauntlets)
+-- Hunt Gauntlets                     Mail    band A  ilvl 22  req 4    <- clone 7606 (Polar Gauntlets)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 7606;
 UPDATE tmp_g SET
   entry = 90452, name = 'Hunt Gauntlets',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 3, stat_value1 = 6,
   stat_type2 = 7, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -956,13 +956,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hunt Girdle                        Mail    band A  ilvl 22  req 16   <- clone 6576 (Defender Girdle)
+-- Hunt Girdle                        Mail    band A  ilvl 22  req 4    <- clone 6576 (Defender Girdle)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 6576;
 UPDATE tmp_g SET
   entry = 90453, name = 'Hunt Girdle',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 3, stat_value1 = 6,
   stat_type2 = 7, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -973,13 +973,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hunt Legguards                     Mail    band A  ilvl 22  req 16   <- clone 286 (Scalemail Pants)
+-- Hunt Legguards                     Mail    band A  ilvl 22  req 4    <- clone 286 (Scalemail Pants)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 286;
 UPDATE tmp_g SET
   entry = 90454, name = 'Hunt Legguards',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 3, stat_value1 = 6,
   stat_type2 = 7, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -990,13 +990,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hunt Boots                         Mail    band A  ilvl 22  req 16   <- clone 287 (Scalemail Boots)
+-- Hunt Boots                         Mail    band A  ilvl 22  req 4    <- clone 287 (Scalemail Boots)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 287;
 UPDATE tmp_g SET
   entry = 90455, name = 'Hunt Boots',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 3, stat_value1 = 6,
   stat_type2 = 7, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1007,13 +1007,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Hunt Helm                     Mail    band B  ilvl 40  req 33   <- clone 58272 (Kor'kron Crown)
+-- Fine Hunt Helm                     Mail    band B  ilvl 40  req 14   <- clone 58272 (Kor'kron Crown)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 58272;
 UPDATE tmp_g SET
   entry = 90456, name = 'Fine Hunt Helm',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 3, stat_value1 = 17,
   stat_type2 = 7, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1024,13 +1024,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Hunt Pauldrons                Mail    band B  ilvl 40  req 33   <- clone 6792 (Sanguine Pauldrons)
+-- Fine Hunt Pauldrons                Mail    band B  ilvl 40  req 14   <- clone 6792 (Sanguine Pauldrons)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 6792;
 UPDATE tmp_g SET
   entry = 90457, name = 'Fine Hunt Pauldrons',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 3, stat_value1 = 17,
   stat_type2 = 7, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1041,13 +1041,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Hunt Chestguard               Mail    band B  ilvl 40  req 33   <- clone 7963 (Steel Breastplate)
+-- Fine Hunt Chestguard               Mail    band B  ilvl 40  req 14   <- clone 7963 (Steel Breastplate)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 7963;
 UPDATE tmp_g SET
   entry = 90458, name = 'Fine Hunt Chestguard',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 3, stat_value1 = 17,
   stat_type2 = 7, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1058,13 +1058,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Hunt Bracers                  Mail    band B  ilvl 40  req 33   <- clone 55179 (Luminescent Cufflinks)
+-- Fine Hunt Bracers                  Mail    band B  ilvl 40  req 14   <- clone 55179 (Luminescent Cufflinks)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 55179;
 UPDATE tmp_g SET
   entry = 90459, name = 'Fine Hunt Bracers',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 3, stat_value1 = 17,
   stat_type2 = 7, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1075,13 +1075,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Hunt Gauntlets                Mail    band B  ilvl 40  req 33   <- clone 58166 (Grips of the Overseer)
+-- Fine Hunt Gauntlets                Mail    band B  ilvl 40  req 14   <- clone 58166 (Grips of the Overseer)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 58166;
 UPDATE tmp_g SET
   entry = 90460, name = 'Fine Hunt Gauntlets',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 3, stat_value1 = 17,
   stat_type2 = 7, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1092,13 +1092,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Hunt Girdle                   Mail    band B  ilvl 40  req 33   <- clone 9901 (Jazeraint Belt)
+-- Fine Hunt Girdle                   Mail    band B  ilvl 40  req 14   <- clone 9901 (Jazeraint Belt)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 9901;
 UPDATE tmp_g SET
   entry = 90461, name = 'Fine Hunt Girdle',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 3, stat_value1 = 17,
   stat_type2 = 7, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1109,13 +1109,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Hunt Legguards                Mail    band B  ilvl 40  req 33   <- clone 4079 (Chief Brigadier Leggings)
+-- Fine Hunt Legguards                Mail    band B  ilvl 40  req 14   <- clone 4079 (Chief Brigadier Leggings)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 4079;
 UPDATE tmp_g SET
   entry = 90462, name = 'Fine Hunt Legguards',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 3, stat_value1 = 17,
   stat_type2 = 7, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1126,13 +1126,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Hunt Boots                    Mail    band B  ilvl 40  req 33   <- clone 9895 (Jazeraint Boots)
+-- Fine Hunt Boots                    Mail    band B  ilvl 40  req 14   <- clone 9895 (Jazeraint Boots)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 9895;
 UPDATE tmp_g SET
   entry = 90463, name = 'Fine Hunt Boots',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 3, stat_value1 = 17,
   stat_type2 = 7, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1143,13 +1143,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Hunt Helm                    Mail    band C  ilvl 56  req 45   <- clone 15651 (Merciless Crown)
+-- Grand Hunt Helm                    Mail    band C  ilvl 56  req 28   <- clone 15651 (Merciless Crown)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 15651;
 UPDATE tmp_g SET
   entry = 90464, name = 'Grand Hunt Helm',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 3, stat_value1 = 25,
   stat_type2 = 7, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1160,13 +1160,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Hunt Pauldrons               Mail    band C  ilvl 56  req 45   <- clone 10125 (Ornate Pauldrons)
+-- Grand Hunt Pauldrons               Mail    band C  ilvl 56  req 28   <- clone 10125 (Ornate Pauldrons)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 10125;
 UPDATE tmp_g SET
   entry = 90465, name = 'Grand Hunt Pauldrons',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 3, stat_value1 = 25,
   stat_type2 = 7, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1177,13 +1177,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Hunt Chestguard              Mail    band C  ilvl 56  req 45   <- clone 15640 (Ironhide Breastplate)
+-- Grand Hunt Chestguard              Mail    band C  ilvl 56  req 28   <- clone 15640 (Ironhide Breastplate)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 15640;
 UPDATE tmp_g SET
   entry = 90466, name = 'Grand Hunt Chestguard',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 3, stat_value1 = 25,
   stat_type2 = 7, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1194,13 +1194,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Hunt Bracers                 Mail    band C  ilvl 56  req 45   <- clone 12112 (Crypt Demon Bracers)
+-- Grand Hunt Bracers                 Mail    band C  ilvl 56  req 28   <- clone 12112 (Crypt Demon Bracers)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 12112;
 UPDATE tmp_g SET
   entry = 90467, name = 'Grand Hunt Bracers',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 3, stat_value1 = 25,
   stat_type2 = 7, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1211,13 +1211,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Hunt Gauntlets               Mail    band C  ilvl 56  req 45   <- clone 20296 (Green Dragonscale Gauntlet)
+-- Grand Hunt Gauntlets               Mail    band C  ilvl 56  req 28   <- clone 20296 (Green Dragonscale Gauntlet)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 20296;
 UPDATE tmp_g SET
   entry = 90468, name = 'Grand Hunt Gauntlets',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 3, stat_value1 = 25,
   stat_type2 = 7, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1228,13 +1228,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Hunt Girdle                  Mail    band C  ilvl 56  req 45   <- clone 15813 (Gold Link Belt)
+-- Grand Hunt Girdle                  Mail    band C  ilvl 56  req 28   <- clone 15813 (Gold Link Belt)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 15813;
 UPDATE tmp_g SET
   entry = 90469, name = 'Grand Hunt Girdle',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 3, stat_value1 = 25,
   stat_type2 = 7, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1245,13 +1245,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Hunt Legguards               Mail    band C  ilvl 56  req 45   <- clone 8271 (Ebonhold Leggings)
+-- Grand Hunt Legguards               Mail    band C  ilvl 56  req 28   <- clone 8271 (Ebonhold Leggings)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 8271;
 UPDATE tmp_g SET
   entry = 90470, name = 'Grand Hunt Legguards',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 3, stat_value1 = 25,
   stat_type2 = 7, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1262,13 +1262,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Hunt Boots                   Mail    band C  ilvl 56  req 45   <- clone 42074 (Coastwalker Boots)
+-- Grand Hunt Boots                   Mail    band C  ilvl 56  req 28   <- clone 42074 (Coastwalker Boots)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 42074;
 UPDATE tmp_g SET
   entry = 90471, name = 'Grand Hunt Boots',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 3, stat_value1 = 25,
   stat_type2 = 7, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1279,13 +1279,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Hunt Helm                 Mail    band D  ilvl 71  req 58   <- clone 33440 (Combatant's Chain Helm)
+-- Hallowed Hunt Helm                 Mail    band D  ilvl 71  req 44   <- clone 33440 (Combatant's Chain Helm)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 33440;
 UPDATE tmp_g SET
   entry = 90472, name = 'Hallowed Hunt Helm',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 3, stat_value1 = 43,
   stat_type2 = 7, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1296,13 +1296,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Hunt Pauldrons            Mail    band D  ilvl 71  req 58   <- clone 33717 (Combatant's Chain Spaulder)
+-- Hallowed Hunt Pauldrons            Mail    band D  ilvl 71  req 44   <- clone 33717 (Combatant's Chain Spaulder)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 33717;
 UPDATE tmp_g SET
   entry = 90473, name = 'Hallowed Hunt Pauldrons',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 3, stat_value1 = 43,
   stat_type2 = 7, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1313,13 +1313,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Hunt Chestguard           Mail    band D  ilvl 71  req 58   <- clone 33718 (Combatant's Chain Breastpl)
+-- Hallowed Hunt Chestguard           Mail    band D  ilvl 71  req 44   <- clone 33718 (Combatant's Chain Breastpl)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 33718;
 UPDATE tmp_g SET
   entry = 90474, name = 'Hallowed Hunt Chestguard',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 3, stat_value1 = 43,
   stat_type2 = 7, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1330,13 +1330,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Hunt Bracers              Mail    band D  ilvl 71  req 58   <- clone 19582 (Windtalker's Wristguards)
+-- Hallowed Hunt Bracers              Mail    band D  ilvl 71  req 44   <- clone 19582 (Windtalker's Wristguards)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 19582;
 UPDATE tmp_g SET
   entry = 90475, name = 'Hallowed Hunt Bracers',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 3, stat_value1 = 43,
   stat_type2 = 7, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1347,13 +1347,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Hunt Gauntlets            Mail    band D  ilvl 71  req 58   <- clone 33515 (Corpsman's Mail Gauntlets)
+-- Hallowed Hunt Gauntlets            Mail    band D  ilvl 71  req 44   <- clone 33515 (Corpsman's Mail Gauntlets)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 33515;
 UPDATE tmp_g SET
   entry = 90476, name = 'Hallowed Hunt Gauntlets',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 3, stat_value1 = 43,
   stat_type2 = 7, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1364,13 +1364,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Hunt Girdle               Mail    band D  ilvl 71  req 58   <- clone 33068 (Vanguard's Waistguard)
+-- Hallowed Hunt Girdle               Mail    band D  ilvl 71  req 44   <- clone 33068 (Vanguard's Waistguard)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 33068;
 UPDATE tmp_g SET
   entry = 90477, name = 'Hallowed Hunt Girdle',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 3, stat_value1 = 43,
   stat_type2 = 7, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1381,13 +1381,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Hunt Legguards            Mail    band D  ilvl 71  req 58   <- clone 33480 (Combatant's Mail Leggings)
+-- Hallowed Hunt Legguards            Mail    band D  ilvl 71  req 44   <- clone 33480 (Combatant's Mail Leggings)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 33480;
 UPDATE tmp_g SET
   entry = 90478, name = 'Hallowed Hunt Legguards',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 3, stat_value1 = 43,
   stat_type2 = 7, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1398,13 +1398,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Hunt Boots                Mail    band D  ilvl 71  req 58   <- clone 33721 (Combatant's Chain Boots)
+-- Hallowed Hunt Boots                Mail    band D  ilvl 71  req 44   <- clone 33721 (Combatant's Chain Boots)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 33721;
 UPDATE tmp_g SET
   entry = 90479, name = 'Hallowed Hunt Boots',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 3, stat_value1 = 43,
   stat_type2 = 7, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1415,13 +1415,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Tempest Helm                       Mail    band A  ilvl 22  req 16   <- clone 33043 (Blackwind Facemask)
+-- Tempest Helm                       Mail    band A  ilvl 22  req 4    <- clone 33043 (Blackwind Facemask)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 33043;
 UPDATE tmp_g SET
   entry = 90480, name = 'Tempest Helm',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 4, stat_value1 = 6,
   stat_type2 = 7, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1432,13 +1432,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Tempest Pauldrons                  Mail    band A  ilvl 22  req 16   <- clone 14728 (War Paint Shoulder Pads)
+-- Tempest Pauldrons                  Mail    band A  ilvl 22  req 4    <- clone 14728 (War Paint Shoulder Pads)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 14728;
 UPDATE tmp_g SET
   entry = 90481, name = 'Tempest Pauldrons',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 4, stat_value1 = 6,
   stat_type2 = 7, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1449,13 +1449,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Tempest Chestguard                 Mail    band A  ilvl 22  req 16   <- clone 285 (Scalemail Vest)
+-- Tempest Chestguard                 Mail    band A  ilvl 22  req 4    <- clone 285 (Scalemail Vest)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 285;
 UPDATE tmp_g SET
   entry = 90482, name = 'Tempest Chestguard',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 4, stat_value1 = 6,
   stat_type2 = 7, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1466,13 +1466,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Tempest Bracers                    Mail    band A  ilvl 22  req 16   <- clone 1852 (Scalemail Bracers)
+-- Tempest Bracers                    Mail    band A  ilvl 22  req 4    <- clone 1852 (Scalemail Bracers)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 1852;
 UPDATE tmp_g SET
   entry = 90483, name = 'Tempest Bracers',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 4, stat_value1 = 6,
   stat_type2 = 7, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1483,13 +1483,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Tempest Gauntlets                  Mail    band A  ilvl 22  req 16   <- clone 7606 (Polar Gauntlets)
+-- Tempest Gauntlets                  Mail    band A  ilvl 22  req 4    <- clone 7606 (Polar Gauntlets)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 7606;
 UPDATE tmp_g SET
   entry = 90484, name = 'Tempest Gauntlets',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 4, stat_value1 = 6,
   stat_type2 = 7, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1500,13 +1500,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Tempest Girdle                     Mail    band A  ilvl 22  req 16   <- clone 6576 (Defender Girdle)
+-- Tempest Girdle                     Mail    band A  ilvl 22  req 4    <- clone 6576 (Defender Girdle)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 6576;
 UPDATE tmp_g SET
   entry = 90485, name = 'Tempest Girdle',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 4, stat_value1 = 6,
   stat_type2 = 7, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1517,13 +1517,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Tempest Legguards                  Mail    band A  ilvl 22  req 16   <- clone 286 (Scalemail Pants)
+-- Tempest Legguards                  Mail    band A  ilvl 22  req 4    <- clone 286 (Scalemail Pants)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 286;
 UPDATE tmp_g SET
   entry = 90486, name = 'Tempest Legguards',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 4, stat_value1 = 6,
   stat_type2 = 7, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1534,13 +1534,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Tempest Boots                      Mail    band A  ilvl 22  req 16   <- clone 287 (Scalemail Boots)
+-- Tempest Boots                      Mail    band A  ilvl 22  req 4    <- clone 287 (Scalemail Boots)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 287;
 UPDATE tmp_g SET
   entry = 90487, name = 'Tempest Boots',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 4, stat_value1 = 6,
   stat_type2 = 7, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1551,13 +1551,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Tempest Helm                  Mail    band B  ilvl 40  req 33   <- clone 58272 (Kor'kron Crown)
+-- Fine Tempest Helm                  Mail    band B  ilvl 40  req 14   <- clone 58272 (Kor'kron Crown)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 58272;
 UPDATE tmp_g SET
   entry = 90488, name = 'Fine Tempest Helm',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 4, stat_value1 = 17,
   stat_type2 = 7, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1568,13 +1568,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Tempest Pauldrons             Mail    band B  ilvl 40  req 33   <- clone 6792 (Sanguine Pauldrons)
+-- Fine Tempest Pauldrons             Mail    band B  ilvl 40  req 14   <- clone 6792 (Sanguine Pauldrons)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 6792;
 UPDATE tmp_g SET
   entry = 90489, name = 'Fine Tempest Pauldrons',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 4, stat_value1 = 17,
   stat_type2 = 7, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1585,13 +1585,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Tempest Chestguard            Mail    band B  ilvl 40  req 33   <- clone 7963 (Steel Breastplate)
+-- Fine Tempest Chestguard            Mail    band B  ilvl 40  req 14   <- clone 7963 (Steel Breastplate)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 7963;
 UPDATE tmp_g SET
   entry = 90490, name = 'Fine Tempest Chestguard',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 4, stat_value1 = 17,
   stat_type2 = 7, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1602,13 +1602,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Tempest Bracers               Mail    band B  ilvl 40  req 33   <- clone 55179 (Luminescent Cufflinks)
+-- Fine Tempest Bracers               Mail    band B  ilvl 40  req 14   <- clone 55179 (Luminescent Cufflinks)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 55179;
 UPDATE tmp_g SET
   entry = 90491, name = 'Fine Tempest Bracers',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 4, stat_value1 = 17,
   stat_type2 = 7, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1619,13 +1619,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Tempest Gauntlets             Mail    band B  ilvl 40  req 33   <- clone 58166 (Grips of the Overseer)
+-- Fine Tempest Gauntlets             Mail    band B  ilvl 40  req 14   <- clone 58166 (Grips of the Overseer)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 58166;
 UPDATE tmp_g SET
   entry = 90492, name = 'Fine Tempest Gauntlets',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 4, stat_value1 = 17,
   stat_type2 = 7, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1636,13 +1636,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Tempest Girdle                Mail    band B  ilvl 40  req 33   <- clone 9901 (Jazeraint Belt)
+-- Fine Tempest Girdle                Mail    band B  ilvl 40  req 14   <- clone 9901 (Jazeraint Belt)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 9901;
 UPDATE tmp_g SET
   entry = 90493, name = 'Fine Tempest Girdle',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 4, stat_value1 = 17,
   stat_type2 = 7, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1653,13 +1653,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Tempest Legguards             Mail    band B  ilvl 40  req 33   <- clone 4079 (Chief Brigadier Leggings)
+-- Fine Tempest Legguards             Mail    band B  ilvl 40  req 14   <- clone 4079 (Chief Brigadier Leggings)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 4079;
 UPDATE tmp_g SET
   entry = 90494, name = 'Fine Tempest Legguards',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 4, stat_value1 = 17,
   stat_type2 = 7, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1670,13 +1670,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Tempest Boots                 Mail    band B  ilvl 40  req 33   <- clone 9895 (Jazeraint Boots)
+-- Fine Tempest Boots                 Mail    band B  ilvl 40  req 14   <- clone 9895 (Jazeraint Boots)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 9895;
 UPDATE tmp_g SET
   entry = 90495, name = 'Fine Tempest Boots',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 4, stat_value1 = 17,
   stat_type2 = 7, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1687,13 +1687,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Tempest Helm                 Mail    band C  ilvl 56  req 45   <- clone 15651 (Merciless Crown)
+-- Grand Tempest Helm                 Mail    band C  ilvl 56  req 28   <- clone 15651 (Merciless Crown)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 15651;
 UPDATE tmp_g SET
   entry = 90496, name = 'Grand Tempest Helm',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 4, stat_value1 = 25,
   stat_type2 = 7, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1704,13 +1704,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Tempest Pauldrons            Mail    band C  ilvl 56  req 45   <- clone 10125 (Ornate Pauldrons)
+-- Grand Tempest Pauldrons            Mail    band C  ilvl 56  req 28   <- clone 10125 (Ornate Pauldrons)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 10125;
 UPDATE tmp_g SET
   entry = 90497, name = 'Grand Tempest Pauldrons',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 4, stat_value1 = 25,
   stat_type2 = 7, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1721,13 +1721,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Tempest Chestguard           Mail    band C  ilvl 56  req 45   <- clone 15640 (Ironhide Breastplate)
+-- Grand Tempest Chestguard           Mail    band C  ilvl 56  req 28   <- clone 15640 (Ironhide Breastplate)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 15640;
 UPDATE tmp_g SET
   entry = 90498, name = 'Grand Tempest Chestguard',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 4, stat_value1 = 25,
   stat_type2 = 7, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1738,13 +1738,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Tempest Bracers              Mail    band C  ilvl 56  req 45   <- clone 12112 (Crypt Demon Bracers)
+-- Grand Tempest Bracers              Mail    band C  ilvl 56  req 28   <- clone 12112 (Crypt Demon Bracers)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 12112;
 UPDATE tmp_g SET
   entry = 90499, name = 'Grand Tempest Bracers',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 4, stat_value1 = 25,
   stat_type2 = 7, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1755,13 +1755,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Tempest Gauntlets            Mail    band C  ilvl 56  req 45   <- clone 20296 (Green Dragonscale Gauntlet)
+-- Grand Tempest Gauntlets            Mail    band C  ilvl 56  req 28   <- clone 20296 (Green Dragonscale Gauntlet)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 20296;
 UPDATE tmp_g SET
   entry = 90500, name = 'Grand Tempest Gauntlets',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 4, stat_value1 = 25,
   stat_type2 = 7, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1772,13 +1772,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Tempest Girdle               Mail    band C  ilvl 56  req 45   <- clone 15813 (Gold Link Belt)
+-- Grand Tempest Girdle               Mail    band C  ilvl 56  req 28   <- clone 15813 (Gold Link Belt)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 15813;
 UPDATE tmp_g SET
   entry = 90501, name = 'Grand Tempest Girdle',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 4, stat_value1 = 25,
   stat_type2 = 7, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1789,13 +1789,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Tempest Legguards            Mail    band C  ilvl 56  req 45   <- clone 8271 (Ebonhold Leggings)
+-- Grand Tempest Legguards            Mail    band C  ilvl 56  req 28   <- clone 8271 (Ebonhold Leggings)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 8271;
 UPDATE tmp_g SET
   entry = 90502, name = 'Grand Tempest Legguards',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 4, stat_value1 = 25,
   stat_type2 = 7, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1806,13 +1806,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Tempest Boots                Mail    band C  ilvl 56  req 45   <- clone 42074 (Coastwalker Boots)
+-- Grand Tempest Boots                Mail    band C  ilvl 56  req 28   <- clone 42074 (Coastwalker Boots)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 42074;
 UPDATE tmp_g SET
   entry = 90503, name = 'Grand Tempest Boots',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 4, stat_value1 = 25,
   stat_type2 = 7, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1823,13 +1823,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Tempest Helm              Mail    band D  ilvl 71  req 58   <- clone 33440 (Combatant's Chain Helm)
+-- Hallowed Tempest Helm              Mail    band D  ilvl 71  req 44   <- clone 33440 (Combatant's Chain Helm)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 33440;
 UPDATE tmp_g SET
   entry = 90504, name = 'Hallowed Tempest Helm',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 4, stat_value1 = 43,
   stat_type2 = 7, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1840,13 +1840,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Tempest Pauldrons         Mail    band D  ilvl 71  req 58   <- clone 33717 (Combatant's Chain Spaulder)
+-- Hallowed Tempest Pauldrons         Mail    band D  ilvl 71  req 44   <- clone 33717 (Combatant's Chain Spaulder)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 33717;
 UPDATE tmp_g SET
   entry = 90505, name = 'Hallowed Tempest Pauldrons',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 4, stat_value1 = 43,
   stat_type2 = 7, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1857,13 +1857,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Tempest Chestguard        Mail    band D  ilvl 71  req 58   <- clone 33718 (Combatant's Chain Breastpl)
+-- Hallowed Tempest Chestguard        Mail    band D  ilvl 71  req 44   <- clone 33718 (Combatant's Chain Breastpl)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 33718;
 UPDATE tmp_g SET
   entry = 90506, name = 'Hallowed Tempest Chestguard',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 4, stat_value1 = 43,
   stat_type2 = 7, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1874,13 +1874,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Tempest Bracers           Mail    band D  ilvl 71  req 58   <- clone 19582 (Windtalker's Wristguards)
+-- Hallowed Tempest Bracers           Mail    band D  ilvl 71  req 44   <- clone 19582 (Windtalker's Wristguards)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 19582;
 UPDATE tmp_g SET
   entry = 90507, name = 'Hallowed Tempest Bracers',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 4, stat_value1 = 43,
   stat_type2 = 7, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1891,13 +1891,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Tempest Gauntlets         Mail    band D  ilvl 71  req 58   <- clone 33515 (Corpsman's Mail Gauntlets)
+-- Hallowed Tempest Gauntlets         Mail    band D  ilvl 71  req 44   <- clone 33515 (Corpsman's Mail Gauntlets)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 33515;
 UPDATE tmp_g SET
   entry = 90508, name = 'Hallowed Tempest Gauntlets',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 4, stat_value1 = 43,
   stat_type2 = 7, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1908,13 +1908,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Tempest Girdle            Mail    band D  ilvl 71  req 58   <- clone 33068 (Vanguard's Waistguard)
+-- Hallowed Tempest Girdle            Mail    band D  ilvl 71  req 44   <- clone 33068 (Vanguard's Waistguard)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 33068;
 UPDATE tmp_g SET
   entry = 90509, name = 'Hallowed Tempest Girdle',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 4, stat_value1 = 43,
   stat_type2 = 7, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1925,13 +1925,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Tempest Legguards         Mail    band D  ilvl 71  req 58   <- clone 33480 (Combatant's Mail Leggings)
+-- Hallowed Tempest Legguards         Mail    band D  ilvl 71  req 44   <- clone 33480 (Combatant's Mail Leggings)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 33480;
 UPDATE tmp_g SET
   entry = 90510, name = 'Hallowed Tempest Legguards',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 4, stat_value1 = 43,
   stat_type2 = 7, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1942,13 +1942,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Tempest Boots             Mail    band D  ilvl 71  req 58   <- clone 33721 (Combatant's Chain Boots)
+-- Hallowed Tempest Boots             Mail    band D  ilvl 71  req 44   <- clone 33721 (Combatant's Chain Boots)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 33721;
 UPDATE tmp_g SET
   entry = 90511, name = 'Hallowed Tempest Boots',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 4, stat_value1 = 43,
   stat_type2 = 7, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1959,13 +1959,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Tide Helm                          Mail    band A  ilvl 22  req 16   <- clone 33043 (Blackwind Facemask)
+-- Tide Helm                          Mail    band A  ilvl 22  req 4    <- clone 33043 (Blackwind Facemask)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 33043;
 UPDATE tmp_g SET
   entry = 90512, name = 'Tide Helm',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 5, stat_value1 = 6,
   stat_type2 = 6, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1976,13 +1976,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Tide Pauldrons                     Mail    band A  ilvl 22  req 16   <- clone 14728 (War Paint Shoulder Pads)
+-- Tide Pauldrons                     Mail    band A  ilvl 22  req 4    <- clone 14728 (War Paint Shoulder Pads)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 14728;
 UPDATE tmp_g SET
   entry = 90513, name = 'Tide Pauldrons',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 5, stat_value1 = 6,
   stat_type2 = 6, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -1993,13 +1993,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Tide Chestguard                    Mail    band A  ilvl 22  req 16   <- clone 285 (Scalemail Vest)
+-- Tide Chestguard                    Mail    band A  ilvl 22  req 4    <- clone 285 (Scalemail Vest)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 285;
 UPDATE tmp_g SET
   entry = 90514, name = 'Tide Chestguard',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 5, stat_value1 = 6,
   stat_type2 = 6, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2010,13 +2010,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Tide Bracers                       Mail    band A  ilvl 22  req 16   <- clone 1852 (Scalemail Bracers)
+-- Tide Bracers                       Mail    band A  ilvl 22  req 4    <- clone 1852 (Scalemail Bracers)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 1852;
 UPDATE tmp_g SET
   entry = 90515, name = 'Tide Bracers',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 5, stat_value1 = 6,
   stat_type2 = 6, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2027,13 +2027,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Tide Gauntlets                     Mail    band A  ilvl 22  req 16   <- clone 7606 (Polar Gauntlets)
+-- Tide Gauntlets                     Mail    band A  ilvl 22  req 4    <- clone 7606 (Polar Gauntlets)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 7606;
 UPDATE tmp_g SET
   entry = 90516, name = 'Tide Gauntlets',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 5, stat_value1 = 6,
   stat_type2 = 6, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2044,13 +2044,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Tide Girdle                        Mail    band A  ilvl 22  req 16   <- clone 6576 (Defender Girdle)
+-- Tide Girdle                        Mail    band A  ilvl 22  req 4    <- clone 6576 (Defender Girdle)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 6576;
 UPDATE tmp_g SET
   entry = 90517, name = 'Tide Girdle',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 5, stat_value1 = 6,
   stat_type2 = 6, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2061,13 +2061,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Tide Legguards                     Mail    band A  ilvl 22  req 16   <- clone 286 (Scalemail Pants)
+-- Tide Legguards                     Mail    band A  ilvl 22  req 4    <- clone 286 (Scalemail Pants)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 286;
 UPDATE tmp_g SET
   entry = 90518, name = 'Tide Legguards',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 5, stat_value1 = 6,
   stat_type2 = 6, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2078,13 +2078,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Tide Boots                         Mail    band A  ilvl 22  req 16   <- clone 287 (Scalemail Boots)
+-- Tide Boots                         Mail    band A  ilvl 22  req 4    <- clone 287 (Scalemail Boots)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 287;
 UPDATE tmp_g SET
   entry = 90519, name = 'Tide Boots',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 5, stat_value1 = 6,
   stat_type2 = 6, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2095,13 +2095,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Tide Helm                     Mail    band B  ilvl 40  req 33   <- clone 58272 (Kor'kron Crown)
+-- Fine Tide Helm                     Mail    band B  ilvl 40  req 14   <- clone 58272 (Kor'kron Crown)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 58272;
 UPDATE tmp_g SET
   entry = 90520, name = 'Fine Tide Helm',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 5, stat_value1 = 17,
   stat_type2 = 6, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2112,13 +2112,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Tide Pauldrons                Mail    band B  ilvl 40  req 33   <- clone 6792 (Sanguine Pauldrons)
+-- Fine Tide Pauldrons                Mail    band B  ilvl 40  req 14   <- clone 6792 (Sanguine Pauldrons)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 6792;
 UPDATE tmp_g SET
   entry = 90521, name = 'Fine Tide Pauldrons',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 5, stat_value1 = 17,
   stat_type2 = 6, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2129,13 +2129,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Tide Chestguard               Mail    band B  ilvl 40  req 33   <- clone 7963 (Steel Breastplate)
+-- Fine Tide Chestguard               Mail    band B  ilvl 40  req 14   <- clone 7963 (Steel Breastplate)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 7963;
 UPDATE tmp_g SET
   entry = 90522, name = 'Fine Tide Chestguard',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 5, stat_value1 = 17,
   stat_type2 = 6, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2146,13 +2146,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Tide Bracers                  Mail    band B  ilvl 40  req 33   <- clone 55179 (Luminescent Cufflinks)
+-- Fine Tide Bracers                  Mail    band B  ilvl 40  req 14   <- clone 55179 (Luminescent Cufflinks)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 55179;
 UPDATE tmp_g SET
   entry = 90523, name = 'Fine Tide Bracers',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 5, stat_value1 = 17,
   stat_type2 = 6, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2163,13 +2163,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Tide Gauntlets                Mail    band B  ilvl 40  req 33   <- clone 58166 (Grips of the Overseer)
+-- Fine Tide Gauntlets                Mail    band B  ilvl 40  req 14   <- clone 58166 (Grips of the Overseer)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 58166;
 UPDATE tmp_g SET
   entry = 90524, name = 'Fine Tide Gauntlets',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 5, stat_value1 = 17,
   stat_type2 = 6, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2180,13 +2180,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Tide Girdle                   Mail    band B  ilvl 40  req 33   <- clone 9901 (Jazeraint Belt)
+-- Fine Tide Girdle                   Mail    band B  ilvl 40  req 14   <- clone 9901 (Jazeraint Belt)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 9901;
 UPDATE tmp_g SET
   entry = 90525, name = 'Fine Tide Girdle',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 5, stat_value1 = 17,
   stat_type2 = 6, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2197,13 +2197,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Tide Legguards                Mail    band B  ilvl 40  req 33   <- clone 4079 (Chief Brigadier Leggings)
+-- Fine Tide Legguards                Mail    band B  ilvl 40  req 14   <- clone 4079 (Chief Brigadier Leggings)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 4079;
 UPDATE tmp_g SET
   entry = 90526, name = 'Fine Tide Legguards',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 5, stat_value1 = 17,
   stat_type2 = 6, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2214,13 +2214,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Tide Boots                    Mail    band B  ilvl 40  req 33   <- clone 9895 (Jazeraint Boots)
+-- Fine Tide Boots                    Mail    band B  ilvl 40  req 14   <- clone 9895 (Jazeraint Boots)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 9895;
 UPDATE tmp_g SET
   entry = 90527, name = 'Fine Tide Boots',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 5, stat_value1 = 17,
   stat_type2 = 6, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2231,13 +2231,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Tide Helm                    Mail    band C  ilvl 56  req 45   <- clone 15651 (Merciless Crown)
+-- Grand Tide Helm                    Mail    band C  ilvl 56  req 28   <- clone 15651 (Merciless Crown)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 15651;
 UPDATE tmp_g SET
   entry = 90528, name = 'Grand Tide Helm',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 5, stat_value1 = 25,
   stat_type2 = 6, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2248,13 +2248,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Tide Pauldrons               Mail    band C  ilvl 56  req 45   <- clone 10125 (Ornate Pauldrons)
+-- Grand Tide Pauldrons               Mail    band C  ilvl 56  req 28   <- clone 10125 (Ornate Pauldrons)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 10125;
 UPDATE tmp_g SET
   entry = 90529, name = 'Grand Tide Pauldrons',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 5, stat_value1 = 25,
   stat_type2 = 6, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2265,13 +2265,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Tide Chestguard              Mail    band C  ilvl 56  req 45   <- clone 15640 (Ironhide Breastplate)
+-- Grand Tide Chestguard              Mail    band C  ilvl 56  req 28   <- clone 15640 (Ironhide Breastplate)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 15640;
 UPDATE tmp_g SET
   entry = 90530, name = 'Grand Tide Chestguard',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 5, stat_value1 = 25,
   stat_type2 = 6, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2282,13 +2282,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Tide Bracers                 Mail    band C  ilvl 56  req 45   <- clone 12112 (Crypt Demon Bracers)
+-- Grand Tide Bracers                 Mail    band C  ilvl 56  req 28   <- clone 12112 (Crypt Demon Bracers)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 12112;
 UPDATE tmp_g SET
   entry = 90531, name = 'Grand Tide Bracers',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 5, stat_value1 = 25,
   stat_type2 = 6, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2299,13 +2299,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Tide Gauntlets               Mail    band C  ilvl 56  req 45   <- clone 20296 (Green Dragonscale Gauntlet)
+-- Grand Tide Gauntlets               Mail    band C  ilvl 56  req 28   <- clone 20296 (Green Dragonscale Gauntlet)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 20296;
 UPDATE tmp_g SET
   entry = 90532, name = 'Grand Tide Gauntlets',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 5, stat_value1 = 25,
   stat_type2 = 6, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2316,13 +2316,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Tide Girdle                  Mail    band C  ilvl 56  req 45   <- clone 15813 (Gold Link Belt)
+-- Grand Tide Girdle                  Mail    band C  ilvl 56  req 28   <- clone 15813 (Gold Link Belt)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 15813;
 UPDATE tmp_g SET
   entry = 90533, name = 'Grand Tide Girdle',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 5, stat_value1 = 25,
   stat_type2 = 6, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2333,13 +2333,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Tide Legguards               Mail    band C  ilvl 56  req 45   <- clone 8271 (Ebonhold Leggings)
+-- Grand Tide Legguards               Mail    band C  ilvl 56  req 28   <- clone 8271 (Ebonhold Leggings)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 8271;
 UPDATE tmp_g SET
   entry = 90534, name = 'Grand Tide Legguards',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 5, stat_value1 = 25,
   stat_type2 = 6, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2350,13 +2350,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Tide Boots                   Mail    band C  ilvl 56  req 45   <- clone 42074 (Coastwalker Boots)
+-- Grand Tide Boots                   Mail    band C  ilvl 56  req 28   <- clone 42074 (Coastwalker Boots)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 42074;
 UPDATE tmp_g SET
   entry = 90535, name = 'Grand Tide Boots',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 5, stat_value1 = 25,
   stat_type2 = 6, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2367,13 +2367,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Tide Helm                 Mail    band D  ilvl 71  req 58   <- clone 33440 (Combatant's Chain Helm)
+-- Hallowed Tide Helm                 Mail    band D  ilvl 71  req 44   <- clone 33440 (Combatant's Chain Helm)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 33440;
 UPDATE tmp_g SET
   entry = 90536, name = 'Hallowed Tide Helm',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 5, stat_value1 = 43,
   stat_type2 = 6, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2384,13 +2384,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Tide Pauldrons            Mail    band D  ilvl 71  req 58   <- clone 33717 (Combatant's Chain Spaulder)
+-- Hallowed Tide Pauldrons            Mail    band D  ilvl 71  req 44   <- clone 33717 (Combatant's Chain Spaulder)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 33717;
 UPDATE tmp_g SET
   entry = 90537, name = 'Hallowed Tide Pauldrons',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 5, stat_value1 = 43,
   stat_type2 = 6, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2401,13 +2401,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Tide Chestguard           Mail    band D  ilvl 71  req 58   <- clone 33718 (Combatant's Chain Breastpl)
+-- Hallowed Tide Chestguard           Mail    band D  ilvl 71  req 44   <- clone 33718 (Combatant's Chain Breastpl)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 33718;
 UPDATE tmp_g SET
   entry = 90538, name = 'Hallowed Tide Chestguard',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 5, stat_value1 = 43,
   stat_type2 = 6, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2418,13 +2418,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Tide Bracers              Mail    band D  ilvl 71  req 58   <- clone 19582 (Windtalker's Wristguards)
+-- Hallowed Tide Bracers              Mail    band D  ilvl 71  req 44   <- clone 19582 (Windtalker's Wristguards)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 19582;
 UPDATE tmp_g SET
   entry = 90539, name = 'Hallowed Tide Bracers',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 5, stat_value1 = 43,
   stat_type2 = 6, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2435,13 +2435,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Tide Gauntlets            Mail    band D  ilvl 71  req 58   <- clone 33515 (Corpsman's Mail Gauntlets)
+-- Hallowed Tide Gauntlets            Mail    band D  ilvl 71  req 44   <- clone 33515 (Corpsman's Mail Gauntlets)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 33515;
 UPDATE tmp_g SET
   entry = 90540, name = 'Hallowed Tide Gauntlets',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 5, stat_value1 = 43,
   stat_type2 = 6, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2452,13 +2452,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Tide Girdle               Mail    band D  ilvl 71  req 58   <- clone 33068 (Vanguard's Waistguard)
+-- Hallowed Tide Girdle               Mail    band D  ilvl 71  req 44   <- clone 33068 (Vanguard's Waistguard)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 33068;
 UPDATE tmp_g SET
   entry = 90541, name = 'Hallowed Tide Girdle',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 5, stat_value1 = 43,
   stat_type2 = 6, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2469,13 +2469,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Tide Legguards            Mail    band D  ilvl 71  req 58   <- clone 33480 (Combatant's Mail Leggings)
+-- Hallowed Tide Legguards            Mail    band D  ilvl 71  req 44   <- clone 33480 (Combatant's Mail Leggings)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 33480;
 UPDATE tmp_g SET
   entry = 90542, name = 'Hallowed Tide Legguards',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 5, stat_value1 = 43,
   stat_type2 = 6, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2486,13 +2486,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Tide Boots                Mail    band D  ilvl 71  req 58   <- clone 33721 (Combatant's Chain Boots)
+-- Hallowed Tide Boots                Mail    band D  ilvl 71  req 44   <- clone 33721 (Combatant's Chain Boots)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 33721;
 UPDATE tmp_g SET
   entry = 90543, name = 'Hallowed Tide Boots',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 5, stat_value1 = 43,
   stat_type2 = 6, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2503,13 +2503,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Shadow Helm                        Leather band A  ilvl 22  req 16   <- clone 55061 (Shadowed Mask)
+-- Shadow Helm                        Leather band A  ilvl 22  req 4    <- clone 55061 (Shadowed Mask)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 55061;
 UPDATE tmp_g SET
   entry = 90544, name = 'Shadow Helm',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 3, stat_value1 = 6,
   stat_type2 = 7, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2520,13 +2520,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Shadow Pauldrons                   Leather band A  ilvl 22  req 16   <- clone 10405 (Bandit Shoulders)
+-- Shadow Pauldrons                   Leather band A  ilvl 22  req 4    <- clone 10405 (Bandit Shoulders)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 10405;
 UPDATE tmp_g SET
   entry = 90545, name = 'Shadow Pauldrons',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 3, stat_value1 = 6,
   stat_type2 = 7, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2537,13 +2537,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Shadow Chestguard                  Leather band A  ilvl 22  req 16   <- clone 6524 (Studded Leather Harness)
+-- Shadow Chestguard                  Leather band A  ilvl 22  req 4    <- clone 6524 (Studded Leather Harness)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 6524;
 UPDATE tmp_g SET
   entry = 90546, name = 'Shadow Chestguard',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 3, stat_value1 = 6,
   stat_type2 = 7, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2554,13 +2554,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Shadow Bracers                     Leather band A  ilvl 22  req 16   <- clone 14569 (Bristlebark Bindings)
+-- Shadow Bracers                     Leather band A  ilvl 22  req 4    <- clone 14569 (Bristlebark Bindings)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 14569;
 UPDATE tmp_g SET
   entry = 90547, name = 'Shadow Bracers',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 3, stat_value1 = 6,
   stat_type2 = 7, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2571,13 +2571,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Shadow Gauntlets                   Leather band A  ilvl 22  req 16   <- clone 239 (Cured Leather Gloves)
+-- Shadow Gauntlets                   Leather band A  ilvl 22  req 4    <- clone 239 (Cured Leather Gloves)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 239;
 UPDATE tmp_g SET
   entry = 90548, name = 'Shadow Gauntlets',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 3, stat_value1 = 6,
   stat_type2 = 7, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2588,13 +2588,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Shadow Girdle                      Leather band A  ilvl 22  req 16   <- clone 5609 (Steadfast Cinch)
+-- Shadow Girdle                      Leather band A  ilvl 22  req 4    <- clone 5609 (Steadfast Cinch)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 5609;
 UPDATE tmp_g SET
   entry = 90549, name = 'Shadow Girdle',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 3, stat_value1 = 6,
   stat_type2 = 7, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2605,13 +2605,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Shadow Legguards                   Leather band A  ilvl 22  req 16   <- clone 55380 (Craftsman's Pants)
+-- Shadow Legguards                   Leather band A  ilvl 22  req 4    <- clone 55380 (Craftsman's Pants)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 55380;
 UPDATE tmp_g SET
   entry = 90550, name = 'Shadow Legguards',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 3, stat_value1 = 6,
   stat_type2 = 7, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2622,13 +2622,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Shadow Boots                       Leather band A  ilvl 22  req 16   <- clone 238 (Cured Leather Boots)
+-- Shadow Boots                       Leather band A  ilvl 22  req 4    <- clone 238 (Cured Leather Boots)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 238;
 UPDATE tmp_g SET
   entry = 90551, name = 'Shadow Boots',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 3, stat_value1 = 6,
   stat_type2 = 7, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2639,13 +2639,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Shadow Helm                   Leather band B  ilvl 40  req 33   <- clone 4124 (Cap of Harmony)
+-- Fine Shadow Helm                   Leather band B  ilvl 40  req 14   <- clone 4124 (Cap of Harmony)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 4124;
 UPDATE tmp_g SET
   entry = 90552, name = 'Fine Shadow Helm',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 3, stat_value1 = 17,
   stat_type2 = 7, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2656,13 +2656,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Shadow Pauldrons              Leather band B  ilvl 40  req 33   <- clone 15158 (Nocturnal Shoulder Pads)
+-- Fine Shadow Pauldrons              Leather band B  ilvl 40  req 14   <- clone 15158 (Nocturnal Shoulder Pads)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 15158;
 UPDATE tmp_g SET
   entry = 90553, name = 'Fine Shadow Pauldrons',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 3, stat_value1 = 17,
   stat_type2 = 7, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2673,13 +2673,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Shadow Chestguard             Leather band B  ilvl 40  req 33   <- clone 58192 (Vest of Dark Desires)
+-- Fine Shadow Chestguard             Leather band B  ilvl 40  req 14   <- clone 58192 (Vest of Dark Desires)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 58192;
 UPDATE tmp_g SET
   entry = 90554, name = 'Fine Shadow Chestguard',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 3, stat_value1 = 17,
   stat_type2 = 7, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2690,13 +2690,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Shadow Bracers                Leather band B  ilvl 40  req 33   <- clone 14600 (Warden's Wristbands)
+-- Fine Shadow Bracers                Leather band B  ilvl 40  req 14   <- clone 14600 (Warden's Wristbands)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 14600;
 UPDATE tmp_g SET
   entry = 90555, name = 'Fine Shadow Bracers',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 3, stat_value1 = 17,
   stat_type2 = 7, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2707,13 +2707,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Shadow Gauntlets              Leather band B  ilvl 40  req 33   <- clone 18238 (Shadowskin Gloves)
+-- Fine Shadow Gauntlets              Leather band B  ilvl 40  req 14   <- clone 18238 (Shadowskin Gloves)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 18238;
 UPDATE tmp_g SET
   entry = 90556, name = 'Fine Shadow Gauntlets',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 3, stat_value1 = 17,
   stat_type2 = 7, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2724,13 +2724,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Shadow Girdle                 Leather band B  ilvl 40  req 33   <- clone 4264 (Barbaric Belt)
+-- Fine Shadow Girdle                 Leather band B  ilvl 40  req 14   <- clone 4264 (Barbaric Belt)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 4264;
 UPDATE tmp_g SET
   entry = 90557, name = 'Fine Shadow Girdle',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 3, stat_value1 = 17,
   stat_type2 = 7, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2741,13 +2741,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Shadow Legguards              Leather band B  ilvl 40  req 33   <- clone 15366 (Trickster's Leggings)
+-- Fine Shadow Legguards              Leather band B  ilvl 40  req 14   <- clone 15366 (Trickster's Leggings)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 15366;
 UPDATE tmp_g SET
   entry = 90558, name = 'Fine Shadow Legguards',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 3, stat_value1 = 17,
   stat_type2 = 7, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2758,13 +2758,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Shadow Boots                  Leather band B  ilvl 40  req 33   <- clone 42111 (Water Trudgers)
+-- Fine Shadow Boots                  Leather band B  ilvl 40  req 14   <- clone 42111 (Water Trudgers)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 42111;
 UPDATE tmp_g SET
   entry = 90559, name = 'Fine Shadow Boots',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 3, stat_value1 = 17,
   stat_type2 = 7, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2775,13 +2775,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Shadow Helm                  Leather band C  ilvl 56  req 45   <- clone 18698 (Tattered Leather Hood)
+-- Grand Shadow Helm                  Leather band C  ilvl 56  req 28   <- clone 18698 (Tattered Leather Hood)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 18698;
 UPDATE tmp_g SET
   entry = 90560, name = 'Grand Shadow Helm',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 3, stat_value1 = 25,
   stat_type2 = 7, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2792,13 +2792,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Shadow Pauldrons             Leather band C  ilvl 56  req 45   <- clone 11874 (Clouddrift Mantle)
+-- Grand Shadow Pauldrons             Leather band C  ilvl 56  req 28   <- clone 11874 (Clouddrift Mantle)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 11874;
 UPDATE tmp_g SET
   entry = 90561, name = 'Grand Shadow Pauldrons',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 3, stat_value1 = 25,
   stat_type2 = 7, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2809,13 +2809,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Shadow Chestguard            Leather band C  ilvl 56  req 45   <- clone 11876 (Plainstalker Tunic)
+-- Grand Shadow Chestguard            Leather band C  ilvl 56  req 28   <- clone 11876 (Plainstalker Tunic)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 11876;
 UPDATE tmp_g SET
   entry = 90562, name = 'Grand Shadow Chestguard',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 3, stat_value1 = 25,
   stat_type2 = 7, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2826,13 +2826,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Shadow Bracers               Leather band C  ilvl 56  req 45   <- clone 8295 (Traveler's Bracers)
+-- Grand Shadow Bracers               Leather band C  ilvl 56  req 28   <- clone 8295 (Traveler's Bracers)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 8295;
 UPDATE tmp_g SET
   entry = 90563, name = 'Grand Shadow Bracers',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 3, stat_value1 = 25,
   stat_type2 = 7, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2843,13 +2843,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Shadow Gauntlets             Leather band C  ilvl 56  req 45   <- clone 14675 (Pridelord Gloves)
+-- Grand Shadow Gauntlets             Leather band C  ilvl 56  req 28   <- clone 14675 (Pridelord Gloves)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 14675;
 UPDATE tmp_g SET
   entry = 90564, name = 'Grand Shadow Gauntlets',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 3, stat_value1 = 25,
   stat_type2 = 7, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2860,13 +2860,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Shadow Girdle                Leather band C  ilvl 56  req 45   <- clone 41127 (Belt of Forgiving)
+-- Grand Shadow Girdle                Leather band C  ilvl 56  req 28   <- clone 41127 (Belt of Forgiving)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 41127;
 UPDATE tmp_g SET
   entry = 90565, name = 'Grand Shadow Girdle',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 3, stat_value1 = 25,
   stat_type2 = 7, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2877,13 +2877,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Shadow Legguards             Leather band C  ilvl 56  req 45   <- clone 15072 (Chimeric Leggings)
+-- Grand Shadow Legguards             Leather band C  ilvl 56  req 28   <- clone 15072 (Chimeric Leggings)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 15072;
 UPDATE tmp_g SET
   entry = 90566, name = 'Grand Shadow Legguards',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 3, stat_value1 = 25,
   stat_type2 = 7, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2894,13 +2894,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Shadow Boots                 Leather band C  ilvl 56  req 45   <- clone 14671 (Pridelord Boots)
+-- Grand Shadow Boots                 Leather band C  ilvl 56  req 28   <- clone 14671 (Pridelord Boots)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 14671;
 UPDATE tmp_g SET
   entry = 90567, name = 'Grand Shadow Boots',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 3, stat_value1 = 25,
   stat_type2 = 7, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2911,13 +2911,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Shadow Helm               Leather band D  ilvl 71  req 58   <- clone 23253 (Champion's Dragonhide Head)
+-- Hallowed Shadow Helm               Leather band D  ilvl 71  req 44   <- clone 23253 (Champion's Dragonhide Head)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 23253;
 UPDATE tmp_g SET
   entry = 90568, name = 'Hallowed Shadow Helm',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 3, stat_value1 = 43,
   stat_type2 = 7, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2928,13 +2928,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Shadow Pauldrons          Leather band D  ilvl 71  req 58   <- clone 23313 (Lieutenant Commander's Lea)
+-- Hallowed Shadow Pauldrons          Leather band D  ilvl 71  req 44   <- clone 23313 (Lieutenant Commander's Lea)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 23313;
 UPDATE tmp_g SET
   entry = 90569, name = 'Hallowed Shadow Pauldrons',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 3, stat_value1 = 43,
   stat_type2 = 7, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2945,13 +2945,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Shadow Chestguard         Leather band D  ilvl 71  req 58   <- clone 33532 (Combatant's Dragonhide Hau)
+-- Hallowed Shadow Chestguard         Leather band D  ilvl 71  req 44   <- clone 33532 (Combatant's Dragonhide Hau)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 33532;
 UPDATE tmp_g SET
   entry = 90570, name = 'Hallowed Shadow Chestguard',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 3, stat_value1 = 43,
   stat_type2 = 7, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2962,13 +2962,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Shadow Bracers            Leather band D  ilvl 71  req 58   <- clone 19587 (Forest Stalker's Bracers)
+-- Hallowed Shadow Bracers            Leather band D  ilvl 71  req 44   <- clone 19587 (Forest Stalker's Bracers)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 19587;
 UPDATE tmp_g SET
   entry = 90571, name = 'Hallowed Shadow Bracers',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 3, stat_value1 = 43,
   stat_type2 = 7, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2979,13 +2979,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Shadow Gauntlets          Leather band D  ilvl 71  req 58   <- clone 21501 (Toughened Silithid Hide Gl)
+-- Hallowed Shadow Gauntlets          Leather band D  ilvl 71  req 44   <- clone 21501 (Toughened Silithid Hide Gl)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 21501;
 UPDATE tmp_g SET
   entry = 90572, name = 'Hallowed Shadow Gauntlets',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 3, stat_value1 = 43,
   stat_type2 = 7, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -2996,13 +2996,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Shadow Girdle             Leather band D  ilvl 71  req 58   <- clone 21494 (Southwind's Grasp)
+-- Hallowed Shadow Girdle             Leather band D  ilvl 71  req 44   <- clone 21494 (Southwind's Grasp)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 21494;
 UPDATE tmp_g SET
   entry = 90573, name = 'Hallowed Shadow Girdle',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 3, stat_value1 = 43,
   stat_type2 = 7, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3013,13 +3013,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Shadow Legguards          Leather band D  ilvl 71  req 58   <- clone 33534 (Combatant's Dragonhide Leg)
+-- Hallowed Shadow Legguards          Leather band D  ilvl 71  req 44   <- clone 33534 (Combatant's Dragonhide Leg)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 33534;
 UPDATE tmp_g SET
   entry = 90574, name = 'Hallowed Shadow Legguards',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 3, stat_value1 = 43,
   stat_type2 = 7, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3030,13 +3030,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Shadow Boots              Leather band D  ilvl 71  req 58   <- clone 20053 (Highlander's Lizardhide Bo)
+-- Hallowed Shadow Boots              Leather band D  ilvl 71  req 44   <- clone 20053 (Highlander's Lizardhide Bo)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 20053;
 UPDATE tmp_g SET
   entry = 90575, name = 'Hallowed Shadow Boots',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 3, stat_value1 = 43,
   stat_type2 = 7, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3047,13 +3047,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grove Helm                         Leather band A  ilvl 22  req 16   <- clone 55061 (Shadowed Mask)
+-- Grove Helm                         Leather band A  ilvl 22  req 4    <- clone 55061 (Shadowed Mask)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 55061;
 UPDATE tmp_g SET
   entry = 90576, name = 'Grove Helm',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 5, stat_value1 = 6,
   stat_type2 = 6, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3064,13 +3064,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grove Pauldrons                    Leather band A  ilvl 22  req 16   <- clone 10405 (Bandit Shoulders)
+-- Grove Pauldrons                    Leather band A  ilvl 22  req 4    <- clone 10405 (Bandit Shoulders)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 10405;
 UPDATE tmp_g SET
   entry = 90577, name = 'Grove Pauldrons',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 5, stat_value1 = 6,
   stat_type2 = 6, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3081,13 +3081,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grove Chestguard                   Leather band A  ilvl 22  req 16   <- clone 6524 (Studded Leather Harness)
+-- Grove Chestguard                   Leather band A  ilvl 22  req 4    <- clone 6524 (Studded Leather Harness)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 6524;
 UPDATE tmp_g SET
   entry = 90578, name = 'Grove Chestguard',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 5, stat_value1 = 6,
   stat_type2 = 6, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3098,13 +3098,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grove Bracers                      Leather band A  ilvl 22  req 16   <- clone 14569 (Bristlebark Bindings)
+-- Grove Bracers                      Leather band A  ilvl 22  req 4    <- clone 14569 (Bristlebark Bindings)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 14569;
 UPDATE tmp_g SET
   entry = 90579, name = 'Grove Bracers',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 5, stat_value1 = 6,
   stat_type2 = 6, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3115,13 +3115,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grove Gauntlets                    Leather band A  ilvl 22  req 16   <- clone 239 (Cured Leather Gloves)
+-- Grove Gauntlets                    Leather band A  ilvl 22  req 4    <- clone 239 (Cured Leather Gloves)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 239;
 UPDATE tmp_g SET
   entry = 90580, name = 'Grove Gauntlets',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 5, stat_value1 = 6,
   stat_type2 = 6, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3132,13 +3132,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grove Girdle                       Leather band A  ilvl 22  req 16   <- clone 5609 (Steadfast Cinch)
+-- Grove Girdle                       Leather band A  ilvl 22  req 4    <- clone 5609 (Steadfast Cinch)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 5609;
 UPDATE tmp_g SET
   entry = 90581, name = 'Grove Girdle',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 5, stat_value1 = 6,
   stat_type2 = 6, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3149,13 +3149,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grove Legguards                    Leather band A  ilvl 22  req 16   <- clone 55380 (Craftsman's Pants)
+-- Grove Legguards                    Leather band A  ilvl 22  req 4    <- clone 55380 (Craftsman's Pants)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 55380;
 UPDATE tmp_g SET
   entry = 90582, name = 'Grove Legguards',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 5, stat_value1 = 6,
   stat_type2 = 6, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3166,13 +3166,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grove Boots                        Leather band A  ilvl 22  req 16   <- clone 238 (Cured Leather Boots)
+-- Grove Boots                        Leather band A  ilvl 22  req 4    <- clone 238 (Cured Leather Boots)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 238;
 UPDATE tmp_g SET
   entry = 90583, name = 'Grove Boots',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 5, stat_value1 = 6,
   stat_type2 = 6, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3183,13 +3183,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Grove Helm                    Leather band B  ilvl 40  req 33   <- clone 4124 (Cap of Harmony)
+-- Fine Grove Helm                    Leather band B  ilvl 40  req 14   <- clone 4124 (Cap of Harmony)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 4124;
 UPDATE tmp_g SET
   entry = 90584, name = 'Fine Grove Helm',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 5, stat_value1 = 17,
   stat_type2 = 6, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3200,13 +3200,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Grove Pauldrons               Leather band B  ilvl 40  req 33   <- clone 15158 (Nocturnal Shoulder Pads)
+-- Fine Grove Pauldrons               Leather band B  ilvl 40  req 14   <- clone 15158 (Nocturnal Shoulder Pads)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 15158;
 UPDATE tmp_g SET
   entry = 90585, name = 'Fine Grove Pauldrons',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 5, stat_value1 = 17,
   stat_type2 = 6, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3217,13 +3217,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Grove Chestguard              Leather band B  ilvl 40  req 33   <- clone 58192 (Vest of Dark Desires)
+-- Fine Grove Chestguard              Leather band B  ilvl 40  req 14   <- clone 58192 (Vest of Dark Desires)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 58192;
 UPDATE tmp_g SET
   entry = 90586, name = 'Fine Grove Chestguard',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 5, stat_value1 = 17,
   stat_type2 = 6, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3234,13 +3234,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Grove Bracers                 Leather band B  ilvl 40  req 33   <- clone 14600 (Warden's Wristbands)
+-- Fine Grove Bracers                 Leather band B  ilvl 40  req 14   <- clone 14600 (Warden's Wristbands)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 14600;
 UPDATE tmp_g SET
   entry = 90587, name = 'Fine Grove Bracers',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 5, stat_value1 = 17,
   stat_type2 = 6, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3251,13 +3251,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Grove Gauntlets               Leather band B  ilvl 40  req 33   <- clone 18238 (Shadowskin Gloves)
+-- Fine Grove Gauntlets               Leather band B  ilvl 40  req 14   <- clone 18238 (Shadowskin Gloves)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 18238;
 UPDATE tmp_g SET
   entry = 90588, name = 'Fine Grove Gauntlets',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 5, stat_value1 = 17,
   stat_type2 = 6, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3268,13 +3268,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Grove Girdle                  Leather band B  ilvl 40  req 33   <- clone 4264 (Barbaric Belt)
+-- Fine Grove Girdle                  Leather band B  ilvl 40  req 14   <- clone 4264 (Barbaric Belt)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 4264;
 UPDATE tmp_g SET
   entry = 90589, name = 'Fine Grove Girdle',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 5, stat_value1 = 17,
   stat_type2 = 6, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3285,13 +3285,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Grove Legguards               Leather band B  ilvl 40  req 33   <- clone 15366 (Trickster's Leggings)
+-- Fine Grove Legguards               Leather band B  ilvl 40  req 14   <- clone 15366 (Trickster's Leggings)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 15366;
 UPDATE tmp_g SET
   entry = 90590, name = 'Fine Grove Legguards',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 5, stat_value1 = 17,
   stat_type2 = 6, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3302,13 +3302,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Grove Boots                   Leather band B  ilvl 40  req 33   <- clone 42111 (Water Trudgers)
+-- Fine Grove Boots                   Leather band B  ilvl 40  req 14   <- clone 42111 (Water Trudgers)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 42111;
 UPDATE tmp_g SET
   entry = 90591, name = 'Fine Grove Boots',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 5, stat_value1 = 17,
   stat_type2 = 6, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3319,13 +3319,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Grove Helm                   Leather band C  ilvl 56  req 45   <- clone 18698 (Tattered Leather Hood)
+-- Grand Grove Helm                   Leather band C  ilvl 56  req 28   <- clone 18698 (Tattered Leather Hood)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 18698;
 UPDATE tmp_g SET
   entry = 90592, name = 'Grand Grove Helm',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 5, stat_value1 = 25,
   stat_type2 = 6, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3336,13 +3336,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Grove Pauldrons              Leather band C  ilvl 56  req 45   <- clone 11874 (Clouddrift Mantle)
+-- Grand Grove Pauldrons              Leather band C  ilvl 56  req 28   <- clone 11874 (Clouddrift Mantle)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 11874;
 UPDATE tmp_g SET
   entry = 90593, name = 'Grand Grove Pauldrons',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 5, stat_value1 = 25,
   stat_type2 = 6, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3353,13 +3353,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Grove Chestguard             Leather band C  ilvl 56  req 45   <- clone 11876 (Plainstalker Tunic)
+-- Grand Grove Chestguard             Leather band C  ilvl 56  req 28   <- clone 11876 (Plainstalker Tunic)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 11876;
 UPDATE tmp_g SET
   entry = 90594, name = 'Grand Grove Chestguard',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 5, stat_value1 = 25,
   stat_type2 = 6, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3370,13 +3370,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Grove Bracers                Leather band C  ilvl 56  req 45   <- clone 8295 (Traveler's Bracers)
+-- Grand Grove Bracers                Leather band C  ilvl 56  req 28   <- clone 8295 (Traveler's Bracers)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 8295;
 UPDATE tmp_g SET
   entry = 90595, name = 'Grand Grove Bracers',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 5, stat_value1 = 25,
   stat_type2 = 6, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3387,13 +3387,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Grove Gauntlets              Leather band C  ilvl 56  req 45   <- clone 14675 (Pridelord Gloves)
+-- Grand Grove Gauntlets              Leather band C  ilvl 56  req 28   <- clone 14675 (Pridelord Gloves)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 14675;
 UPDATE tmp_g SET
   entry = 90596, name = 'Grand Grove Gauntlets',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 5, stat_value1 = 25,
   stat_type2 = 6, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3404,13 +3404,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Grove Girdle                 Leather band C  ilvl 56  req 45   <- clone 41127 (Belt of Forgiving)
+-- Grand Grove Girdle                 Leather band C  ilvl 56  req 28   <- clone 41127 (Belt of Forgiving)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 41127;
 UPDATE tmp_g SET
   entry = 90597, name = 'Grand Grove Girdle',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 5, stat_value1 = 25,
   stat_type2 = 6, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3421,13 +3421,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Grove Legguards              Leather band C  ilvl 56  req 45   <- clone 15072 (Chimeric Leggings)
+-- Grand Grove Legguards              Leather band C  ilvl 56  req 28   <- clone 15072 (Chimeric Leggings)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 15072;
 UPDATE tmp_g SET
   entry = 90598, name = 'Grand Grove Legguards',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 5, stat_value1 = 25,
   stat_type2 = 6, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3438,13 +3438,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Grove Boots                  Leather band C  ilvl 56  req 45   <- clone 14671 (Pridelord Boots)
+-- Grand Grove Boots                  Leather band C  ilvl 56  req 28   <- clone 14671 (Pridelord Boots)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 14671;
 UPDATE tmp_g SET
   entry = 90599, name = 'Grand Grove Boots',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 5, stat_value1 = 25,
   stat_type2 = 6, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3455,13 +3455,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Grove Helm                Leather band D  ilvl 71  req 58   <- clone 23253 (Champion's Dragonhide Head)
+-- Hallowed Grove Helm                Leather band D  ilvl 71  req 44   <- clone 23253 (Champion's Dragonhide Head)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 23253;
 UPDATE tmp_g SET
   entry = 90600, name = 'Hallowed Grove Helm',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 5, stat_value1 = 43,
   stat_type2 = 6, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3472,13 +3472,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Grove Pauldrons           Leather band D  ilvl 71  req 58   <- clone 23313 (Lieutenant Commander's Lea)
+-- Hallowed Grove Pauldrons           Leather band D  ilvl 71  req 44   <- clone 23313 (Lieutenant Commander's Lea)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 23313;
 UPDATE tmp_g SET
   entry = 90601, name = 'Hallowed Grove Pauldrons',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 5, stat_value1 = 43,
   stat_type2 = 6, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3489,13 +3489,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Grove Chestguard          Leather band D  ilvl 71  req 58   <- clone 33532 (Combatant's Dragonhide Hau)
+-- Hallowed Grove Chestguard          Leather band D  ilvl 71  req 44   <- clone 33532 (Combatant's Dragonhide Hau)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 33532;
 UPDATE tmp_g SET
   entry = 90602, name = 'Hallowed Grove Chestguard',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 5, stat_value1 = 43,
   stat_type2 = 6, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3506,13 +3506,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Grove Bracers             Leather band D  ilvl 71  req 58   <- clone 19587 (Forest Stalker's Bracers)
+-- Hallowed Grove Bracers             Leather band D  ilvl 71  req 44   <- clone 19587 (Forest Stalker's Bracers)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 19587;
 UPDATE tmp_g SET
   entry = 90603, name = 'Hallowed Grove Bracers',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 5, stat_value1 = 43,
   stat_type2 = 6, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3523,13 +3523,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Grove Gauntlets           Leather band D  ilvl 71  req 58   <- clone 21501 (Toughened Silithid Hide Gl)
+-- Hallowed Grove Gauntlets           Leather band D  ilvl 71  req 44   <- clone 21501 (Toughened Silithid Hide Gl)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 21501;
 UPDATE tmp_g SET
   entry = 90604, name = 'Hallowed Grove Gauntlets',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 5, stat_value1 = 43,
   stat_type2 = 6, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3540,13 +3540,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Grove Girdle              Leather band D  ilvl 71  req 58   <- clone 21494 (Southwind's Grasp)
+-- Hallowed Grove Girdle              Leather band D  ilvl 71  req 44   <- clone 21494 (Southwind's Grasp)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 21494;
 UPDATE tmp_g SET
   entry = 90605, name = 'Hallowed Grove Girdle',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 5, stat_value1 = 43,
   stat_type2 = 6, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3557,13 +3557,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Grove Legguards           Leather band D  ilvl 71  req 58   <- clone 33534 (Combatant's Dragonhide Leg)
+-- Hallowed Grove Legguards           Leather band D  ilvl 71  req 44   <- clone 33534 (Combatant's Dragonhide Leg)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 33534;
 UPDATE tmp_g SET
   entry = 90606, name = 'Hallowed Grove Legguards',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 5, stat_value1 = 43,
   stat_type2 = 6, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3574,13 +3574,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Grove Boots               Leather band D  ilvl 71  req 58   <- clone 20053 (Highlander's Lizardhide Bo)
+-- Hallowed Grove Boots               Leather band D  ilvl 71  req 44   <- clone 20053 (Highlander's Lizardhide Bo)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 20053;
 UPDATE tmp_g SET
   entry = 90607, name = 'Hallowed Grove Boots',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 5, stat_value1 = 43,
   stat_type2 = 6, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3591,13 +3591,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Runeweave Helm                     Cloth   band A  ilvl 22  req 16   <- clone 4368 (Flying Tiger Goggles)
+-- Runeweave Helm                     Cloth   band A  ilvl 22  req 4    <- clone 4368 (Flying Tiger Goggles)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 4368;
 UPDATE tmp_g SET
   entry = 90608, name = 'Runeweave Helm',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 5, stat_value1 = 6,
   stat_type2 = 7, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3608,13 +3608,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Runeweave Pauldrons                Cloth   band A  ilvl 22  req 16   <- clone 14368 (Mystic's Shoulder Pads)
+-- Runeweave Pauldrons                Cloth   band A  ilvl 22  req 4    <- clone 14368 (Mystic's Shoulder Pads)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 14368;
 UPDATE tmp_g SET
   entry = 90609, name = 'Runeweave Pauldrons',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 5, stat_value1 = 6,
   stat_type2 = 7, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3625,13 +3625,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Runeweave Chestguard               Cloth   band A  ilvl 22  req 16   <- clone 200 (Thick Cloth Vest)
+-- Runeweave Chestguard               Cloth   band A  ilvl 22  req 4    <- clone 200 (Thick Cloth Vest)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 200;
 UPDATE tmp_g SET
   entry = 90610, name = 'Runeweave Chestguard',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 5, stat_value1 = 6,
   stat_type2 = 7, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3642,13 +3642,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Runeweave Bracers                  Cloth   band A  ilvl 22  req 16   <- clone 3598 (Thick Cloth Bracers)
+-- Runeweave Bracers                  Cloth   band A  ilvl 22  req 4    <- clone 3598 (Thick Cloth Bracers)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 3598;
 UPDATE tmp_g SET
   entry = 90611, name = 'Runeweave Bracers',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 5, stat_value1 = 6,
   stat_type2 = 7, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3659,13 +3659,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Runeweave Gauntlets                Cloth   band A  ilvl 22  req 16   <- clone 203 (Thick Cloth Gloves)
+-- Runeweave Gauntlets                Cloth   band A  ilvl 22  req 4    <- clone 203 (Thick Cloth Gloves)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 203;
 UPDATE tmp_g SET
   entry = 90612, name = 'Runeweave Gauntlets',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 5, stat_value1 = 6,
   stat_type2 = 7, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3676,13 +3676,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Runeweave Girdle                   Cloth   band A  ilvl 22  req 16   <- clone 9766 (Greenweave Sash)
+-- Runeweave Girdle                   Cloth   band A  ilvl 22  req 4    <- clone 9766 (Greenweave Sash)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 9766;
 UPDATE tmp_g SET
   entry = 90613, name = 'Runeweave Girdle',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 5, stat_value1 = 6,
   stat_type2 = 7, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3693,13 +3693,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Runeweave Legguards                Cloth   band A  ilvl 22  req 16   <- clone 201 (Thick Cloth Pants)
+-- Runeweave Legguards                Cloth   band A  ilvl 22  req 4    <- clone 201 (Thick Cloth Pants)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 201;
 UPDATE tmp_g SET
   entry = 90614, name = 'Runeweave Legguards',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 5, stat_value1 = 6,
   stat_type2 = 7, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3710,13 +3710,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Runeweave Boots                    Cloth   band A  ilvl 22  req 16   <- clone 14159 (Pagan Shoes)
+-- Runeweave Boots                    Cloth   band A  ilvl 22  req 4    <- clone 14159 (Pagan Shoes)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 14159;
 UPDATE tmp_g SET
   entry = 90615, name = 'Runeweave Boots',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 5, stat_value1 = 6,
   stat_type2 = 7, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3727,13 +3727,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Runeweave Helm                Cloth   band B  ilvl 40  req 33   <- clone 19972 (Lucky Fishing Hat)
+-- Fine Runeweave Helm                Cloth   band B  ilvl 40  req 14   <- clone 19972 (Lucky Fishing Hat)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 19972;
 UPDATE tmp_g SET
   entry = 90616, name = 'Fine Runeweave Helm',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 5, stat_value1 = 17,
   stat_type2 = 7, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3744,13 +3744,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Runeweave Pauldrons           Cloth   band B  ilvl 40  req 33   <- clone 14423 (Silksand Shoulder Pads)
+-- Fine Runeweave Pauldrons           Cloth   band B  ilvl 40  req 14   <- clone 14423 (Silksand Shoulder Pads)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 14423;
 UPDATE tmp_g SET
   entry = 90617, name = 'Fine Runeweave Pauldrons',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 5, stat_value1 = 17,
   stat_type2 = 7, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3761,13 +3761,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Runeweave Chestguard          Cloth   band B  ilvl 40  req 33   <- clone 58177 (Stormreaver Robe)
+-- Fine Runeweave Chestguard          Cloth   band B  ilvl 40  req 14   <- clone 58177 (Stormreaver Robe)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 58177;
 UPDATE tmp_g SET
   entry = 90618, name = 'Fine Runeweave Chestguard',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 5, stat_value1 = 17,
   stat_type2 = 7, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3778,13 +3778,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Runeweave Bracers             Cloth   band B  ilvl 40  req 33   <- clone 14240 (Darkmist Bands)
+-- Fine Runeweave Bracers             Cloth   band B  ilvl 40  req 14   <- clone 14240 (Darkmist Bands)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 14240;
 UPDATE tmp_g SET
   entry = 90619, name = 'Fine Runeweave Bracers',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 5, stat_value1 = 17,
   stat_type2 = 7, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3795,13 +3795,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Runeweave Gauntlets           Cloth   band B  ilvl 40  req 33   <- clone 9390 (Revelosh's Gloves)
+-- Fine Runeweave Gauntlets           Cloth   band B  ilvl 40  req 14   <- clone 9390 (Revelosh's Gloves)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 9390;
 UPDATE tmp_g SET
   entry = 90620, name = 'Fine Runeweave Gauntlets',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 5, stat_value1 = 17,
   stat_type2 = 7, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3812,13 +3812,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Runeweave Girdle              Cloth   band B  ilvl 40  req 33   <- clone 3985 (Monogrammed Sash)
+-- Fine Runeweave Girdle              Cloth   band B  ilvl 40  req 14   <- clone 3985 (Monogrammed Sash)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 3985;
 UPDATE tmp_g SET
   entry = 90621, name = 'Fine Runeweave Girdle',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 5, stat_value1 = 17,
   stat_type2 = 7, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3829,13 +3829,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Runeweave Legguards           Cloth   band B  ilvl 40  req 33   <- clone 9407 (Stoneweaver Leggings)
+-- Fine Runeweave Legguards           Cloth   band B  ilvl 40  req 14   <- clone 9407 (Stoneweaver Leggings)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 9407;
 UPDATE tmp_g SET
   entry = 90622, name = 'Fine Runeweave Legguards',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 5, stat_value1 = 17,
   stat_type2 = 7, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3846,13 +3846,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Runeweave Boots               Cloth   band B  ilvl 40  req 33   <- clone 9876 (Sorcerer Slippers)
+-- Fine Runeweave Boots               Cloth   band B  ilvl 40  req 14   <- clone 9876 (Sorcerer Slippers)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 9876;
 UPDATE tmp_g SET
   entry = 90623, name = 'Fine Runeweave Boots',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 5, stat_value1 = 17,
   stat_type2 = 7, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3863,13 +3863,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Runeweave Helm               Cloth   band C  ilvl 56  req 45   <- clone 14293 (Arachnidian Circlet)
+-- Grand Runeweave Helm               Cloth   band C  ilvl 56  req 28   <- clone 14293 (Arachnidian Circlet)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 14293;
 UPDATE tmp_g SET
   entry = 90624, name = 'Grand Runeweave Helm',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 5, stat_value1 = 25,
   stat_type2 = 7, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3880,13 +3880,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Runeweave Pauldrons          Cloth   band C  ilvl 56  req 45   <- clone 15812 (Orchid Amice)
+-- Grand Runeweave Pauldrons          Cloth   band C  ilvl 56  req 28   <- clone 15812 (Orchid Amice)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 15812;
 UPDATE tmp_g SET
   entry = 90625, name = 'Grand Runeweave Pauldrons',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 5, stat_value1 = 25,
   stat_type2 = 7, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3897,13 +3897,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Runeweave Chestguard         Cloth   band C  ilvl 56  req 45   <- clone 8245 (Imperial Red Tunic)
+-- Grand Runeweave Chestguard         Cloth   band C  ilvl 56  req 28   <- clone 8245 (Imperial Red Tunic)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 8245;
 UPDATE tmp_g SET
   entry = 90626, name = 'Grand Runeweave Chestguard',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 5, stat_value1 = 25,
   stat_type2 = 7, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3914,13 +3914,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Runeweave Bracers            Cloth   band C  ilvl 56  req 45   <- clone 8285 (Arcane Bands)
+-- Grand Runeweave Bracers            Cloth   band C  ilvl 56  req 28   <- clone 8285 (Arcane Bands)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 8285;
 UPDATE tmp_g SET
   entry = 90627, name = 'Grand Runeweave Bracers',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 5, stat_value1 = 25,
   stat_type2 = 7, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3931,13 +3931,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Runeweave Gauntlets          Cloth   band C  ilvl 56  req 45   <- clone 14302 (Bonecaster's Gloves)
+-- Grand Runeweave Gauntlets          Cloth   band C  ilvl 56  req 28   <- clone 14302 (Bonecaster's Gloves)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 14302;
 UPDATE tmp_g SET
   entry = 90628, name = 'Grand Runeweave Gauntlets',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 5, stat_value1 = 25,
   stat_type2 = 7, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3948,13 +3948,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Runeweave Girdle             Cloth   band C  ilvl 56  req 45   <- clone 14309 (Celestial Belt)
+-- Grand Runeweave Girdle             Cloth   band C  ilvl 56  req 28   <- clone 14309 (Celestial Belt)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 14309;
 UPDATE tmp_g SET
   entry = 90629, name = 'Grand Runeweave Girdle',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 5, stat_value1 = 25,
   stat_type2 = 7, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3965,13 +3965,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Runeweave Legguards          Cloth   band C  ilvl 56  req 45   <- clone 15119 (Highborne Pants)
+-- Grand Runeweave Legguards          Cloth   band C  ilvl 56  req 28   <- clone 15119 (Highborne Pants)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 15119;
 UPDATE tmp_g SET
   entry = 90630, name = 'Grand Runeweave Legguards',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 5, stat_value1 = 25,
   stat_type2 = 7, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3982,13 +3982,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Runeweave Boots              Cloth   band C  ilvl 56  req 45   <- clone 22245 (Soot Encrusted Footwear)
+-- Grand Runeweave Boots              Cloth   band C  ilvl 56  req 28   <- clone 22245 (Soot Encrusted Footwear)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 22245;
 UPDATE tmp_g SET
   entry = 90631, name = 'Grand Runeweave Boots',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 5, stat_value1 = 25,
   stat_type2 = 7, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -3999,13 +3999,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Runeweave Helm            Cloth   band D  ilvl 71  req 58   <- clone 33620 (Tactician's Headdress)
+-- Hallowed Runeweave Helm            Cloth   band D  ilvl 71  req 44   <- clone 33620 (Tactician's Headdress)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 33620;
 UPDATE tmp_g SET
   entry = 90632, name = 'Hallowed Runeweave Helm',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 5, stat_value1 = 43,
   stat_type2 = 7, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -4016,13 +4016,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Runeweave Pauldrons       Cloth   band D  ilvl 71  req 58   <- clone 23319 (Lieutenant Commander's Sil)
+-- Hallowed Runeweave Pauldrons       Cloth   band D  ilvl 71  req 44   <- clone 23319 (Lieutenant Commander's Sil)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 23319;
 UPDATE tmp_g SET
   entry = 90633, name = 'Hallowed Runeweave Pauldrons',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 5, stat_value1 = 43,
   stat_type2 = 7, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -4033,13 +4033,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Runeweave Chestguard      Cloth   band D  ilvl 71  req 58   <- clone 33826 (Corpsman's Satin Vestments)
+-- Hallowed Runeweave Chestguard      Cloth   band D  ilvl 71  req 44   <- clone 33826 (Corpsman's Satin Vestments)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 33826;
 UPDATE tmp_g SET
   entry = 90634, name = 'Hallowed Runeweave Chestguard',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 5, stat_value1 = 43,
   stat_type2 = 7, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -4050,13 +4050,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Runeweave Bracers         Cloth   band D  ilvl 71  req 58   <- clone 19595 (Dryad's Wrist Bindings)
+-- Hallowed Runeweave Bracers         Cloth   band D  ilvl 71  req 44   <- clone 19595 (Dryad's Wrist Bindings)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 19595;
 UPDATE tmp_g SET
   entry = 90635, name = 'Hallowed Runeweave Bracers',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 5, stat_value1 = 43,
   stat_type2 = 7, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -4067,13 +4067,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Runeweave Gauntlets       Cloth   band D  ilvl 71  req 58   <- clone 33623 (Tactician's Satin Gloves)
+-- Hallowed Runeweave Gauntlets       Cloth   band D  ilvl 71  req 44   <- clone 33623 (Tactician's Satin Gloves)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 33623;
 UPDATE tmp_g SET
   entry = 90636, name = 'Hallowed Runeweave Gauntlets',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 5, stat_value1 = 43,
   stat_type2 = 7, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -4084,13 +4084,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Runeweave Girdle          Cloth   band D  ilvl 71  req 58   <- clone 18809 (Sash of Whispered Secrets)
+-- Hallowed Runeweave Girdle          Cloth   band D  ilvl 71  req 44   <- clone 18809 (Sash of Whispered Secrets)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 18809;
 UPDATE tmp_g SET
   entry = 90637, name = 'Hallowed Runeweave Girdle',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 5, stat_value1 = 43,
   stat_type2 = 7, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -4101,13 +4101,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Runeweave Legguards       Cloth   band D  ilvl 71  req 58   <- clone 33828 (Corpsman's Satin Pants)
+-- Hallowed Runeweave Legguards       Cloth   band D  ilvl 71  req 44   <- clone 33828 (Corpsman's Satin Pants)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 33828;
 UPDATE tmp_g SET
   entry = 90638, name = 'Hallowed Runeweave Legguards',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 5, stat_value1 = 43,
   stat_type2 = 7, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -4118,13 +4118,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Runeweave Boots           Cloth   band D  ilvl 71  req 58   <- clone 33739 (Tactician's Dreadweave Boo)
+-- Hallowed Runeweave Boots           Cloth   band D  ilvl 71  req 44   <- clone 33739 (Tactician's Dreadweave Boo)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 33739;
 UPDATE tmp_g SET
   entry = 90639, name = 'Hallowed Runeweave Boots',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 5, stat_value1 = 43,
   stat_type2 = 7, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -4135,13 +4135,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Vestment Helm                      Cloth   band A  ilvl 22  req 16   <- clone 4368 (Flying Tiger Goggles)
+-- Vestment Helm                      Cloth   band A  ilvl 22  req 4    <- clone 4368 (Flying Tiger Goggles)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 4368;
 UPDATE tmp_g SET
   entry = 90640, name = 'Vestment Helm',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 5, stat_value1 = 6,
   stat_type2 = 6, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -4152,13 +4152,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Vestment Pauldrons                 Cloth   band A  ilvl 22  req 16   <- clone 14368 (Mystic's Shoulder Pads)
+-- Vestment Pauldrons                 Cloth   band A  ilvl 22  req 4    <- clone 14368 (Mystic's Shoulder Pads)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 14368;
 UPDATE tmp_g SET
   entry = 90641, name = 'Vestment Pauldrons',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 5, stat_value1 = 6,
   stat_type2 = 6, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -4169,13 +4169,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Vestment Chestguard                Cloth   band A  ilvl 22  req 16   <- clone 200 (Thick Cloth Vest)
+-- Vestment Chestguard                Cloth   band A  ilvl 22  req 4    <- clone 200 (Thick Cloth Vest)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 200;
 UPDATE tmp_g SET
   entry = 90642, name = 'Vestment Chestguard',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 5, stat_value1 = 6,
   stat_type2 = 6, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -4186,13 +4186,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Vestment Bracers                   Cloth   band A  ilvl 22  req 16   <- clone 3598 (Thick Cloth Bracers)
+-- Vestment Bracers                   Cloth   band A  ilvl 22  req 4    <- clone 3598 (Thick Cloth Bracers)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 3598;
 UPDATE tmp_g SET
   entry = 90643, name = 'Vestment Bracers',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 5, stat_value1 = 6,
   stat_type2 = 6, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -4203,13 +4203,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Vestment Gauntlets                 Cloth   band A  ilvl 22  req 16   <- clone 203 (Thick Cloth Gloves)
+-- Vestment Gauntlets                 Cloth   band A  ilvl 22  req 4    <- clone 203 (Thick Cloth Gloves)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 203;
 UPDATE tmp_g SET
   entry = 90644, name = 'Vestment Gauntlets',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 5, stat_value1 = 6,
   stat_type2 = 6, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -4220,13 +4220,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Vestment Girdle                    Cloth   band A  ilvl 22  req 16   <- clone 9766 (Greenweave Sash)
+-- Vestment Girdle                    Cloth   band A  ilvl 22  req 4    <- clone 9766 (Greenweave Sash)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 9766;
 UPDATE tmp_g SET
   entry = 90645, name = 'Vestment Girdle',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 5, stat_value1 = 6,
   stat_type2 = 6, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -4237,13 +4237,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Vestment Legguards                 Cloth   band A  ilvl 22  req 16   <- clone 201 (Thick Cloth Pants)
+-- Vestment Legguards                 Cloth   band A  ilvl 22  req 4    <- clone 201 (Thick Cloth Pants)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 201;
 UPDATE tmp_g SET
   entry = 90646, name = 'Vestment Legguards',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 5, stat_value1 = 6,
   stat_type2 = 6, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -4254,13 +4254,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Vestment Boots                     Cloth   band A  ilvl 22  req 16   <- clone 14159 (Pagan Shoes)
+-- Vestment Boots                     Cloth   band A  ilvl 22  req 4    <- clone 14159 (Pagan Shoes)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 14159;
 UPDATE tmp_g SET
   entry = 90647, name = 'Vestment Boots',
-  Quality = 2, item_level = 22, required_level = 16,
+  Quality = 2, item_level = 22, required_level = 4,
   stat_type1 = 5, stat_value1 = 6,
   stat_type2 = 6, stat_value2 = 4,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -4271,13 +4271,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Vestment Helm                 Cloth   band B  ilvl 40  req 33   <- clone 19972 (Lucky Fishing Hat)
+-- Fine Vestment Helm                 Cloth   band B  ilvl 40  req 14   <- clone 19972 (Lucky Fishing Hat)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 19972;
 UPDATE tmp_g SET
   entry = 90648, name = 'Fine Vestment Helm',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 5, stat_value1 = 17,
   stat_type2 = 6, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -4288,13 +4288,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Vestment Pauldrons            Cloth   band B  ilvl 40  req 33   <- clone 14423 (Silksand Shoulder Pads)
+-- Fine Vestment Pauldrons            Cloth   band B  ilvl 40  req 14   <- clone 14423 (Silksand Shoulder Pads)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 14423;
 UPDATE tmp_g SET
   entry = 90649, name = 'Fine Vestment Pauldrons',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 5, stat_value1 = 17,
   stat_type2 = 6, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -4305,13 +4305,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Vestment Chestguard           Cloth   band B  ilvl 40  req 33   <- clone 58177 (Stormreaver Robe)
+-- Fine Vestment Chestguard           Cloth   band B  ilvl 40  req 14   <- clone 58177 (Stormreaver Robe)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 58177;
 UPDATE tmp_g SET
   entry = 90650, name = 'Fine Vestment Chestguard',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 5, stat_value1 = 17,
   stat_type2 = 6, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -4322,13 +4322,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Vestment Bracers              Cloth   band B  ilvl 40  req 33   <- clone 14240 (Darkmist Bands)
+-- Fine Vestment Bracers              Cloth   band B  ilvl 40  req 14   <- clone 14240 (Darkmist Bands)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 14240;
 UPDATE tmp_g SET
   entry = 90651, name = 'Fine Vestment Bracers',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 5, stat_value1 = 17,
   stat_type2 = 6, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -4339,13 +4339,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Vestment Gauntlets            Cloth   band B  ilvl 40  req 33   <- clone 9390 (Revelosh's Gloves)
+-- Fine Vestment Gauntlets            Cloth   band B  ilvl 40  req 14   <- clone 9390 (Revelosh's Gloves)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 9390;
 UPDATE tmp_g SET
   entry = 90652, name = 'Fine Vestment Gauntlets',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 5, stat_value1 = 17,
   stat_type2 = 6, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -4356,13 +4356,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Vestment Girdle               Cloth   band B  ilvl 40  req 33   <- clone 3985 (Monogrammed Sash)
+-- Fine Vestment Girdle               Cloth   band B  ilvl 40  req 14   <- clone 3985 (Monogrammed Sash)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 3985;
 UPDATE tmp_g SET
   entry = 90653, name = 'Fine Vestment Girdle',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 5, stat_value1 = 17,
   stat_type2 = 6, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -4373,13 +4373,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Vestment Legguards            Cloth   band B  ilvl 40  req 33   <- clone 9407 (Stoneweaver Leggings)
+-- Fine Vestment Legguards            Cloth   band B  ilvl 40  req 14   <- clone 9407 (Stoneweaver Leggings)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 9407;
 UPDATE tmp_g SET
   entry = 90654, name = 'Fine Vestment Legguards',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 5, stat_value1 = 17,
   stat_type2 = 6, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -4390,13 +4390,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Fine Vestment Boots                Cloth   band B  ilvl 40  req 33   <- clone 9876 (Sorcerer Slippers)
+-- Fine Vestment Boots                Cloth   band B  ilvl 40  req 14   <- clone 9876 (Sorcerer Slippers)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 9876;
 UPDATE tmp_g SET
   entry = 90655, name = 'Fine Vestment Boots',
-  Quality = 3, item_level = 40, required_level = 33,
+  Quality = 3, item_level = 40, required_level = 14,
   stat_type1 = 5, stat_value1 = 17,
   stat_type2 = 6, stat_value2 = 11,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -4407,13 +4407,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Vestment Helm                Cloth   band C  ilvl 56  req 45   <- clone 14293 (Arachnidian Circlet)
+-- Grand Vestment Helm                Cloth   band C  ilvl 56  req 28   <- clone 14293 (Arachnidian Circlet)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 14293;
 UPDATE tmp_g SET
   entry = 90656, name = 'Grand Vestment Helm',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 5, stat_value1 = 25,
   stat_type2 = 6, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -4424,13 +4424,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Vestment Pauldrons           Cloth   band C  ilvl 56  req 45   <- clone 15812 (Orchid Amice)
+-- Grand Vestment Pauldrons           Cloth   band C  ilvl 56  req 28   <- clone 15812 (Orchid Amice)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 15812;
 UPDATE tmp_g SET
   entry = 90657, name = 'Grand Vestment Pauldrons',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 5, stat_value1 = 25,
   stat_type2 = 6, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -4441,13 +4441,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Vestment Chestguard          Cloth   band C  ilvl 56  req 45   <- clone 8245 (Imperial Red Tunic)
+-- Grand Vestment Chestguard          Cloth   band C  ilvl 56  req 28   <- clone 8245 (Imperial Red Tunic)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 8245;
 UPDATE tmp_g SET
   entry = 90658, name = 'Grand Vestment Chestguard',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 5, stat_value1 = 25,
   stat_type2 = 6, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -4458,13 +4458,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Vestment Bracers             Cloth   band C  ilvl 56  req 45   <- clone 8285 (Arcane Bands)
+-- Grand Vestment Bracers             Cloth   band C  ilvl 56  req 28   <- clone 8285 (Arcane Bands)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 8285;
 UPDATE tmp_g SET
   entry = 90659, name = 'Grand Vestment Bracers',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 5, stat_value1 = 25,
   stat_type2 = 6, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -4475,13 +4475,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Vestment Gauntlets           Cloth   band C  ilvl 56  req 45   <- clone 14302 (Bonecaster's Gloves)
+-- Grand Vestment Gauntlets           Cloth   band C  ilvl 56  req 28   <- clone 14302 (Bonecaster's Gloves)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 14302;
 UPDATE tmp_g SET
   entry = 90660, name = 'Grand Vestment Gauntlets',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 5, stat_value1 = 25,
   stat_type2 = 6, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -4492,13 +4492,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Vestment Girdle              Cloth   band C  ilvl 56  req 45   <- clone 14309 (Celestial Belt)
+-- Grand Vestment Girdle              Cloth   band C  ilvl 56  req 28   <- clone 14309 (Celestial Belt)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 14309;
 UPDATE tmp_g SET
   entry = 90661, name = 'Grand Vestment Girdle',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 5, stat_value1 = 25,
   stat_type2 = 6, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -4509,13 +4509,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Vestment Legguards           Cloth   band C  ilvl 56  req 45   <- clone 15119 (Highborne Pants)
+-- Grand Vestment Legguards           Cloth   band C  ilvl 56  req 28   <- clone 15119 (Highborne Pants)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 15119;
 UPDATE tmp_g SET
   entry = 90662, name = 'Grand Vestment Legguards',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 5, stat_value1 = 25,
   stat_type2 = 6, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -4526,13 +4526,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Grand Vestment Boots               Cloth   band C  ilvl 56  req 45   <- clone 22245 (Soot Encrusted Footwear)
+-- Grand Vestment Boots               Cloth   band C  ilvl 56  req 28   <- clone 22245 (Soot Encrusted Footwear)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 22245;
 UPDATE tmp_g SET
   entry = 90663, name = 'Grand Vestment Boots',
-  Quality = 4, item_level = 56, required_level = 45,
+  Quality = 4, item_level = 56, required_level = 28,
   stat_type1 = 5, stat_value1 = 25,
   stat_type2 = 6, stat_value2 = 17,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -4543,13 +4543,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Vestment Helm             Cloth   band D  ilvl 71  req 58   <- clone 33620 (Tactician's Headdress)
+-- Hallowed Vestment Helm             Cloth   band D  ilvl 71  req 44   <- clone 33620 (Tactician's Headdress)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 33620;
 UPDATE tmp_g SET
   entry = 90664, name = 'Hallowed Vestment Helm',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 5, stat_value1 = 43,
   stat_type2 = 6, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -4560,13 +4560,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Vestment Pauldrons        Cloth   band D  ilvl 71  req 58   <- clone 23319 (Lieutenant Commander's Sil)
+-- Hallowed Vestment Pauldrons        Cloth   band D  ilvl 71  req 44   <- clone 23319 (Lieutenant Commander's Sil)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 23319;
 UPDATE tmp_g SET
   entry = 90665, name = 'Hallowed Vestment Pauldrons',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 5, stat_value1 = 43,
   stat_type2 = 6, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -4577,13 +4577,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Vestment Chestguard       Cloth   band D  ilvl 71  req 58   <- clone 33826 (Corpsman's Satin Vestments)
+-- Hallowed Vestment Chestguard       Cloth   band D  ilvl 71  req 44   <- clone 33826 (Corpsman's Satin Vestments)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 33826;
 UPDATE tmp_g SET
   entry = 90666, name = 'Hallowed Vestment Chestguard',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 5, stat_value1 = 43,
   stat_type2 = 6, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -4594,13 +4594,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Vestment Bracers          Cloth   band D  ilvl 71  req 58   <- clone 19595 (Dryad's Wrist Bindings)
+-- Hallowed Vestment Bracers          Cloth   band D  ilvl 71  req 44   <- clone 19595 (Dryad's Wrist Bindings)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 19595;
 UPDATE tmp_g SET
   entry = 90667, name = 'Hallowed Vestment Bracers',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 5, stat_value1 = 43,
   stat_type2 = 6, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -4611,13 +4611,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Vestment Gauntlets        Cloth   band D  ilvl 71  req 58   <- clone 33623 (Tactician's Satin Gloves)
+-- Hallowed Vestment Gauntlets        Cloth   band D  ilvl 71  req 44   <- clone 33623 (Tactician's Satin Gloves)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 33623;
 UPDATE tmp_g SET
   entry = 90668, name = 'Hallowed Vestment Gauntlets',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 5, stat_value1 = 43,
   stat_type2 = 6, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -4628,13 +4628,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Vestment Girdle           Cloth   band D  ilvl 71  req 58   <- clone 18809 (Sash of Whispered Secrets)
+-- Hallowed Vestment Girdle           Cloth   band D  ilvl 71  req 44   <- clone 18809 (Sash of Whispered Secrets)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 18809;
 UPDATE tmp_g SET
   entry = 90669, name = 'Hallowed Vestment Girdle',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 5, stat_value1 = 43,
   stat_type2 = 6, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -4645,13 +4645,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Vestment Legguards        Cloth   band D  ilvl 71  req 58   <- clone 33828 (Corpsman's Satin Pants)
+-- Hallowed Vestment Legguards        Cloth   band D  ilvl 71  req 44   <- clone 33828 (Corpsman's Satin Pants)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 33828;
 UPDATE tmp_g SET
   entry = 90670, name = 'Hallowed Vestment Legguards',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 5, stat_value1 = 43,
   stat_type2 = 6, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,
@@ -4662,13 +4662,13 @@ UPDATE tmp_g SET
 INSERT INTO item_template SELECT * FROM tmp_g;
 DROP TEMPORARY TABLE tmp_g;
 
--- Hallowed Vestment Boots            Cloth   band D  ilvl 71  req 58   <- clone 33739 (Tactician's Dreadweave Boo)
+-- Hallowed Vestment Boots            Cloth   band D  ilvl 71  req 44   <- clone 33739 (Tactician's Dreadweave Boo)
 DROP TEMPORARY TABLE IF EXISTS tmp_g;
 CREATE TEMPORARY TABLE tmp_g LIKE item_template;
 INSERT INTO tmp_g SELECT * FROM item_template WHERE entry = 33739;
 UPDATE tmp_g SET
   entry = 90671, name = 'Hallowed Vestment Boots',
-  Quality = 4, item_level = 71, required_level = 58,
+  Quality = 4, item_level = 71, required_level = 44,
   stat_type1 = 5, stat_value1 = 43,
   stat_type2 = 6, stat_value2 = 28,
   stat_type3 = 0, stat_value3 = 0, stat_type4 = 0, stat_value4 = 0,

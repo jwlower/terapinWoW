@@ -116,11 +116,29 @@ SLOTS = [
 #
 # So every band is the best thing available at its own level, and the ladder still points
 # upward: band C carries you INTO raiding rather than past it.
+# REQUIRED LEVEL WAS WRONG, measured against the real game and fixed here.
+#   The first pass invented a level per band with no reference - which put band A (skill 20
+#   to learn) at required level 16, next to the real "Handstitched Leather Vest" recipe,
+#   itself skill 20, whose item requires level 3. That is not a rounding error, it is a
+#   different curve entirely.
+#
+#   The real relationship: joining every live npc_trainer BS/LW/Tailoring recipe to the item
+#   its craft spell creates, reqskillvalue (the trainer's skill gate) and required_level (the
+#   item's wear gate) trace a near-perfectly linear, near-noiseless curve - and the real game
+#   already has recipes sitting at exactly skill 20, 90, 165 and 245, so no interpolation was
+#   even needed:
+#
+#       skill gate     20    90   165   245
+#       real required   4    14    28    44     <- measured, not estimated
+#       this had        16    33    45    58     <- invented, 3-4x too high at the low end
+#
+#   Item level (the power budget) is untouched - that is a deliberate design choice discussed
+#   in the module docstring, not something the real game's req_level curve has any say over.
 BANDS = [
-    ("A",  20, 2, 22, 16, 10, "",          10, None),        # 1-75    green
-    ("B",  90, 3, 40, 33, 28, "Fine ",     12, None),        # 76-150  blue
-    ("C", 165, 4, 56, 45, 42, "Grand ",    16, (7067, 2)),   # 151-225 epic, for the level 40s
-    ("D", 245, 4, 71, 58, 71, "Hallowed ", 20, (7068, 4)),   # 226-300 epic, the real ones
+    ("A",  20, 2, 22,  4, 10, "",          10, None),        # 1-75    green
+    ("B",  90, 3, 40, 14, 28, "Fine ",     12, None),        # 76-150  blue
+    ("C", 165, 4, 56, 28, 42, "Grand ",    16, (7067, 2)),   # 151-225 epic, for the level 40s
+    ("D", 245, 4, 71, 44, 71, "Hallowed ", 20, (7068, 4)),   # 226-300 epic, the real ones
 ]
 
 # ---------------------------------------------------------------------------------------
