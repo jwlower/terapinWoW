@@ -13,6 +13,12 @@ THE GAP THIS FILLS
   The top band is well served. Everything below it is close to empty, and NO profession has
   a single epic below skill 226 - so a level 40 has nothing worth chasing.
 
+  This motivated the grid, but is no longer literally where each band sits - see BANDS below.
+  Once stat budgets were calibrated to real item levels, keeping the ORIGINAL skill placement
+  (20/90/165/245) put a band's own item power ahead of what that skill level should be able to
+  learn. The gate now follows the item's stats instead, at the cost of the neat 1-75/76-150
+  skill-range placement this table describes.
+
 THE GRID
   4 armour types x 8 slots x 4 bands x 2-3 stat flavours = 320 items.
 
@@ -52,10 +58,11 @@ SKILL_BS, SKILL_LW, SKILL_TAILOR = 164, 165, 197
 # subclass -> (name, profession skill, reagent per band, bands this type may use)
 #
 # PLATE ONLY EXISTS IN THE TOP TWO BANDS, deliberately. Plate proficiency arrives at level 40,
-# so a green plate helm with a required level of 16 is something nobody could ever wear. The
-# database agrees: there is no plate at all below item level 32, which left the generator with
-# no on-curve item to clone armour values from. Blacksmithing covers the early bands with MAIL
-# instead, which is exactly what a low-level warrior actually wears.
+# and bands A and B require level 17 and 35 to wear - still below that, so a green or blue
+# plate piece would be something nobody could ever wear. The database agrees: there is no
+# plate at all below item level 32, which left the generator with no on-curve item to clone
+# armour values from. Blacksmithing covers the early bands with MAIL instead, which is exactly
+# what a low-level warrior actually wears.
 ARMOUR = {
     4: ("Plate",   SKILL_BS,     [2841, 3575, 3860, 12359], ("C", "D")),
     3: ("Mail",    SKILL_BS,     [2841, 3575, 3860, 12359], ("A", "B", "C", "D")),
@@ -116,29 +123,38 @@ SLOTS = [
 #
 # So every band is the best thing available at its own level, and the ladder still points
 # upward: band C carries you INTO raiding rather than past it.
-# REQUIRED LEVEL WAS WRONG, measured against the real game and fixed here.
-#   The first pass invented a level per band with no reference - which put band A (skill 20
-#   to learn) at required level 16, next to the real "Handstitched Leather Vest" recipe,
-#   itself skill 20, whose item requires level 3. That is not a rounding error, it is a
-#   different curve entirely.
+# SKILL GATE AND REQUIRED LEVEL WERE BOTH WRONG - invented independently of the item's own
+# power, and fixed here together. A first pass only touched required_level (moved it from 16
+# down to 4 for band A) and left the skill gate at 20. That was backwards: the ITEM did not
+# get weaker, so the fix should not have made it easier to learn - it made a band-A green with
+# a stat budget of 10 (already "the best green at its level", per the table above) learnable
+# at skill 20, when nothing that strong exists at skill 20 anywhere in the real game.
 #
-#   The real relationship: joining every live npc_trainer BS/LW/Tailoring recipe to the item
-#   its craft spell creates, reqskillvalue (the trainer's skill gate) and required_level (the
-#   item's wear gate) trace a near-perfectly linear, near-noiseless curve - and the real game
-#   already has recipes sitting at exactly skill 20, 90, 165 and 245, so no interpolation was
-#   even needed:
+# The real relationship, measured the same way: joining every live npc_trainer BS/LW/Tailoring
+# recipe to the item its craft spell creates, item_level predicts BOTH reqskillvalue (skill
+# gate) and required_level (wear gate) almost exactly - gate = ilvl x 5, wear = ilvl - 5 - and
+# the real game has recipes sitting at exactly our four item levels, so again nothing here is
+# interpolated:
 #
-#       skill gate     20    90   165   245
-#       real required   4    14    28    44     <- measured, not estimated
-#       this had        16    33    45    58     <- invented, 3-4x too high at the low end
+#     item level        22     40     56     71
+#     real skill gate   110    200    280   (355 - past the 300 cap; nothing real goes there)
+#     real required      17     35     51   (66  - past the level 60 cap; same story)
 #
-#   Item level (the power budget) is untouched - that is a deliberate design choice discussed
-#   in the module docstring, not something the real game's req_level curve has any say over.
+#   Band D's ilvl 71 is deliberately beyond anything the real game ever crafted (see "STATS
+#   ARE PAID FOR IN MATERIALS" above - it is meant to sit near the best raid epic in the game),
+#   so its real-curve gate/level fall past both hard caps. Clamped to the caps themselves: a
+#   300-skill, level-60 item is the correct way to say "this needs full mastery", which is
+#   exactly what "Hallowed ... the real ones" was already going for.
+#
+# This does give up the original "one band per empty skill-range slot" placement (band A no
+# longer sits at skill 1-75) - but leaving a band's gate below what its own stats justify is a
+# worse bug than losing that placement: it let you learn a today's-best-green recipe on your
+# first day of smithing.
 BANDS = [
-    ("A",  20, 2, 22,  4, 10, "",          10, None),        # 1-75    green
-    ("B",  90, 3, 40, 14, 28, "Fine ",     12, None),        # 76-150  blue
-    ("C", 165, 4, 56, 28, 42, "Grand ",    16, (7067, 2)),   # 151-225 epic, for the level 40s
-    ("D", 245, 4, 71, 44, 71, "Hallowed ", 20, (7068, 4)),   # 226-300 epic, the real ones
+    ("A", 110, 2, 22,  17, 10, "",          10, None),        # ilvl 22 green
+    ("B", 200, 3, 40,  35, 28, "Fine ",     12, None),        # ilvl 40 blue
+    ("C", 280, 4, 56,  51, 42, "Grand ",    16, (7067, 2)),   # ilvl 56 epic
+    ("D", 300, 4, 71,  60, 71, "Hallowed ", 20, (7068, 4)),   # ilvl 71 epic, capped at max skill/level
 ]
 
 # ---------------------------------------------------------------------------------------
