@@ -77,10 +77,17 @@ w("")
 w("USE tw_world;")
 w("")
 w("-- Idempotency: clear anything a previous run left behind.")
-w("DELETE FROM spell_template     WHERE entry    IN (%s);" % ",".join(map(str, all_spell_ids)))
-w("DELETE FROM npc_trainer        WHERE spell    IN (%s);" % ",".join(map(str, all_spell_ids)))
-w("DELETE FROM skill_line_ability WHERE spell_id IN (%s);" % ",".join(map(str, all_spell_ids)))
-w("DELETE FROM item_template      WHERE entry    IN (%s);" % ",".join(map(str, all_item_ids)))
+# `IN ()` is invalid SQL - MariaDB rejects the empty tuple outright rather than matching
+# nothing, so a table with no ids to clear (this file makes no items) needs its DELETE
+# skipped entirely rather than emitted with an empty list.
+def delete_in(table, column, ids):
+    if ids:
+        w("DELETE FROM %-22s WHERE %-10s IN (%s);" % (table, column, ",".join(map(str, ids))))
+
+delete_in("spell_template", "entry", all_spell_ids)
+delete_in("npc_trainer", "spell", all_spell_ids)
+delete_in("skill_line_ability", "spell_id", all_spell_ids)
+delete_in("item_template", "entry", all_item_ids)
 w("")
 
 sla = []          # (id, skill, spell, classmask, req_skill_value)
@@ -212,8 +219,11 @@ w("SELECT 'class buffs' AS what, COUNT(*) AS n FROM spell_template WHERE entry B
   % (tc.CLASS_ABILITY_BASE, tc.CLASS_ABILITY_BASE + len(cs) - 1))
 w("SELECT 'prof recipes' AS what, COUNT(*) AS n FROM spell_template WHERE entry BETWEEN %d AND %d;"
   % (tc.PROF_CRAFT_BASE, tc.PROF_CRAFT_BASE + len(ps) - 1))
-w("SELECT 'test items' AS what, COUNT(*) AS n FROM item_template WHERE entry IN (%s);"
-  % ",".join(map(str, all_item_ids)))
+if all_item_ids:
+    w("SELECT 'test items' AS what, COUNT(*) AS n FROM item_template WHERE entry IN (%s);"
+      % ",".join(map(str, all_item_ids)))
+else:
+    w("SELECT 'test items' AS what, 0 AS n;")
 w("SELECT 'skill links' AS what, COUNT(*) AS n FROM skill_line_ability WHERE spell_id IN (%s);"
   % ",".join(map(str, all_spell_ids)))
 w("SELECT 'trainer rows' AS what, COUNT(*) AS n FROM npc_trainer WHERE spell IN (%s);"
