@@ -281,9 +281,30 @@ Three worked examples, with what each would actually take:
 
 | race | idea | how |
 |---|---|---|
+|**Human**|
+Sword Specialization - Swords increase spell and ability Critical Chance by 2%. All humans of any classes may use swords.
+PErception - update, passive - stealth detection increased by 25%
 | **Gnome** | +5% to your maximum rage, mana or energy | `SPELL_AURA_MOD_INCREASE_ENERGY_PERCENT` (132). One passive; the aura applies to whichever resource the class uses, so a single spell covers all three. |
-| **Night Elf** | +5% run speed | `SPELL_AURA_MOD_INCREASE_SPEED` (31), the same aura every speed effect uses. |
+Eureka! - Reduced cost and 10% increased damage or healing on the next 3 spells or abilities after getting a crit. 
+Engineering specialization - update, More reliable engineering devices (half the chance of failure from all engineering devices)
+| **Night Elf** | Swiftness - passive, update, 1% increased Dodge Chance, and 2% increased Run Speed
+Shadowmeld - update, passive - Gain Stealth while immobile. Breaks when moving.
+Elunes Light - passive, Increases Critical Chance by 10% for 15 sec after leaving stealth.
 | **Tauren** | **Plainsrunning** — speed ramps 1%/sec while running outdoors, up to 20%, and drops when you stop | **Already implemented.** See below. |
+**Endurance** - update, Total Health increased by 5% and Hit Chance increased by 1%.
+**Cultivation** update, 25% chance to get secondary herb of similar tier from herb node
+| **Undead** | **Touch of the Grave** - Spells and attacks have a 5% chance to drain Health from the target, up to 5% of your maximum Health.
+| **Orc** | **Axe specialization** - update, axe skill cap increased by 10, and while you have a one-handed or two handed axe equipted, spell and attack crit chance is increased by 5%.
+Orcs of all classes may use axes, yes even warlocks. 
+**Bloodfury** Update - passive: when you are hit with a critical strike or critical spell, or you deliver a critical spell damage, heal, or regular ranged or melee crit, gain a stacking buff to your attack power and spell power by 1% up to a maximum of 5% at 5 stacks for 15 seconds. cooldown refreshes when conditions of crit or critting are met. 
+**Hardiness** update, passive, stun durations on you are reduced by 25%.
+**Shatter curse** passive, chance to resist banes and curses increased by 25%. Durrations of curses on orc reduced by 25%.
+|**Troll**| Regeneration, update, passive: health regenerations maintains at 10% during combat. Out of combat, health and manage regeneration increased by 50%.
+**Thrown weapon masters** update, while equipt with a thrown weapon, increases blanket crit chance by 1%. All troll classes may use thrown weapons.
+|**Dwarves**|
+Big Game Hunter -	Damage dealt versus Beasts increased by 5%.	
+Mace Specialization -	Increases critical strike chance with all spells and attacks by 1% while you have a mace or two-handed mace equipped. Dwarves on any class may use maces. 
+Stone Form - passive - When affected by a bleed, poison effect, or disease, physical damage taken is reduced by 8%. When below 25% HP, instantly cleanse all poisons, diseases, and bleeds and become immune to all three effects for 15s, can only occur once every 2mins. 
 
 ### Plainsrunning already exists on this build ✅
 
@@ -324,7 +345,9 @@ these alone, because `totem1` is a generic "required item" field and stripping i
 have hit shamans as collateral.
 
 The intent instead: **drop the item requirement entirely, and make totems equippable relics**
-that drop as rewards, filling the slot shamans otherwise waste on a ranged weapon.
+that drop as rewards, filling the slot shamans otherwise waste on a ranged weapon. The main 
+totems given for the elemental quests will be evergreen beneficial items that require the
+leatherworking profession to upgrade. 
 
 ### It is achievable on this build
 
@@ -514,8 +537,7 @@ this in bulk.
 
 ### Alchemy — 🟩 Data
 - A potion for every stat at every tier
-- Utility potions from common trade drops: beast tracking, treasure detection, attack speed
-  at the cost of spirit
+- Utility potions from common trade drops: beast tracking, treasure detection, major buffs to one stat at cost of another.
 - **Transmutation chains** — each ore tier converts up to its valuable counterpart (copper →
   silver, iron → gold, mithril → truesilver). Same for gems, herbs, leather and cloth.
   Typically 5:1, tightening to 3:1 at higher tiers
